@@ -1,6 +1,7 @@
 package com.auto.test.browser;
 
 import com.auto.page.browser.GooglePage;
+import com.auto.test.BrowserTestBase;
 import org.testng.annotations.Test;
 
 public class GoogleTests extends BrowserTestBase {

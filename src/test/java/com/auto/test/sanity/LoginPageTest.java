@@ -6,37 +6,35 @@ import com.auto.model.UserModel;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
-import com.auto.test.TestBase;
+import com.auto.test.BrowserTestBase;
+import com.auto.utils.Assertion;
+import com.auto.utils.Constants;
+import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class ItemsTest extends TestBase {
+public class LoginPageTest extends BrowserTestBase {
     private UserModel user;
     private ILoginPage loginPage;
     private IHomePage homePage;
 
 
-    @Test(description = "Able to create new item")
-    public void C14580() {
-        // 1. Login to system
+    @Test(description = "Able to login specific repository successfully via Dashboard login page with correct credentials")
+    public void DA_LOGIN_TC001() {
         loginPage.login(user);
-
-        // 2. Open items page
-        homePage.openPage(Navigation.ITEMS);
+        Assertion.assertTrue(homePage.isNavigatedToHomePage(), "Login successfully and navigate to Home Page");
     }
 
     @BeforeClass
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        user = User.instance().getUser();
+        user = User.instance().getTAUser(Constants.USERNAME, Constants.PASSWORD);
     }
 
     @AfterClass
     public void after() {
-        // Do somethings
+        Selaium.closeWebDriver();
     }
 }
-
-

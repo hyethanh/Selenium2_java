@@ -35,4 +35,11 @@ public class User {
         Random r = new Random();
         return this.users.get(r.nextInt(this.users.size()));
     }
+
+    public UserModel getTAUser(String username, String password) {
+        UserModel user = new UserModel();
+        user.setUsername(username);
+        user.setPassword(password);
+        return user;
+    }
 }

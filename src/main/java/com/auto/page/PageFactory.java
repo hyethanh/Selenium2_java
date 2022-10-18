@@ -2,6 +2,8 @@ package com.auto.page;
 
 import com.auto.page.imp.android.AndroidHomePage;
 import com.auto.page.imp.android.AndroidLoginPage;
+import com.auto.page.imp.chrome.ChromeHomePage;
+import com.auto.page.imp.chrome.ChromeLoginPage;
 import com.auto.page.imp.ios.IOSHomePage;
 import com.auto.page.imp.ios.IOSLoginPage;
 import com.logigear.statics.Selaium;
@@ -12,8 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.auto.utils.Constants.ANDROID;
-import static com.auto.utils.Constants.IOS;
+import static com.auto.utils.Constants.*;
 
 public class PageFactory {
     private static final Logger logger = LoggerFactory.getLogger(PageFactory.class);
@@ -25,12 +26,14 @@ public class PageFactory {
         pages.put(Page.Login, new HashMap<String, Class<?>>() {{
             put(ANDROID, AndroidLoginPage.class);
             put(IOS, IOSLoginPage.class);
+            put(CHROME, ChromeLoginPage.class);
         }});
 
         // Home page implementation
         pages.put(Page.Home, new HashMap<String, Class<?>>() {{
             put(IOS, IOSHomePage.class);
             put(ANDROID, AndroidHomePage.class);
+            put(CHROME, ChromeHomePage.class);
         }});
     }
 

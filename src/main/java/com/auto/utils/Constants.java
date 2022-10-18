@@ -8,9 +8,14 @@ public class Constants {
     public static final String ENV_ALLURE_FILE = "allure-results/environment.properties";
     public static final String ANDROID = "android";
     public static final String IOS = "ios";
+    public static final String CHROME = "chrome";
     public static final String ACCOUNT = "account";
     public static final String JIRA = "jira";
     public static final String TEST_RAIL = "testrail";
+
+    public static final String USERNAME = "administrator";
+
+    public static final String PASSWORD = "";
 
     public static final int LOADING_TIME = 5;
     public static final int LONG_TIME = 60;
