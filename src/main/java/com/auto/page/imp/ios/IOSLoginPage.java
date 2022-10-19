@@ -17,4 +17,9 @@ public class IOSLoginPage implements ILoginPage {
         emailTextBox.setValue(user.getUsername());
         ExecutionContext.setUser(user);
     }
+
+    @Override
+    public boolean isLoginButtonDisplayed() {
+        return false;
+    }
 }

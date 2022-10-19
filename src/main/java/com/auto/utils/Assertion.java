@@ -15,4 +15,14 @@ public class Assertion {
             throw ex;
         }
     }
+
+    public static void asserFalse(boolean condition, String message) {
+        try {
+            Assert.assertFalse(condition, message);
+            Allure.step(message);
+        } catch (AssertionError ex) {
+            Allure.step(message, Status.PASSED);
+            throw ex;
+        }
+    }
 }

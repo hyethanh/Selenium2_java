@@ -23,4 +23,11 @@ public class ChromeLoginPage implements ILoginPage {
         ExecutionContext.setUser(user);
         loginButton.click();
     }
+
+    @Step("Verify user has not logged in to Dashboard")
+    @Override
+    public boolean isLoginButtonDisplayed() {
+        loginButton.waitForVisible();
+        return loginButton.isDisplayed();
+    }
 }

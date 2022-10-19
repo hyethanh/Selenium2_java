@@ -16,4 +16,9 @@ public class AndroidLoginPage implements ILoginPage {
         emailTextBox.enter(user.getUsername());
         ExecutionContext.setUser(user);
     }
+
+    @Override
+    public boolean isLoginButtonDisplayed() {
+        return false;
+    }
 }

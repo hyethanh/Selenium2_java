@@ -8,4 +8,9 @@ public class AndroidHomePage extends AndroidGeneralPage implements IHomePage {
     public boolean isNavigatedToHomePage() {
         return false;
     }
+
+    @Override
+    public void logout() {
+
+    }
 }

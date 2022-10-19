@@ -13,8 +13,8 @@ public class Constants {
     public static final String JIRA = "jira";
     public static final String TEST_RAIL = "testrail";
 
+    public static final String BASE_URL = "http://localhost/TADashboard/login.jsp";
     public static final String USERNAME = "administrator";
-
     public static final String PASSWORD = "";
 
     public static final int LOADING_TIME = 5;

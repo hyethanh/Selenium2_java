@@ -10,9 +10,18 @@ public class ChromeHomePage extends ChromeGeneralPage implements IHomePage {
 
     private Element logoutTab = new Element(By.xpath("//a[text()='Logout']"));
 
+    private Element accountTab = new Element(By.cssSelector("a[href='#Welcome']"));
+
     @Step("Verify login successfully")
     @Override
     public boolean isNavigatedToHomePage() {
         return logoutTab.exists();
+    }
+
+    @Step("Logout the account")
+    @Override
+    public void logout() {
+        accountTab.hover();
+        logoutTab.click();
     }
 }

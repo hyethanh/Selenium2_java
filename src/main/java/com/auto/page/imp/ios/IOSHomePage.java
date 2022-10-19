@@ -9,4 +9,9 @@ public class IOSHomePage extends IOSGeneralPage implements IHomePage {
     public boolean isNavigatedToHomePage() {
         return false;
     }
+
+    @Override
+    public void logout() {
+
+    }
 }

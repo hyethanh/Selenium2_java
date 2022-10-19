@@ -24,6 +24,9 @@ public class LoginPageTest extends BrowserTestBase {
     public void DA_LOGIN_TC001() {
         loginPage.login(user);
         Assertion.assertTrue(homePage.isNavigatedToHomePage(), "Login successfully and navigate to Home Page");
+
+        homePage.logout();
+        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User has logged in to the system");
     }
 
     @BeforeClass
