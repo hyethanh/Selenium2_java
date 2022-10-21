@@ -6,7 +6,6 @@ import com.auto.model.UserModel;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
-import com.auto.test.TestBase;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
