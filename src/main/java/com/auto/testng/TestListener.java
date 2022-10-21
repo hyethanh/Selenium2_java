@@ -1,8 +1,6 @@
 package com.auto.testng;
 
 import com.auto.integration.TestCase;
-import com.auto.integration.jira.JiraReporter;
-import com.auto.integration.testrail.TestRailReporter;
 import com.auto.utils.Constants;
 import com.auto.utils.ExecutionContext;
 import com.auto.utils.FileUtils;
@@ -34,10 +32,6 @@ public class TestListener implements ITestListener {
         log.info("Test case \"{} - {}\" is started", result.getMethod().getMethodName(),
                 result.getMethod().getDescription());
 
-        // Clean all cached steps of previous test
-        if (JiraReporter.instance().config().isLogBug()) {
-            ExecutionContext.cleanSteps();
-        }
     }
 
     @Override
@@ -57,10 +51,6 @@ public class TestListener implements ITestListener {
             }
             if (result.getThrowable() instanceof AssertionError) {
                 // Submit bugs to Jira automatically
-                if (JiraReporter.instance().config().isLogBug()) {
-                    JiraReporter.instance().processBug(result.getMethod().getDescription(),
-                            ExecutionContext.getSteps(), "");
-                }
 
                 // Submit test result into TestRail
                 addResultTestRail(result);
@@ -77,16 +67,7 @@ public class TestListener implements ITestListener {
     }
 
     private void addResultTestRail(ITestResult result) {
-        if (TestRailReporter.instance().config().isPublishResult()) {
-            String description = result.getMethod().getDescription();
-            TestCase testCase = TestRailReporter.instance().testCase(result);
-            if (testCase != null && !StringUtils.isEmpty(testCase.id()) && !testCase.selfReporting()) {
-                log.info("Publish test result of \"{}\" to Test Rail", description);
-                String comment = result.getStatus() == ITestResult.SUCCESS ? "This test worked fine" : result.getThrowable().getMessage();
-                String status = result.getStatus() == ITestResult.SUCCESS ? "passed" : "failed";
-                TestRailReporter.instance().addResultForCase(testCase.id(), status, comment);
-            }
-        }
+
     }
 }
 

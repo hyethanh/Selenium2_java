@@ -17,12 +17,18 @@ public class ChromeLoginPage implements ILoginPage {
 
     @Step("Login to Website")
     @Override
-    public void login(UserModel user) {
+    public void enterUserAccount(UserModel user) {
         usernameTextBox.enter(user.getUsername());
         passwordTextBox.enter(user.getPassword());
         ExecutionContext.setUser(user);
+    }
+
+    @Step("Click Login button")
+    @Override
+    public void clickLoginButton() {
         loginButton.click();
     }
+
 
     @Step("Verify user has not logged in to Dashboard")
     @Override
