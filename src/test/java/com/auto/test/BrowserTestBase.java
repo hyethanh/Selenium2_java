@@ -1,4 +1,4 @@
-package com.auto.test.browser;
+package com.auto.test;
 
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
