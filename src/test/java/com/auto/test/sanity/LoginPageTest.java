@@ -5,7 +5,7 @@ import com.auto.model.UserModel;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
-import com.auto.test.BrowserTestBase;
+import com.auto.test.browser.BrowserTestBase;
 import com.auto.utils.Assertion;
 import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterClass;
@@ -40,3 +40,5 @@ public class LoginPageTest extends BrowserTestBase {
         Selaium.closeWebDriver();
     }
 }
+
+
