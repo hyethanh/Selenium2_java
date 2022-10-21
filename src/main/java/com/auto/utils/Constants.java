@@ -17,6 +17,9 @@ public class Constants {
     public static final String USERNAME = "administrator";
     public static final String PASSWORD = "";
 
+    public static final String INVALID_USERNAME = "abc";
+    public static final String INVALID_PASSWORD = "abc";
+
     public static final int LOADING_TIME = 5;
     public static final int LONG_TIME = 60;
 

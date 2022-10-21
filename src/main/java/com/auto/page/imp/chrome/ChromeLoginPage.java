@@ -4,6 +4,7 @@ import com.auto.model.UserModel;
 import com.auto.page.ILoginPage;
 import com.auto.utils.ExecutionContext;
 import com.logigear.element.Element;
+import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
@@ -29,5 +30,15 @@ public class ChromeLoginPage implements ILoginPage {
     public boolean isLoginButtonDisplayed() {
         loginButton.waitForVisible();
         return loginButton.isDisplayed();
+    }
+
+    public String getAlertMessage() {
+        String alertMessage = null;
+        try {
+            alertMessage = Selaium.driver().switchTo().alert().getText();
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        return alertMessage;
     }
 }

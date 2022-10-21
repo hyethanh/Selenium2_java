@@ -21,4 +21,9 @@ public class AndroidLoginPage implements ILoginPage {
     public boolean isLoginButtonDisplayed() {
         return false;
     }
+
+    @Override
+    public String getAlertMessage() {
+        return null;
+    }
 }

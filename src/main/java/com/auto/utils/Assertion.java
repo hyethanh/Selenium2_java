@@ -21,7 +21,17 @@ public class Assertion {
             Assert.assertFalse(condition, message);
             Allure.step(message);
         } catch (AssertionError ex) {
-            Allure.step(message, Status.PASSED);
+            Allure.step(message, Status.FAILED);
+            throw ex;
+        }
+    }
+
+    public  static void assertEquals(String actual, String expect, String message) {
+        try {
+            Assert.assertEquals(actual, expect, message);
+            Allure.step(message);
+        } catch (AssertionError ex) {
+            Allure.step(message, Status.FAILED);
             throw ex;
         }
     }

@@ -15,7 +15,7 @@ public class ChromeHomePage extends ChromeGeneralPage implements IHomePage {
     @Step("Verify login successfully")
     @Override
     public boolean isNavigatedToHomePage() {
-        return logoutTab.exists();
+        return logoutTab.isDisplayed();
     }
 
     @Step("Logout the account")
@@ -24,4 +24,5 @@ public class ChromeHomePage extends ChromeGeneralPage implements IHomePage {
         accountTab.hover();
         logoutTab.click();
     }
+
 }

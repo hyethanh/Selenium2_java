@@ -10,12 +10,13 @@ import com.auto.test.BrowserTestBase;
 import com.auto.utils.Assertion;
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
+import io.qameta.allure.Allure;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class LoginPageTest extends BrowserTestBase {
-    private UserModel user;
+    private UserModel user, invalidUser;
     private ILoginPage loginPage;
     private IHomePage homePage;
 
@@ -23,10 +24,17 @@ public class LoginPageTest extends BrowserTestBase {
     @Test(description = "Able to login specific repository successfully via Dashboard login page with correct credentials")
     public void DA_LOGIN_TC001() {
         loginPage.login(user);
-        Assertion.assertTrue(homePage.isNavigatedToHomePage(), "Login successfully and navigate to Home Page");
+        Assertion.assertTrue(homePage.isNavigatedToHomePage(), "Login unsuccessfully and can not navigate to Home Page");
 
         homePage.logout();
         Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User has logged in to the system");
+    }
+
+    @Test(description = "Fail to login specific repository successfully via Dashboard login page with incorrect credentials")
+    public void DA_LOGIN_TC002() {
+        loginPage.login(invalidUser);
+
+        Assertion.assertEquals(loginPage.getAlertMessage(), "Username or password is invalid", "Something wrong happens");
     }
 
     @BeforeClass
@@ -34,6 +42,7 @@ public class LoginPageTest extends BrowserTestBase {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
         user = User.instance().getTAUser(Constants.USERNAME, Constants.PASSWORD);
+        invalidUser = User.instance().getTAUser(Constants.INVALID_USERNAME, Constants.INVALID_PASSWORD);
     }
 
     @AfterClass
