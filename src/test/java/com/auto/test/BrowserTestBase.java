@@ -6,16 +6,14 @@ import com.logigear.utils.Configuration;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
     Configuration config;
 
     @BeforeClass
+    @BeforeMethod
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
         platform = java.util.Optional.ofNullable(platform).orElse("chrome");

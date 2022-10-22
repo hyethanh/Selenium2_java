@@ -13,11 +13,13 @@ import static com.auto.utils.Constants.*;
 public class User {
     private static User instance = null;
     private List<UserModel> users;
+    private List<UserModel> invalidUsers;
 
     private User() {
         Type userListType = new TypeToken<ArrayList<UserModel>>() {
         }.getType();
         this.users = JsonUtils.toList(ConfigFiles.get(ACCOUNT), userListType);
+        this.invalidUsers = JsonUtils.toList(ConfigFiles.get(INVALID_ACCOUNT), userListType);
     }
 
     public List<UserModel> users() {
@@ -36,10 +38,8 @@ public class User {
         return this.users.get(r.nextInt(this.users.size()));
     }
 
-    public UserModel getTAUser(String username, String password) {
-        UserModel user = new UserModel();
-        user.setUsername(username);
-        user.setPassword(password);
-        return user;
+    public UserModel getInvalidUser(int index) {
+        Random r = new Random();
+        return this.invalidUsers.get(index);
     }
 }

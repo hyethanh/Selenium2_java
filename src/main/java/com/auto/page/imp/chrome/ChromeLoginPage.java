@@ -10,6 +10,8 @@ import org.openqa.selenium.By;
 
 public class ChromeLoginPage implements ILoginPage {
 
+    String alertMessage;
+
     private final Element usernameTextBox = new Element(By.id("username"));
 
     private final Element passwordTextBox = new Element(By.id("password"));
@@ -18,12 +20,18 @@ public class ChromeLoginPage implements ILoginPage {
 
     @Step("Login to Website")
     @Override
-    public void login(UserModel user) {
+    public void enterUserAccount(UserModel user) {
         usernameTextBox.enter(user.getUsername());
         passwordTextBox.enter(user.getPassword());
         ExecutionContext.setUser(user);
+    }
+
+    @Step("Click Login button")
+    @Override
+    public void clickLoginButton() {
         loginButton.click();
     }
+
 
     @Step("Verify user has not logged in to Dashboard")
     @Override
@@ -32,13 +40,20 @@ public class ChromeLoginPage implements ILoginPage {
         return loginButton.isDisplayed();
     }
 
+    @Step("Get alert message")
+    @Override
     public String getAlertMessage() {
-        String alertMessage = null;
         try {
             alertMessage = Selaium.driver().switchTo().alert().getText();
         } catch (Exception ex) {
             ex.getMessage();
         }
         return alertMessage;
+    }
+
+    @Step("Accept to close alert")
+    @Override
+    public void acceptAlert() {
+        Selaium.driver().switchTo().alert().accept();
     }
 }
