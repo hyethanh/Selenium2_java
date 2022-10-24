@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Random;
 
 public class FakerUtils {
-    private static Faker faker = new Faker();
+    private static Faker faker = new Faker(Locale.ENGLISH);
 
     public static String word() {
         return faker.lorem().word();
@@ -18,6 +18,10 @@ public class FakerUtils {
 
     public static String sentence() {
         return faker.lorem().sentence();
+    }
+
+    public static String title() {
+        return faker.book().title();
     }
 
     public static double randomDouble(int min, int max) {
@@ -62,4 +66,5 @@ public class FakerUtils {
     public static String getYearToString(LocalDate date) {
         return Integer.toString(date.getYear());
     }
+
 }

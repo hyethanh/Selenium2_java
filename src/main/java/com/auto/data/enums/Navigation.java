@@ -5,6 +5,7 @@ public enum Navigation {
     INVOICES("Invoices"),
     SETTINGS("Settings"),
     ITEMS("Items"),
+    OVERVIEW("Overview"),
     EXPENSES("Expenses");
 
     private String value;

@@ -13,9 +13,7 @@ public class Constants {
     public static final String TEST_RAIL = "testrail";
     public static final String BASE_URL = "http://localhost/TADashboard/login.jsp";
 
-
-    public static final String INVALID_USERNAME = "abc";
-    public static final String INVALID_PASSWORD = "abc";
+    public static final String MESSAGES = "src/test/resources/data/messages.json";
 
     public static final int LOADING_TIME = 5;
     public static final int LONG_TIME = 60;
