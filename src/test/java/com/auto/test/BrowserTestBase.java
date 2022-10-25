@@ -1,5 +1,6 @@
 package com.auto.test;
 
+import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
 import com.logigear.utils.Configuration;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -9,6 +10,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+
 
 public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
@@ -26,7 +28,7 @@ public class BrowserTestBase {
         options.addArguments("--disable-gpu");
         config = Configuration.defaultConfig(platform);
         config.setStartMaximized(true);
-        config.setBaseUrl("http://localhost/TADashboard/login.jsp");
+        config.setBaseUrl(Constants.BASE_URL);
         config.setCapabilities(options);
         Selaium.setConfig(config);
         Selaium.open("");

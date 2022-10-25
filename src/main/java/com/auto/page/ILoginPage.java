@@ -4,6 +4,10 @@ import com.auto.model.UserModel;
 
 public interface ILoginPage {
 
-    void login(UserModel user);
+    void enterUserAccount(UserModel user);
+
+    void clickLoginButton();
+
+    boolean isLoginButtonDisplayed();
 
 }
