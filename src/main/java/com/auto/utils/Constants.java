@@ -8,6 +8,7 @@ public class Constants {
     public static final String ENV_ALLURE_FILE = "allure-results/environment.properties";
     public static final String BROWSER = "chrome";
     public static final String ACCOUNT = "account";
+    public static final String JIRA = "jira";
     public static final String TEST_RAIL = "testrail";
 
     public static final String BASE_URL = "http://localhost/TADashboard/login.jsp";
