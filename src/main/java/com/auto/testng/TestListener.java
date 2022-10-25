@@ -30,7 +30,6 @@ public class TestListener implements ITestListener {
         log.info("Test case \"{} - {}\" is started", result.getMethod().getMethodName(),
                 result.getMethod().getDescription());
 
-        // Clean all cached steps of previous test
     }
 
     @Override
@@ -50,6 +49,7 @@ public class TestListener implements ITestListener {
             }
             if (result.getThrowable() instanceof AssertionError) {
                 // Submit bugs to Jira automatically
+
                 // Submit test result into TestRail
                 addResultTestRail(result);
             }
@@ -68,4 +68,3 @@ public class TestListener implements ITestListener {
 
     }
 }
-

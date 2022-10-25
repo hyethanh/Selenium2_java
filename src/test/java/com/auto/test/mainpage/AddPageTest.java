@@ -24,13 +24,14 @@ public class AddPageTest extends BrowserTestBase {
     private IHomePage homePage;
 
     String pageTitle = new Page().setTitle(FakerUtils.title());
+    String firstPageTitle = new Page().setTitle(FakerUtils.title());
+    String secondPageTitle = new Page().setTitle(FakerUtils.title());
 
 
     @Test(description = "Unable to open more than 1 'New Page' dialog")
     public void DA_MP_TC011() {
         loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
-
         homePage.openDialog();
         Assertion.asserFalse(homePage.isAddPageDialogOpened(), "One more than 1 new page dialog is open");
     }
@@ -43,6 +44,22 @@ public class AddPageTest extends BrowserTestBase {
         Assertion.assertTrue(homePage.isBeside(Navigation.valueOf("OVERVIEW").value(), pageTitle),
                             "A new page does not beside Overview page");
     }
+
+    @Test(description = "The newly added main parent page is positioned at the location specified as set with 'Displayed After' field of 'New Page' form on the main page bar 'Parent Page' dropped down menu")
+    public void DA_MP_TC013() throws InterruptedException {
+        loginPage.enterUserAccount(user);
+        loginPage.clickLoginButton();
+
+        homePage.openDialog();
+        homePage.enterPageName(firstPageTitle);
+        homePage.clickOKButton();
+
+        homePage.openDialog();
+        homePage.enterPageName(secondPageTitle);
+        homePage.chooseComboboxOption("Display After");
+        Thread.sleep(4000);
+    }
+
 
     @BeforeClass
     public void before() {
