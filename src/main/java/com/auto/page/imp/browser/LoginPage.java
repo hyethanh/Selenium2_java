@@ -1,14 +1,14 @@
-package com.auto.page.imp.chrome;
+package com.auto.page.imp.browser;
 
 import com.auto.model.UserModel;
 import com.auto.page.ILoginPage;
+import com.auto.utils.DriverUtils;
 import com.auto.utils.ExecutionContext;
 import com.logigear.element.Element;
-import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-public class ChromeLoginPage implements ILoginPage {
+public class LoginPage implements ILoginPage {
 
     String alertMessage;
 
@@ -43,17 +43,12 @@ public class ChromeLoginPage implements ILoginPage {
     @Step("Get alert message")
     @Override
     public String getAlertMessage() {
-        try {
-            alertMessage = Selaium.driver().switchTo().alert().getText();
-        } catch (Exception ex) {
-            ex.getMessage();
-        }
-        return alertMessage;
+        return DriverUtils.getAlertMessage();
     }
 
     @Step("Accept to close alert")
     @Override
     public void acceptAlert() {
-        Selaium.driver().switchTo().alert().accept();
+        DriverUtils.acceptAlert();
     }
 }

@@ -2,12 +2,12 @@ package com.auto.test.sanity;
 
 import com.auto.model.User;
 import com.auto.model.UserModel;
-import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.Assertion;
-import com.auto.utils.Constants;
+import com.auto.utils.DriverUtils;
+import com.auto.utils.MessageLoader;
 import com.logigear.statics.Selaium;
 import org.testng.annotations.*;
 
@@ -21,7 +21,7 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = User.instance().getInvalidUser(0);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), "Username or password is invalid", "Can not get alert message");
+        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         loginPage.acceptAlert();
     }
 
@@ -30,7 +30,7 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = User.instance().getInvalidUser(1);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), "Username or password is invalid", "Can not get alert message");
+        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         loginPage.acceptAlert();
     }
 
@@ -39,24 +39,20 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = User.instance().getInvalidUser(1);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), "Username or password is invalid", "Can not get alert message");
+        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         loginPage.acceptAlert();
     }
 
     @Test(description = "Unable to login when no input entered to Password and Username field")
     public void DA_LOGIN_TC010() {
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), "Please enter username!", "Can not get alert message");
+        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("blank.username.password"), "Can not get alert message");
     }
 
 
-    @BeforeClass
+    @BeforeMethod
     public void before() {
         loginPage = PageFactory.getLoginPage();
-    }
-
-    @AfterMethod
-    public void after() {
-        Selaium.closeWebDriver();
+        DriverUtils.refresh();
     }
 }

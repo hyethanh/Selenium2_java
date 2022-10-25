@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 
+
 public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
     Configuration config;
 
     @BeforeClass
-    @BeforeMethod
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
         platform = java.util.Optional.ofNullable(platform).orElse("chrome");
@@ -33,5 +33,6 @@ public class BrowserTestBase {
 
     @AfterClass
     public void afterAll() {
+        Selaium.closeWebDriver();
     }
 }

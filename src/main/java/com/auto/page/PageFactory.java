@@ -1,8 +1,9 @@
 package com.auto.page;
 
 
-import com.auto.page.imp.chrome.ChromeHomePage;
-import com.auto.page.imp.chrome.ChromeLoginPage;
+import com.auto.page.imp.browser.HomePage;
+import com.auto.page.imp.browser.LoginPage;
+import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.auto.utils.Constants.*;
 
 public class PageFactory {
     private static final Logger logger = LoggerFactory.getLogger(PageFactory.class);
@@ -21,12 +21,12 @@ public class PageFactory {
 
         // Login page implementation
         pages.put(Page.Login, new HashMap<String, Class<?>>() {{
-            put(CHROME, ChromeLoginPage.class);
+            put(Constants.BROWSER, LoginPage.class);
         }});
 
         // Home page implementation
         pages.put(Page.Home, new HashMap<String, Class<?>>() {{
-            put(CHROME, ChromeHomePage.class);
+            put(Constants.BROWSER, HomePage.class);
         }});
     }
 
