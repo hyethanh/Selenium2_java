@@ -40,15 +40,15 @@ public class LoginPage implements ILoginPage {
         return loginButton.isDisplayed();
     }
 
-    @Step("Get alert message")
-    @Override
-    public String getAlertMessage() {
-        return DriverUtils.getAlertMessage();
-    }
-
-    @Step("Accept to close alert")
-    @Override
-    public void acceptAlert() {
-        DriverUtils.acceptAlert();
-    }
+//    @Step("Get alert message")
+//    @Override
+//    public String getAlertMessage() {
+//        return DriverUtils.getAlertMessage();
+//    }
+//
+//    @Step("Accept to close alert")
+//    @Override
+//    public void acceptAlert() {
+//        DriverUtils.acceptAlert();
+//    }
 }

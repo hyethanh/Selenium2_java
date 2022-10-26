@@ -34,9 +34,4 @@ public class LoginPageTest extends BrowserTestBase {
         homePage = PageFactory.getHomePage();
         user = User.instance().getUser();
     }
-
-    @AfterClass
-    public void after() {
-        Selaium.closeWebDriver();
-    }
 }

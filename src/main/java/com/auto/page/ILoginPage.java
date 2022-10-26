@@ -10,8 +10,8 @@ public interface ILoginPage {
 
     boolean isLoginButtonDisplayed();
 
-    String getAlertMessage();
-
-    void acceptAlert();
+//    String getAlertMessage();
+//
+//    void acceptAlert();
 
 }

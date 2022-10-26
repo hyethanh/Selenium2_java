@@ -20,8 +20,8 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = InvalidUser.instance().getInvalidUser(0);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
-        loginPage.acceptAlert();
+        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
+        DriverUtils.acceptAlert();
     }
 
     @Test(description = "Fail to log in successfully via Dashboard login page with correct username and incorrect password")
@@ -29,8 +29,8 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = InvalidUser.instance().getInvalidUser(1);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
-        loginPage.acceptAlert();
+        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
+        DriverUtils.acceptAlert();
     }
 
     @Test(description = "Able to log in different repositories successfully after logging out current repository")
@@ -38,14 +38,14 @@ public class LoginPageNegativeTest extends BrowserTestBase {
         invalidUser = InvalidUser.instance().getInvalidUser(1);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
-        loginPage.acceptAlert();
+        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
+        DriverUtils.acceptAlert();
     }
 
     @Test(description = "Unable to login when no input entered to Password and Username field")
     public void DA_LOGIN_TC010() {
         loginPage.clickLoginButton();
-        Assertion.assertEquals(loginPage.getAlertMessage(), MessageLoader.getMessage("blank.username.password"), "Can not get alert message");
+        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.username.password"), "Can not get alert message");
     }
 
 
