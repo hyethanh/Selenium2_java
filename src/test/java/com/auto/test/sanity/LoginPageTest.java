@@ -37,6 +37,5 @@ public class LoginPageTest extends BrowserTestBase {
 
     @AfterClass
     public void after() {
-        Selaium.closeWebDriver();
     }
 }
