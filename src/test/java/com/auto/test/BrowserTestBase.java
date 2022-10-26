@@ -13,7 +13,7 @@ public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
     Configuration config;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
         platform = java.util.Optional.ofNullable(platform).orElse("chrome");
@@ -31,7 +31,7 @@ public class BrowserTestBase {
         Selaium.open("");
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void afterAll() {
         Selaium.closeWebDriver();
     }

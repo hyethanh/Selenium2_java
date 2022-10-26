@@ -1,6 +1,8 @@
 package com.auto.page;
 
 
+import java.util.List;
+
 public interface IHomePage extends IGeneralPage {
 
     boolean isNavigated();
@@ -20,4 +22,6 @@ public interface IHomePage extends IGeneralPage {
     void clickOKButton();
 
     void chooseComboboxOption(String value, String args);
+
+    List<String> getPageIds();
 }

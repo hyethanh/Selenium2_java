@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,9 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element okButton = new Element(By.id("OK"));
     private Element pageNameText = new Element(By.id("name"));
     private Element addPageDialog = new Element(By.id("div_popup"));
-    private Element mainTab = new Element("//a[text()='%s']");
-    private Element tab = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
+//    private Element mainTab = new Element("//a[text()='%s']");
+    private Element mainTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
+    private Element pageTab = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
     private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select/option[text()='%s']");
 
 
@@ -44,7 +46,7 @@ public class HomePage extends GeneralPage implements IHomePage {
     @Step("Open add page dialog")
     @Override
     public void openAddPageDialog() {
-        globalSettingTab.waitForVisible(Duration.ofSeconds(Constants.LONG_TIME));
+        DriverUtils.stalenessOf(globalSettingTab);
         globalSettingTab.hover();
         DriverUtils.stalenessOf(addPageButton);
         addPageButton.click();
@@ -78,8 +80,8 @@ public class HomePage extends GeneralPage implements IHomePage {
         openAddPageDialog();
         enterPageName(value);
         clickOKButton();
-        mainTab.set(value.replace(" ", "\u00A0"));
-        mainTab.waitForVisible();
+        pageTab.set(Navigation.OVERVIEW.value(), value.replace(" ", "\u00A0"));
+        pageTab.waitForVisible();
     }
 
     @Step("Verify click Add Page button")
@@ -94,7 +96,18 @@ public class HomePage extends GeneralPage implements IHomePage {
     public boolean isBesideTab(String tab1, String tab2) {
         tab1 = tab1.replace(" ", "\u00A0");
         tab2 = tab2.replace(" ", "\u00A0");
-        tab.set(tab1, tab2);
-        return tab.exists();
+        pageTab.set(tab1, tab2);
+        return pageTab.exists();
+    }
+
+    public List<String> getPageIds() {
+        List<WebElement> tabList = mainTabs.elements();
+        List<String> tabIds = new ArrayList<>();
+        for (WebElement tab:tabList) {
+            String[] temp = tab.getAttribute("href").split("/");
+            String id = temp[temp.length-1].split("\\.")[0];
+            tabIds.add(id);
+        }
+        return tabIds;
     }
 }
