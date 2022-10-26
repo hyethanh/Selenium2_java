@@ -9,15 +9,16 @@ public class Page {
 
     private int column;
 
-    private ChildPage childPage;
+    public Page(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public String setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
-        return title;
     }
 
     public int getColumn() {
@@ -28,11 +29,4 @@ public class Page {
         this.column = random.nextInt(4);
     }
 
-    public ChildPage getChildPage() {
-        return childPage;
-    }
-
-    public void setChildPage(ChildPage childPage) {
-        this.childPage = childPage;
-    }
 }

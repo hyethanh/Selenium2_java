@@ -1,6 +1,8 @@
 package com.auto.utils;
 
+import com.logigear.element.Element;
 import com.logigear.statics.Selaium;
+import org.openqa.selenium.StaleElementReferenceException;
 
 public class DriverUtils {
 
@@ -25,5 +27,14 @@ public class DriverUtils {
 
     public static void refresh() {
         Selaium.refresh();
+    }
+
+    public static void stalenessOf(Element element) {
+        try{
+            element.waitForVisible();
+        } catch (StaleElementReferenceException e) {
+            System.out.printf(e.getMessage());
+            element.element();
+        }
     }
 }

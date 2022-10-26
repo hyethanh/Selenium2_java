@@ -2,11 +2,8 @@ package com.auto.data.enums;
 
 public enum Navigation {
     HOME("Home"),
-    INVOICES("Invoices"),
-    SETTINGS("Settings"),
-    ITEMS("Items"),
     OVERVIEW("Overview"),
-    EXPENSES("Expenses");
+    DISPLAYAFTER("Display After");
 
     private String value;
 

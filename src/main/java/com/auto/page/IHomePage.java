@@ -9,15 +9,15 @@ public interface IHomePage extends IGeneralPage {
 
     void createNewPage(String value);
 
-    void openDialog();
+    void openAddPageDialog();
 
     boolean isAddPageDialogOpened();
 
-    boolean isBeside(String first_value, String second_value);
+    boolean isBesideTab(String tab1, String tab2);
 
     void enterPageName(String value);
 
     void clickOKButton();
 
-    void chooseComboboxOption(String value);
+    void chooseComboboxOption(String value, String args);
 }
