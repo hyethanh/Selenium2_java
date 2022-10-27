@@ -7,7 +7,6 @@ import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.Assertion;
-import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -28,14 +27,14 @@ public class LoginPageTest extends BrowserTestBase {
         Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User has logged in to the system");
     }
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
         user = User.instance().getUser();
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void after() {
     }
 }

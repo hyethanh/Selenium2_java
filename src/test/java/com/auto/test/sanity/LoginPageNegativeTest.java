@@ -50,7 +50,7 @@ public class LoginPageNegativeTest extends BrowserTestBase {
     }
 
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
         DriverUtils.refresh();
