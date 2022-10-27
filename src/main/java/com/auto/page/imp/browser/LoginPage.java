@@ -10,8 +10,6 @@ import org.openqa.selenium.By;
 
 public class LoginPage implements ILoginPage {
 
-    String alertMessage;
-
     private final Element usernameTextBox = new Element(By.id("username"));
 
     private final Element passwordTextBox = new Element(By.id("password"));
@@ -21,14 +19,15 @@ public class LoginPage implements ILoginPage {
     @Step("Login to Website")
     @Override
     public void enterUserAccount(UserModel user) {
-        usernameTextBox.enter(user.getUsername());
-        passwordTextBox.enter(user.getPassword());
+        input(usernameTextBox, user.getUsername());
+        input(passwordTextBox, user.getPassword());
         ExecutionContext.setUser(user);
     }
 
     @Step("Click Login button")
     @Override
     public void clickLoginButton() {
+        DriverUtils.stalenessOf(loginButton);
         loginButton.click();
     }
 
@@ -50,5 +49,10 @@ public class LoginPage implements ILoginPage {
     @Override
     public void acceptAlert() {
         DriverUtils.acceptAlert();
+    }
+
+    public void input(Element element, String value) {
+        DriverUtils.stalenessOf(element);
+        element.enter(value);
     }
 }

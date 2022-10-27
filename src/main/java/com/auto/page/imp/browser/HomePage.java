@@ -2,17 +2,14 @@ package com.auto.page.imp.browser;
 
 import com.auto.data.enums.Navigation;
 import com.auto.page.IHomePage;
-import com.auto.utils.Constants;
 import com.auto.utils.DriverUtils;
 import com.logigear.element.Element;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class HomePage extends GeneralPage implements IHomePage {
 
@@ -21,10 +18,10 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
     private Element addPageButton = new Element(By.xpath("//a[@class='add' and text()='Add Page']"));
     private Element okButton = new Element(By.id("OK"));
+    private Element cancelButton = new Element(By.id("Cancel"));
     private Element pageNameText = new Element(By.id("name"));
     private Element addPageDialog = new Element(By.id("div_popup"));
-//    private Element mainTab = new Element("//a[text()='%s']");
-    private Element mainTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
+    private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
     private Element pageTab = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
     private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select/option[text()='%s']");
 
@@ -38,6 +35,7 @@ public class HomePage extends GeneralPage implements IHomePage {
     @Step("Logout the account")
     @Override
     public void logout() {
+        DriverUtils.stalenessOf(accountTab);
         accountTab.hover();
         logoutButton.waitForVisible();
         logoutButton.click();
@@ -64,6 +62,13 @@ public class HomePage extends GeneralPage implements IHomePage {
     public void clickOKButton() {
         DriverUtils.stalenessOf(okButton);
         okButton.click();
+    }
+
+    @Step("Click Cancel to close new page dialog")
+    @Override
+    public void clickCancelButton() {
+        DriverUtils.stalenessOf(cancelButton);
+        cancelButton.click();
     }
 
     @Step("Choose an option in dropdown list")
@@ -101,13 +106,16 @@ public class HomePage extends GeneralPage implements IHomePage {
     }
 
     public List<String> getPageIds() {
-        List<WebElement> tabList = mainTabs.elements();
-        List<String> tabIds = new ArrayList<>();
-        for (WebElement tab:tabList) {
-            String[] temp = tab.getAttribute("href").split("/");
-            String id = temp[temp.length-1].split("\\.")[0];
-            tabIds.add(id);
+        if (createdTabs.elements().size() != 0) {
+            List<WebElement> tabList = createdTabs.elements();
+            List<String> tabIds = new ArrayList<>();
+            for (WebElement tab:tabList) {
+                String[] temp = tab.getAttribute("href").split("/");
+                String id = temp[temp.length-1].split("\\.")[0];
+                tabIds.add(id);
+            }
+            return tabIds;
         }
-        return tabIds;
+        return null;
     }
 }

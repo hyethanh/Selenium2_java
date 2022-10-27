@@ -12,6 +12,7 @@ import com.auto.utils.Assertion;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.FakerUtils;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +34,7 @@ public class AddPageTest extends BrowserTestBase {
         loginPage.clickLoginButton();
         homePage.openAddPageDialog();
         Assertion.asserFalse(homePage.isAddPageDialogOpened(), "One more than 1 new page dialog is open");
+        homePage.clickCancelButton();
     }
 
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
@@ -65,8 +67,9 @@ public class AddPageTest extends BrowserTestBase {
         user = User.instance().getUser();
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void after() {
         DriverUtils.deletePage(homePage.getPageIds());
+        homePage.logout();
     }
 }

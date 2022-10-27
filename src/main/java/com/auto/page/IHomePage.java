@@ -20,6 +20,7 @@ public interface IHomePage extends IGeneralPage {
     void enterPageName(String value);
 
     void clickOKButton();
+    void clickCancelButton();
 
     void chooseComboboxOption(String value, String args);
 
