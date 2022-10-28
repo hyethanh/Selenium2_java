@@ -1,8 +1,7 @@
 package com.auto.page.imp.browser;
 
-import com.auto.model.UserModel;
+import com.auto.model.User;
 import com.auto.page.ILoginPage;
-import com.auto.utils.DriverUtils;
 import com.auto.utils.ExecutionContext;
 import com.logigear.element.Element;
 import io.qameta.allure.Step;
@@ -20,7 +19,7 @@ public class LoginPage implements ILoginPage {
 
     @Step("Login to Website")
     @Override
-    public void enterUserAccount(UserModel user) {
+    public void enterUserAccount(User user) {
         usernameTextBox.enter(user.getUsername());
         passwordTextBox.enter(user.getPassword());
         ExecutionContext.setUser(user);

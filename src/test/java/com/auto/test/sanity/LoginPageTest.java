@@ -1,19 +1,17 @@
 package com.auto.test.sanity;
 
+import com.auto.utils.UserUtils;
 import com.auto.model.User;
-import com.auto.model.UserModel;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.Assertion;
-import com.logigear.statics.Selaium;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class LoginPageTest extends BrowserTestBase {
-    private UserModel user;
+    private User user;
     private ILoginPage loginPage;
     private IHomePage homePage;
 
@@ -32,6 +30,6 @@ public class LoginPageTest extends BrowserTestBase {
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        user = User.instance().getUser();
+        user = UserUtils.instance().getUser();
     }
 }

@@ -1,6 +1,6 @@
-package com.auto.model;
+package com.auto.utils;
 
-import com.auto.utils.JsonUtils;
+import com.auto.model.User;
 import com.google.common.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -11,31 +11,31 @@ import java.util.Random;
 import static com.auto.utils.Constants.ConfigFiles;
 import static com.auto.utils.Constants.INVALID_ACCOUNT;
 
-public class InvalidUser {
+public class InvalidUserUtils {
 
-    private static InvalidUser instance = null;
-    private List<UserModel> invalidUsers;
+    private static InvalidUserUtils instance = null;
+    private List<User> invalidUsers;
 
 
-    private InvalidUser() {
-        Type userListType = new TypeToken<ArrayList<UserModel>>() {
+    private InvalidUserUtils() {
+        Type userListType = new TypeToken<ArrayList<User>>() {
         }.getType();
 
         this.invalidUsers = JsonUtils.toList(ConfigFiles.get(INVALID_ACCOUNT), userListType);
     }
 
-    public List<UserModel> users() {
+    public List<User> users() {
         return this.invalidUsers;
     }
 
-    public static InvalidUser instance() {
+    public static InvalidUserUtils instance() {
         if (instance == null) {
-            instance = new InvalidUser();
+            instance = new InvalidUserUtils();
         }
         return instance;
     }
 
-    public UserModel getInvalidUser(int index) {
+    public User getInvalidUser(int index) {
         Random r = new Random();
         return this.invalidUsers.get(index);
     }
