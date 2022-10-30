@@ -14,7 +14,7 @@ public class DriverUtils {
 
     public static String getAlertMessage() {
         try {
-            alertMessage = Selaium.driver().switchTo().alert().getText();
+            alertMessage = Selaium.driver().switchTo().alert().getText().trim();
         } catch (Exception ex) {
             ex.getMessage();
         }

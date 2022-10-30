@@ -1,14 +1,12 @@
 package com.auto.data.enums;
 
-public enum Navigation {
-    HOME("Home"),
-    OVERVIEW("Overview"),
+public enum PageCombobox {
     DISPLAY_AFTER("Display After"),
     PARENT_PAGE("Parent Page");
 
     private String value;
 
-    Navigation(String value) {
+    PageCombobox(String value) {
         this.value = value;
     }
 

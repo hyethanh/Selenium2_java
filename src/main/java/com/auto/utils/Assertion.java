@@ -8,8 +8,7 @@ import org.testng.Assert;
 public class Assertion {
     public static void assertTrue(boolean condition, String message) {
         try {
-            Assert.assertTrue(condition, message);
-            Allure.step(message);
+            Assert.assertTrue(condition);
         } catch (AssertionError ex) {
             Allure.step(message, Status.FAILED);
             throw ex;
@@ -19,7 +18,6 @@ public class Assertion {
     public static void asserFalse(boolean condition, String message) {
         try {
             Assert.assertFalse(condition, message);
-            Allure.step(message);
         } catch (AssertionError ex) {
             Allure.step(message, Status.FAILED);
             throw ex;
@@ -29,7 +27,6 @@ public class Assertion {
     public  static void assertEquals(String actual, String expect, String message) {
         try {
             Assert.assertEquals(actual, expect);
-            Allure.step(message);
         } catch (AssertionError ex) {
             Allure.step(message, Status.FAILED);
             throw ex;

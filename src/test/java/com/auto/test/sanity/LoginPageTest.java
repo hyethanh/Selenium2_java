@@ -23,7 +23,7 @@ public class LoginPageTest extends BrowserTestBase {
         Assertion.assertTrue(homePage.isNavigated(), "Login unsuccessful");
 
         homePage.logout();
-        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User has logged in to the system");
+        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "Verify login to the system");
     }
 
     @BeforeClass(alwaysRun = true)
