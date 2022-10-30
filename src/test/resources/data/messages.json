@@ -2,5 +2,5 @@
   "invalid.username.password": "Username or password is invalid",
   "blank.username.password": "Please enter username!",
   "confirm.delete": "Are you sure you want to remove this page?",
-  "block.delete": "Cannot delete page %s since it has child page(s)."
+  "block.delete": "Cannot delete page '%s' since it has child page(s)."
 }

@@ -2,14 +2,12 @@ package com.auto.page.imp.browser;
 
 import com.auto.data.enums.Navigation;
 import com.auto.page.IHomePage;
-import com.auto.utils.Constants;
 import com.auto.utils.DriverUtils;
 import com.logigear.element.Element;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,10 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
     private Element pageTab = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
     private Element childPageTab = new Element("//li[a[text()='%s']]/ul/descendant::a");
-    private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select/option[text()='%s']");
+    private Element overViewTab = new Element(By.xpath("//li[a[text()='Overview']]"));
+    private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select");
+    private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
+    private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()='%s']");
 
 
     @Step("Verify login successfully")
@@ -77,9 +78,12 @@ public class HomePage extends GeneralPage implements IHomePage {
     @Step("Choose an option in dropdown list")
     @Override
     public void chooseComboboxOption(String comboBoxName, String option) {
-        addPageDialogCombobox.set(comboBoxName, option);
+        addPageDialogCombobox.set(comboBoxName);
         addPageDialogCombobox.click();
-        addPageDialogCombobox.waitForVisible();
+        addPageDialogComboboxOption.waitForVisible();
+        addPageDialogCombobox.select(option);
+        addPageDialogComboboxOptionWithText.set(option);
+        addPageDialogComboboxOptionWithText.waitForInvisible();
     }
 
     @Step("Create a new page")
@@ -110,32 +114,45 @@ public class HomePage extends GeneralPage implements IHomePage {
 
     @Step("Create a child page")
     public void createChildPage(String parentPageName, String childPageName) {
-        parentPageName = parentPageName.replace(" ", "\u00A0");
-        childPageName = childPageName.replace(" ", "\u00A0");
-
         enterPageName(childPageName);
         chooseComboboxOption(Navigation.PARENT_PAGE.value(), parentPageName);
         clickOKButton();
-
-        parentPageName = parentPageName.replace(" ", "\u00A0");
-        childPageName = childPageName.replace(" ", "\u00A0");
-        childPageTab.set(parentPageName, childPageName);
-        childPageTab.waitForVisible();
     }
 
     @Step("Delete page")
     @Override
     public void deletePage(String value) {
+        DriverUtils.stalenessOf(overViewTab);
+        overViewTab.click();
+        pageTab.set(Navigation.OVERVIEW.value(), value.replace(" ", "\u00A0"));
+        pageTab.click();
+        DriverUtils.stalenessOf(globalSettingTab);
+        globalSettingTab.hover();
+        deleteButton.click();
+    }
 
+    @Step("Delete page has a child")
+    @Override
+    public void deletePage(String parentPage, String childrenPage) {
+//        parentPage = parentPage.replace(" ", "\u00A0");
+//        childrenPage = childrenPage.replace(" ", "\u00A0");
+        pageTab.set(Navigation.OVERVIEW.value(), parentPage.replace(" ", "\u00A0"));
+        DriverUtils.stalenessOf(pageTab);
+        pageTab.hover();
+        childPageTab.set(parentPage.replace(" ", "\u00A0"), childrenPage.replace(" ", "\u00A0"));
+        childPageTab.click();
+
+        DriverUtils.stalenessOf(globalSettingTab);
+        deleteButton.click();
     }
 
     public List<String> getPageIds() {
         if (createdTabs.elements().size() != 0) {
             List<WebElement> tabList = createdTabs.elements();
             List<String> tabIds = new ArrayList<>();
-            for (WebElement tab:tabList) {
+            for (WebElement tab : tabList) {
                 String[] temp = tab.getAttribute("href").split("/");
-                String id = temp[temp.length-1].split("\\.")[0];
+                String id = temp[temp.length - 1].split("\\.")[0];
                 tabIds.add(id);
             }
             return tabIds;

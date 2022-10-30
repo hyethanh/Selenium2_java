@@ -28,5 +28,7 @@ public interface IHomePage extends IGeneralPage {
 
     void deletePage(String value);
 
+    void deletePage(String parentPage, String childrenPage);
+
     List<String> getPageIds();
 }

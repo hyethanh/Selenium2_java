@@ -45,12 +45,14 @@ public class AddPageTest extends BrowserTestBase {
     @Test(description = "remove any main parent page except 'Overview' page successfully and " +
                         "the order of pages stays persistent as long as there is not children page under it")
     public void DA_MP_TC_015() {
-        homePage.createNewPage(firstPage.getTitle());
-        homePage.openAddPageDialog();
-        homePage.createChildPage(firstPage.getTitle(), secondPage.getTitle());
-        homePage.deletePage(firstPage.getTitle());
+//        homePage.createNewPage(firstPage.getTitle());
+//        homePage.openAddPageDialog();
+//        homePage.createChildPage(firstPage.getTitle(), secondPage.getTitle());
+//        homePage.deletePage(firstPage.getTitle());
+        homePage.deletePage("A Time to Kill");
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Alert message is incorrect");
         DriverUtils.acceptAlert();
+        homePage.deletePage("A Time to Kill", "The Way Through the Woods");
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", firstPage.getTitle()), "No message displays");
 
     }
