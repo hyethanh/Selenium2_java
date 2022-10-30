@@ -3,7 +3,8 @@ package com.auto.data.enums;
 public enum Navigation {
     HOME("Home"),
     OVERVIEW("Overview"),
-    DISPLAYAFTER("Display After");
+    DISPLAY_AFTER("Display After"),
+    PARENT_PAGE("Parent Page");
 
     private String value;
 

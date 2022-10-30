@@ -2,12 +2,14 @@ package com.auto.page.imp.browser;
 
 import com.auto.data.enums.Navigation;
 import com.auto.page.IHomePage;
+import com.auto.utils.Constants;
 import com.auto.utils.DriverUtils;
 import com.logigear.element.Element;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,12 +19,13 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element accountTab = new Element(By.cssSelector("a[href='#Welcome']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
     private Element addPageButton = new Element(By.xpath("//a[@class='add' and text()='Add Page']"));
+    private Element deleteButton = new Element(By.xpath("//a[@class='delete' and text()='Delete']"));
     private Element okButton = new Element(By.id("OK"));
     private Element cancelButton = new Element(By.id("Cancel"));
     private Element pageNameText = new Element(By.id("name"));
-    private Element addPageDialog = new Element(By.id("div_popup"));
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
     private Element pageTab = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
+    private Element childPageTab = new Element("//li[a[text()='%s']]/ul/descendant::a");
     private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select/option[text()='%s']");
 
 
@@ -37,7 +40,7 @@ public class HomePage extends GeneralPage implements IHomePage {
     public void logout() {
         DriverUtils.stalenessOf(accountTab);
         accountTab.hover();
-        logoutButton.waitForVisible();
+        DriverUtils.stalenessOf(logoutButton);
         logoutButton.click();
     }
 
@@ -73,8 +76,8 @@ public class HomePage extends GeneralPage implements IHomePage {
 
     @Step("Choose an option in dropdown list")
     @Override
-    public void chooseComboboxOption(String comboBoxName, String args) {
-        addPageDialogCombobox.set(comboBoxName, args);
+    public void chooseComboboxOption(String comboBoxName, String option) {
+        addPageDialogCombobox.set(comboBoxName, option);
         addPageDialogCombobox.click();
         addPageDialogCombobox.waitForVisible();
     }
@@ -102,7 +105,28 @@ public class HomePage extends GeneralPage implements IHomePage {
         tab1 = tab1.replace(" ", "\u00A0");
         tab2 = tab2.replace(" ", "\u00A0");
         pageTab.set(tab1, tab2);
-        return pageTab.exists();
+        return pageTab.isDisplayed();
+    }
+
+    @Step("Create a child page")
+    public void createChildPage(String parentPageName, String childPageName) {
+        parentPageName = parentPageName.replace(" ", "\u00A0");
+        childPageName = childPageName.replace(" ", "\u00A0");
+
+        enterPageName(childPageName);
+        chooseComboboxOption(Navigation.PARENT_PAGE.value(), parentPageName);
+        clickOKButton();
+
+        parentPageName = parentPageName.replace(" ", "\u00A0");
+        childPageName = childPageName.replace(" ", "\u00A0");
+        childPageTab.set(parentPageName, childPageName);
+        childPageTab.waitForVisible();
+    }
+
+    @Step("Delete page")
+    @Override
+    public void deletePage(String value) {
+
     }
 
     public List<String> getPageIds() {

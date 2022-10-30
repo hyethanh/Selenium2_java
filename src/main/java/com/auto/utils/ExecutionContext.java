@@ -1,6 +1,6 @@
 package com.auto.utils;
 
-import com.auto.model.UserModel;
+import com.auto.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,18 +11,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.lang.Thread.currentThread;
 
 public class ExecutionContext {
-    static final Map<Long, UserModel> threadUser = new ConcurrentHashMap<>(4);
+    static final Map<Long, User> threadUser = new ConcurrentHashMap<>(4);
     static final ThreadLocal<List<String>> threadSteps = new InheritableThreadLocal<>();
     static final Map<String, String> environments = new HashMap<>();
 
 
-    public static void setUser(UserModel user) {
+    public static void setUser(User user) {
         long threadId = currentThread().getId();
         threadUser.remove(threadId);
         threadUser.put(threadId, user);
     }
 
-    public static UserModel getCurrentUser() {
+    public static User getCurrentUser() {
         long threadId = currentThread().getId();
         return threadUser.get(threadId);
     }

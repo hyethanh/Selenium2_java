@@ -1,17 +1,15 @@
 package com.auto.page;
 
-import com.auto.model.UserModel;
+import com.auto.model.User;
 
 public interface ILoginPage {
 
-    void enterUserAccount(UserModel user);
+    void login(User user);
+
+    void enterUserAccount(User user);
 
     void clickLoginButton();
 
     boolean isLoginButtonDisplayed();
-
-    String getAlertMessage();
-
-    void acceptAlert();
 
 }

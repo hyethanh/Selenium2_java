@@ -1,6 +1,6 @@
 package com.auto.page.imp.browser;
 
-import com.auto.model.UserModel;
+import com.auto.model.User;
 import com.auto.page.ILoginPage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.ExecutionContext;
@@ -18,9 +18,9 @@ public class LoginPage implements ILoginPage {
 
     @Step("Login to Website")
     @Override
-    public void enterUserAccount(UserModel user) {
-        input(usernameTextBox, user.getUsername());
-        input(passwordTextBox, user.getPassword());
+    public void enterUserAccount(User user) {
+        usernameTextBox.enter(user.getUsername());
+        passwordTextBox.enter(user.getPassword());
         ExecutionContext.setUser(user);
     }
 
@@ -31,6 +31,12 @@ public class LoginPage implements ILoginPage {
         loginButton.click();
     }
 
+    @Step("Login to TA Dashboard")
+    public void login(User user) {
+        enterUserAccount(user);
+        clickLoginButton();
+    }
+
 
     @Step("Verify user has not logged in to Dashboard")
     @Override
@@ -39,20 +45,10 @@ public class LoginPage implements ILoginPage {
         return loginButton.isDisplayed();
     }
 
-    @Step("Get alert message")
-    @Override
-    public String getAlertMessage() {
-        return DriverUtils.getAlertMessage();
-    }
-
-    @Step("Accept to close alert")
-    @Override
-    public void acceptAlert() {
-        DriverUtils.acceptAlert();
-    }
 
     public void input(Element element, String value) {
         DriverUtils.stalenessOf(element);
+        element.clear();
         element.enter(value);
     }
 }

@@ -11,6 +11,8 @@ public interface IHomePage extends IGeneralPage {
 
     void createNewPage(String value);
 
+    void createChildPage(String parent, String value);
+
     void openAddPageDialog();
 
     boolean isAddPageDialogOpened();
@@ -23,6 +25,8 @@ public interface IHomePage extends IGeneralPage {
     void clickCancelButton();
 
     void chooseComboboxOption(String value, String args);
+
+    void deletePage(String value);
 
     List<String> getPageIds();
 }
