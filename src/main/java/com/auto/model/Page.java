@@ -1,32 +1,38 @@
 package com.auto.model;
 
-import java.util.Random;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class Page {
-    private static Random random = new Random();
-
-    private String title;
-
+    private String name;
+    private Page parent;
     private int column;
+    private String displayAfter;
+    private boolean isPublic;
+    private static final Page overviewPage = new Page("Overview", null, 2, null, false);
 
-    public Page(String title) {
-        this.title = title;
+    public Page(String name) {
+        this.name = name;
+        this.parent = null;
+        this.column = 2;
+        this.displayAfter = overviewPage.name;
+        this.isPublic = false;
     }
 
-    public String getTitle() {
-        return title;
+    public Page(String name, Page parent) {
+        this.name = name;
+        this.parent = parent;
+        this.column = 2;
+        this.displayAfter = "";
+        this.isPublic = false;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
-    public int getColumn() {
-        return column;
+    public static Page overviewPage() {
+        return Page.overviewPage;
     }
-
-    public void setColumn(int column) {
-        this.column = random.nextInt(4);
-    }
-
 }

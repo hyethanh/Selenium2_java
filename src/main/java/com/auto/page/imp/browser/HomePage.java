@@ -3,10 +3,12 @@ package com.auto.page.imp.browser;
 import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.PageCombobox;
 import com.auto.element.Element;
+import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -22,17 +24,24 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element cancelButton = new Element(By.id("Cancel"));
     private Element pageNameText = new Element(By.id("name"));
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
-    private Element pageTabRelativePosition = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
-    private Element pageTab = new Element("//li[a[text()='%s']]");
-    private Element childPageTab = new Element("//li[a[text()='%s']]/ul/descendant::a");
-    private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select");
+    private Element pageTabRelativePosition = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()=\"%s\"]");
+    private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
+    private Element childPageTab = new Element("//li[a[text()=\"%s\"]]/ul/descendant::a[text()=\"%s\"]");
+    private Element addPageDialogCombobox = new Element("//td[text()=\"%s\"']/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
-    private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()='%s']");
+    private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
 
 
-    protected void moveToPage(String value) {
-        pageTab.set(StringUtils.replaceSpaceCharWithNBSP(value));
-        pageTab.click();
+    @Step("Go to page")
+    public void moveToPage(Page page) {
+        if (page.getParent() == null) {
+            pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
+            pageTab.hover();
+            return;
+        }
+        moveToPage(page.getParent());
+        pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
+        pageTab.hover();
     }
 
     @Step("Verify login successfully")
@@ -56,7 +65,6 @@ public class HomePage extends GeneralPage implements IHomePage {
     }
 
     @Step("Enter page name")
-    @Override
     public void enterPageName(String value) {
         pageNameText.enter(value);
     }
@@ -87,7 +95,6 @@ public class HomePage extends GeneralPage implements IHomePage {
     }
 
     @Step("Create a new page")
-    @Override
     public void createNewPage(String value) {
         openAddPageDialog();
         enterPageName(value);
@@ -95,8 +102,16 @@ public class HomePage extends GeneralPage implements IHomePage {
         moveToPage(value);
     }
 
+    @Step("Create a new page")
+    public void createNewPage(Page page) {
+        openAddPageDialog();
+        enterPageName(page.getName());
+        chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
+        clickOKButton();
+        moveToPage(page.getName());
+    }
+
     @Step("Verify click Add Page button")
-    @Override
     public boolean isAddPageDialogOpened() {
         globalSettingTab.hover();
         return addPageButton.isDisplayed();
@@ -121,10 +136,18 @@ public class HomePage extends GeneralPage implements IHomePage {
         clickOKButton();
     }
 
+//    @Step("Delete page")
+//    @Override
+//    public void deletePage(String value) {
+//        moveToPage(value);
+//        globalSettingTab.hover();
+//        deleteButton.click();
+//    }
+
     @Step("Delete page")
-    @Override
-    public void deletePage(String value) {
-        moveToPage(value);
+    public void deletePage(Page page) {
+        moveToPage(page);
+
         globalSettingTab.hover();
         deleteButton.click();
     }
@@ -139,6 +162,28 @@ public class HomePage extends GeneralPage implements IHomePage {
 
         globalSettingTab.hover();
         deleteButton.click();
+    }
+
+    @Override
+    public void moveToPage(String value) {
+
+    }
+
+    @Override
+    public boolean childPageExists(String parentPage, String childrenPage) {
+        return false;
+    }
+
+    @Step("Delete page has a child")
+    public void deletePage(String page) {
+        moveToPage(page);
+        globalSettingTab.hover();
+        deleteButton.click();
+    }
+
+    public boolean childPageExists(Page page) {
+        childPageTab.set(page.getParent().getName().replace(" ", "\u00A0"), page.getName().replace(" ", "\u00A0"));
+        return childPageTab.exists();
     }
 
     public List<String> getPageIds() {

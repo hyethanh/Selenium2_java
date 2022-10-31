@@ -28,20 +28,20 @@ public class AddPageTest extends BrowserTestBase {
 
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
     public void DA_MP_TC012() {
-        homePage.createNewPage(page.getTitle());
-        Assertion.assertTrue(homePage.isBesideTab(MenuItem.OVERVIEW.value(), page.getTitle()),
+        homePage.createNewPage(page.getName());
+        Assertion.assertTrue(homePage.isBesideTab(MenuItem.OVERVIEW.value(), page.getName()),
                             "A new page does not beside Overview page");
     }
 
     @Test(description = "The newly added main parent page is positioned at the location specified as set with " +
                         "'Displayed After' field of 'New Page' form on the main page bar 'Parent Page' dropped down menu")
     public void DA_MP_TC013() {
-        homePage.createNewPage(firstPage.getTitle());
+        homePage.createNewPage(firstPage.getName());
         homePage.openAddPageDialog();
-        homePage.enterPageName(secondPage.getTitle());
-        homePage.chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), firstPage.getTitle());
+        homePage.enterPageName(secondPage.getName());
+        homePage.chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), firstPage.getName());
         homePage.clickOKButton();
-        Assertion.assertTrue(homePage.isBesideTab(firstPage.getTitle(), secondPage.getTitle()), "");
+        Assertion.assertTrue(homePage.isBesideTab(firstPage.getName(), secondPage.getName()), "");
     }
 
 

@@ -1,6 +1,8 @@
 package com.auto.page;
 
 
+import com.auto.model.Page;
+
 import java.util.List;
 
 public interface IHomePage extends IGeneralPage {
@@ -30,6 +32,14 @@ public interface IHomePage extends IGeneralPage {
     void deletePage(String value);
 
     void deletePage(String parentPage, String childrenPage);
+
+    void moveToPage(String value);
+
+    boolean childPageExists(String parentPage, String childrenPage);
+
+    boolean childPageExists(Page page);
+
+    void deletePage(Page page);
 
     List<String> getPageIds();
 }
