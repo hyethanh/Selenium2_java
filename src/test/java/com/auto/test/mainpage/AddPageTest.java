@@ -45,7 +45,6 @@ public class AddPageTest extends BrowserTestBase {
     }
 
 
-
     @BeforeMethod(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
@@ -58,6 +57,6 @@ public class AddPageTest extends BrowserTestBase {
     @AfterMethod(alwaysRun = true)
     public void after() {
         DriverUtils.deletePage(homePage.getPageIds());
-        Selaium.driver().clearCookies();
+        Selaium.closeWebDriver();
     }
 }

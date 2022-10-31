@@ -1,10 +1,11 @@
 package com.auto.page.imp.browser;
 
+import com.auto.element.Element;
 import com.auto.model.User;
 import com.auto.page.ILoginPage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.ExecutionContext;
-import com.logigear.element.Element;
+//import com.logigear.element.Element;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
@@ -27,7 +28,6 @@ public class LoginPage implements ILoginPage {
     @Step("Click Login button")
     @Override
     public void clickLoginButton() {
-        DriverUtils.stalenessOf(loginButton);
         loginButton.click();
     }
 
@@ -47,7 +47,6 @@ public class LoginPage implements ILoginPage {
 
 
     public void input(Element element, String value) {
-        DriverUtils.stalenessOf(element);
         element.clear();
         element.enter(value);
     }

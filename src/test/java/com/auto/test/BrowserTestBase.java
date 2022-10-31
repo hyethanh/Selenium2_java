@@ -33,6 +33,5 @@ public class BrowserTestBase {
 
     @AfterClass(alwaysRun = true)
     public void afterAll() {
-        Selaium.closeWebDriver();
     }
 }
