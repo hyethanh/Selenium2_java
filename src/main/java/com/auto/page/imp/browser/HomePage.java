@@ -24,7 +24,7 @@ public class HomePage extends GeneralPage implements IHomePage {
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()='%s']");
     private Element pageTab = new Element("//li[a[text()='%s']]");
-    private Element childPageTab = new Element("//li[a[text()='%s']]/ul/descendant::a");
+    private Element childPageTab = new Element("//li[a[text()='%s']]/ul/descendant::a[text()='%s']");
     private Element addPageDialogCombobox = new Element("//td[text()='%s']/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()='%s']");
@@ -139,6 +139,12 @@ public class HomePage extends GeneralPage implements IHomePage {
 
         globalSettingTab.hover();
         deleteButton.click();
+    }
+
+    @Override
+    public boolean childPageExists(String parentPage, String childrenPage) {
+        childPageTab.set(parentPage.replace(" ", "\u00A0"), childrenPage.replace(" ", "\u00A0"));
+        return childPageTab.exists();
     }
 
     public List<String> getPageIds() {

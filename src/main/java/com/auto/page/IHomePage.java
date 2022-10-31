@@ -31,5 +31,7 @@ public interface IHomePage extends IGeneralPage {
 
     void deletePage(String parentPage, String childrenPage);
 
+    boolean childPageExists(String parentPage, String childrenPage);
+
     List<String> getPageIds();
 }
