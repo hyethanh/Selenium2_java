@@ -3,8 +3,10 @@ package com.auto.page;
 
 import com.auto.page.imp.browser.HomePage;
 import com.auto.page.imp.browser.LoginPage;
+import com.auto.page.imp.browser.MainPage;
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
+import com.mifmif.common.regex.Main;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,10 @@ public class PageFactory {
         // Home page implementation
         pages.put(Page.Home, new HashMap<String, Class<?>>() {{
             put(Constants.BROWSER, HomePage.class);
+        }});
+
+        pages.put(Page.Main, new HashMap<String, Class<?>>() {{
+            put(Constants.BROWSER, MainPage.class);
         }});
     }
 
@@ -57,9 +63,14 @@ public class PageFactory {
         return get(Page.Home);
     }
 
+    public static IMainPage getMainPage() {
+        return get(Page.Main);
+    }
+
 
     private static class Page {
         private static final String Login = "LoginPage";
         private static final String Home = "HomePage";
+        private static final String Main = "MainPage";
     }
 }

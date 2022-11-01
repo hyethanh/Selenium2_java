@@ -20,7 +20,7 @@ public class FakerUtils {
         return faker.lorem().sentence();
     }
 
-    public static String title() {
+    public static String name() {
         return faker.book().title();
     }
 

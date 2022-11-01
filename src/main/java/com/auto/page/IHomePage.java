@@ -1,37 +1,47 @@
 package com.auto.page;
 
 
+import com.auto.model.Page;
+
 import java.util.List;
 
-public interface IHomePage extends IGeneralPage {
+public interface IHomePage {
 
     boolean isNavigated();
 
     void logout();
 
-    void createNewPage(String value);
-
-    void createChildPage(String parent, String value);
+//    void createNewPage(String value);
+//
+//    void createChildPage(String parent, String value);
 
     void openAddPageDialog();
 
-    boolean isAddPageDialogOpened();
+    boolean ismainPageDialogOpened();
 
-    boolean isBesideTab(String tab1, String tab2);
+    boolean isBesidePage(Page page1, Page page2);
 
-    void enterPageName(String value);
+//    void enterPageName(String value);
+//
+//    void clickOKButton();
+//
+//    void clickCancelButton();
+//
+//    void chooseComboboxOption(String value, String args);
 
-    void clickOKButton();
+//    void deletePage(String value);
+//
+//    void deletePage(String parentPage, String childrenPage);
 
-    void clickCancelButton();
+//    void moveToPage(String value);
 
-    void chooseComboboxOption(String value, String args);
+//    boolean childPageExists(String parentPage, String childrenPage);
 
-    void deletePage(String value);
+    boolean childPageExists(Page page);
 
-    void deletePage(String parentPage, String childrenPage);
+    void deletePage(Page page);
 
-    boolean childPageExists(String parentPage, String childrenPage);
+    void moveToPage(Page page);
 
     List<String> getPageIds();
 }
