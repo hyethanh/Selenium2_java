@@ -9,9 +9,4 @@ public interface ILoginPage {
     void clickLoginButton();
 
     boolean isLoginButtonDisplayed();
-
-//    String getAlertMessage();
-//
-//    void acceptAlert();
-
 }

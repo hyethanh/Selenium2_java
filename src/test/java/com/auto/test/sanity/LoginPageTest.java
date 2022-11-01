@@ -16,6 +16,13 @@ public class LoginPageTest extends BrowserTestBase {
     private IHomePage homePage;
 
 
+    @BeforeClass
+    public void before() {
+        loginPage = PageFactory.getLoginPage();
+        homePage = PageFactory.getHomePage();
+        user = UserUtils.instance().getUser();
+    }
+
     @Test(description = "Able to login specific repository successfully via Dashboard login page with correct credentials")
     public void DA_LOGIN_TC001() {
         loginPage.enterUserAccount(user);
@@ -24,12 +31,5 @@ public class LoginPageTest extends BrowserTestBase {
 
         homePage.logout();
         Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User has logged in to the system");
-    }
-
-    @BeforeClass
-    public void before() {
-        loginPage = PageFactory.getLoginPage();
-        homePage = PageFactory.getHomePage();
-        user = UserUtils.instance().getUser();
     }
 }

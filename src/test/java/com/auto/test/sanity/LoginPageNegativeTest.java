@@ -12,9 +12,16 @@ public class LoginPageNegativeTest extends BrowserTestBase {
     private User invalidUser;
     private ILoginPage loginPage;
 
+
+    @BeforeMethod
+    public void before() {
+        loginPage = PageFactory.getLoginPage();
+        DriverUtils.refresh();
+    }
+
     @Test(description = "Fail to login specific repository successfully via Dashboard login page with incorrect credentials")
     public void DA_LOGIN_TC002() {
-        invalidUser = UserUtils.instance().getInvalidUser(1);
+        invalidUser = UserUtils.instance().getUserByIndex(1);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
@@ -23,7 +30,7 @@ public class LoginPageNegativeTest extends BrowserTestBase {
 
     @Test(description = "Fail to log in successfully via Dashboard login page with correct username and incorrect password")
     public void DA_LOGIN_TC003() {
-        invalidUser = UserUtils.instance().getInvalidUser(2);
+        invalidUser = UserUtils.instance().getUserByIndex(2);
         loginPage.enterUserAccount(invalidUser);
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
@@ -34,12 +41,5 @@ public class LoginPageNegativeTest extends BrowserTestBase {
     public void DA_LOGIN_TC010() {
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.username.password"), "Can not get alert message");
-    }
-
-
-    @BeforeMethod
-    public void before() {
-        loginPage = PageFactory.getLoginPage();
-        DriverUtils.refresh();
     }
 }
