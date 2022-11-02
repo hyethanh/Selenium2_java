@@ -22,16 +22,24 @@ public class LoginPageTest extends BrowserTestBase {
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        user = UserUtils.instance().getUser();
+    }
+
+    @AfterMethod
+    public void after() {
+        Selaium.closeWebDriver();
     }
 
     @Test(description = "Able to login specific repository successfully via Dashboard login page with correct credentials")
     public void DA_LOGIN_TC001() {
+        User user = new User();
+        user.username(UserUtils.getUsername("valid.username"));
+        user.password(UserUtils.getPassword("valid.password"));
+
         loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
         Assertion.assertTrue(homePage.isNavigated(), "Login unsuccessful");
 
         homePage.logout();
-        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "Verify login to the system");
+        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User is in login page");
     }
 }

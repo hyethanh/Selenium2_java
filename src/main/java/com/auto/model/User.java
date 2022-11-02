@@ -1,8 +1,12 @@
 package com.auto.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
+@Accessors(fluent = true)
 public class User {
     private String username;
     private String password;

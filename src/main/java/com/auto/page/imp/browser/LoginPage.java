@@ -18,15 +18,13 @@ public class LoginPage implements ILoginPage {
     private final Element loginButton = new Element(By.className("btn-login"));
 
     @Step("Login to Website")
-    @Override
     public void enterUserAccount(User user) {
-        usernameTextBox.enter(user.getUsername());
-        passwordTextBox.enter(user.getPassword());
+        usernameTextBox.enter(user.username());
+        passwordTextBox.enter(user.password());
         ExecutionContext.setUser(user);
     }
 
     @Step("Click Login button")
-    @Override
     public void clickLoginButton() {
         loginButton.click();
     }
@@ -39,7 +37,6 @@ public class LoginPage implements ILoginPage {
 
 
     @Step("Verify user has not logged in to Dashboard")
-    @Override
     public boolean isLoginButtonDisplayed() {
         loginButton.waitForVisible();
         return loginButton.isDisplayed();

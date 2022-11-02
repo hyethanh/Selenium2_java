@@ -2,6 +2,7 @@ package com.auto.utils;
 
 import com.auto.model.User;
 import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class UserUtils {
     private static UserUtils instance = null;
     private List<User> users;
 
+    static JsonObject user;
+
     private UserUtils() {
         Type userListType = new TypeToken<ArrayList<User>>() {
         }.getType();
@@ -26,6 +29,10 @@ public class UserUtils {
         return this.users;
     }
 
+    static {
+        user = JsonUtils.to(ConfigFiles.get(ACCOUNT), JsonObject.class);
+    }
+
     public static UserUtils instance() {
         if (instance == null) {
             instance = new UserUtils();
@@ -33,17 +40,18 @@ public class UserUtils {
         return instance;
     }
 
-    public User getRandomUser() {
-        Random r = new Random();
-        return this.users.get(r.nextInt(this.users.size()));
+    public static String getUsername(String key) {
+        return user.get(key).getAsString();
     }
 
-    public User getUser() {
-        return getUserByIndex(0);
+    public static User getUser() {
+        User valid_user = new User();
+        valid_user.username(getUsername("valid.username"));
+        valid_user.password(getPassword("valid.password"));
+        return valid_user;
     }
 
-    public User getUserByIndex(int index) {
-        Random r = new Random();
-        return this.users.get(index);
+    public static String getPassword(String key) {
+        return user.get(key).getAsString();
     }
 }

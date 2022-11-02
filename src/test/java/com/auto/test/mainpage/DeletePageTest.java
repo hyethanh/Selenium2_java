@@ -27,7 +27,7 @@ public class DeletePageTest extends BrowserTestBase {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
         mainPage = PageFactory.getMainPage();
-        user = UserUtils.instance().getUserByIndex(0);
+        user = UserUtils.getUser();
 
         loginPage.login(user);
     }

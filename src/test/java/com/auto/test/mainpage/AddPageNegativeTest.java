@@ -26,14 +26,13 @@ public class AddPageNegativeTest extends BrowserTestBase {
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        user = UserUtils.instance().getUserByIndex(0);
+        user = UserUtils.getUser();
 
         loginPage.login(user);
     }
 
     @AfterMethod(alwaysRun = true)
     public void after() {
-        DriverUtils.deletePage(homePage.getPageIds());
         Selaium.closeWebDriver();
     }
 

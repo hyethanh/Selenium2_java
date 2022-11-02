@@ -24,13 +24,27 @@ public class AddPageTest extends BrowserTestBase {
     private IMainPage mainPage;
 
     Page page = new Page(FakerUtils.name());
-//    Page firstPage = new Page(FakerUtils.name());
     Page secondPage = new Page(FakerUtils.name(), page.getName());
 
 
+    @BeforeMethod(alwaysRun = true)
+    public void before() {
+        loginPage = PageFactory.getLoginPage();
+        homePage = PageFactory.getHomePage();
+        mainPage = PageFactory.getMainPage();
+        user = UserUtils.getUser();
+
+        loginPage.login(user);
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void after() {
+        DriverUtils.deletePage(homePage.getPageIds());
+        Selaium.closeWebDriver();
+    }
+
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
     public void DA_MP_TC012() {
-        Page page = new Page(FakerUtils.name(), MenuItem.OVERVIEW.value());
         mainPage.createNewPage(page);
         Assertion.assertTrue(homePage.isBesidePage(Page.overviewPage(), page),
                             "A new page does not beside Overview page");
@@ -42,22 +56,5 @@ public class AddPageTest extends BrowserTestBase {
         mainPage.createNewPage(page);
         mainPage.createNewPage(secondPage);
         Assertion.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
-    }
-
-
-    @BeforeMethod(alwaysRun = true)
-    public void before() {
-        loginPage = PageFactory.getLoginPage();
-        homePage = PageFactory.getHomePage();
-        mainPage = PageFactory.getMainPage();
-        user = UserUtils.instance().getUserByIndex(0);
-
-        loginPage.login(user);
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void after() {
-        DriverUtils.deletePage(homePage.getPageIds());
-        Selaium.closeWebDriver();
     }
 }
