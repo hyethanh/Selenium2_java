@@ -14,6 +14,7 @@ public class BrowserTestBase {
     Configuration config;
 
     @BeforeClass
+    @BeforeMethod
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
         platform = java.util.Optional.ofNullable(platform).orElse("chrome");
@@ -32,7 +33,5 @@ public class BrowserTestBase {
     }
 
     @AfterClass
-    public void afterAll() {
-        Selaium.closeWebDriver();
-    }
+    public void afterAll() {}
 }

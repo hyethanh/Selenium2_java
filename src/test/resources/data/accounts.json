@@ -1,14 +1,7 @@
-[
-  {
-    "username": "administrator",
-    "password": ""
-  },
-  {
-    "username": "abc",
-    "password": "abc"
-  },
-  {
-    "username": "administrator",
-    "password": "abc"
-  }
-]
+{
+  "valid.username": "administrator",
+  "invalid.username": "abc",
+
+  "valid.password": "",
+  "invalid.password": "abc"
+}

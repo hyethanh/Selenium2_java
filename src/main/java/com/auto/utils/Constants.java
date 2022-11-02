@@ -8,8 +8,6 @@ public class Constants {
     public static final String ENV_ALLURE_FILE = "allure-results/environment.properties";
     public static final String BROWSER = "chrome";
     public static final String ACCOUNT = "account";
-    public static final String INVALID_ACCOUNT = "invalid_account";
-    public static final String JIRA = "jira";
     public static final String TEST_RAIL = "testrail";
     public static final String MESSAGES = "src/test/resources/data/messages.json";
     public static final String BASE_URL = "http://localhost/TADashboard/login.jsp";
@@ -19,6 +17,5 @@ public class Constants {
 
     static {
         ConfigFiles.put(ACCOUNT, "src/test/resources/data/accounts.json");
-        ConfigFiles.put(INVALID_ACCOUNT, "src/test/resources/data/invalid_accounts.json");
         }
 }

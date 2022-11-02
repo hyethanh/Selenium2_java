@@ -5,24 +5,31 @@ import com.auto.model.User;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
+import com.logigear.statics.Selaium;
 import org.testng.annotations.*;
 
 public class LoginPageNegativeTest extends BrowserTestBase {
 
-    private User invalidUser;
     private ILoginPage loginPage;
-
 
     @BeforeMethod
     public void before() {
         loginPage = PageFactory.getLoginPage();
-        DriverUtils.refresh();
     }
+
+    @AfterMethod
+    public void after() {
+        Selaium.closeWebDriver();
+    }
+
 
     @Test(description = "Fail to login specific repository successfully via Dashboard login page with incorrect credentials")
     public void DA_LOGIN_TC002() {
-        invalidUser = UserUtils.instance().getUserByIndex(1);
-        loginPage.enterUserAccount(invalidUser);
+        User user = new User();
+        user.username(UserUtils.getUsername("invalid.username"));
+        user.password(UserUtils.getPassword("invalid.password"));
+
+        loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         DriverUtils.acceptAlert();
@@ -30,8 +37,11 @@ public class LoginPageNegativeTest extends BrowserTestBase {
 
     @Test(description = "Fail to log in successfully via Dashboard login page with correct username and incorrect password")
     public void DA_LOGIN_TC003() {
-        invalidUser = UserUtils.instance().getUserByIndex(2);
-        loginPage.enterUserAccount(invalidUser);
+        User user = new User();
+        user.username(UserUtils.getUsername("valid.username"));
+        user.password(UserUtils.getPassword("invalid.password"));
+
+        loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         DriverUtils.acceptAlert();
