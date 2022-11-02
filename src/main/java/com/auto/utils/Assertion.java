@@ -4,8 +4,8 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import org.testng.Assert;
 
-
 public class Assertion {
+
     public static void assertTrue(boolean condition, String message) {
         try {
             Assert.assertTrue(condition);
@@ -24,7 +24,7 @@ public class Assertion {
         }
     }
 
-    public  static void assertEquals(String actual, String expect, String message) {
+    public static void assertEquals(String actual, String expect, String message) {
         try {
             Assert.assertEquals(actual, expect);
         } catch (AssertionError ex) {

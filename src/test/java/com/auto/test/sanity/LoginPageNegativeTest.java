@@ -13,6 +13,12 @@ public class LoginPageNegativeTest extends BrowserTestBase {
     private ILoginPage loginPage;
 
 
+    @BeforeMethod
+    public void before() {
+        loginPage = PageFactory.getLoginPage();
+        DriverUtils.refresh();
+    }
+
     @Test(description = "Fail to login specific repository successfully via Dashboard login page with incorrect credentials")
     public void DA_LOGIN_TC002() {
         invalidUser = UserUtils.instance().getUserByIndex(1);
@@ -35,12 +41,5 @@ public class LoginPageNegativeTest extends BrowserTestBase {
     public void DA_LOGIN_TC010() {
         loginPage.clickLoginButton();
         Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.username.password"), "Can not get alert message");
-    }
-
-
-    @BeforeMethod(alwaysRun = true)
-    public void before() {
-        loginPage = PageFactory.getLoginPage();
-        DriverUtils.refresh();
     }
 }

@@ -33,9 +33,13 @@ public class UserUtils {
         return instance;
     }
 
-    public User getUser() {
+    public User getRandomUser() {
         Random r = new Random();
         return this.users.get(r.nextInt(this.users.size()));
+    }
+
+    public User getUser() {
+        return getUserByIndex(0);
     }
 
     public User getUserByIndex(int index) {
