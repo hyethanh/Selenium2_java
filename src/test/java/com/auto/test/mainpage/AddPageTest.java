@@ -1,7 +1,5 @@
 package com.auto.test.mainpage;
 
-import com.auto.data.enums.MenuItem;
-import com.auto.data.enums.PageCombobox;
 import com.auto.model.Page;
 import com.auto.model.User;
 import com.auto.page.IHomePage;
