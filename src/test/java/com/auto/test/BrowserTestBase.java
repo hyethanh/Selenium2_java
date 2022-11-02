@@ -14,6 +14,7 @@ public class BrowserTestBase {
     Configuration config;
 
     @BeforeClass(alwaysRun = true)
+    @BeforeMethod
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
         platform = java.util.Optional.ofNullable(platform).orElse("chrome");

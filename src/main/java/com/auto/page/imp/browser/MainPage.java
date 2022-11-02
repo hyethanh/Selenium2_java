@@ -26,20 +26,17 @@ public class MainPage implements IMainPage {
     }
 
     @Step("Click OK to create new page")
-    @Override
     public void clickOKButton() {
         okButton.click();
         okButton.waitForInvisible();
     }
 
     @Step("Click Cancel to close new page dialog")
-    @Override
     public void clickCancelButton() {
         cancelButton.click();
     }
 
     @Step("Choose an option in dropdown list")
-    @Override
     public void chooseComboboxOption(String comboBoxName, String option) {
         addPageDialogCombobox.set(comboBoxName);
         addPageDialogCombobox.click();
@@ -47,15 +44,19 @@ public class MainPage implements IMainPage {
 
         addPageDialogCombobox.select(option);
         addPageDialogComboboxOptionWithText.set(StringUtils.replaceSpaceCharWithNBSP(option));
-//        addPageDialogComboboxOptionWithText.waitForInvisible();
+        addPageDialogComboboxOptionWithText.waitForInvisible();
     }
 
     @Step("Create a new page")
     public void createNewPage(Page page) {
         homePage.openAddPageDialog();
         enterPageName(page.getName());
-        chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
+        if (!page.getDisplayAfter().isEmpty()) {
+            chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
+        }
+        if (page.getParent() != null) {
+            chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
+        }
         clickOKButton();
-        homePage.moveToPage(page);
     }
 }

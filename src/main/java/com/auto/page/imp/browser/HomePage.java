@@ -5,6 +5,7 @@ import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.page.IMainPage;
 import com.auto.page.IHomePage;
+import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -15,32 +16,21 @@ import java.util.List;
 
 public class HomePage implements IHomePage {
 
-    private IMainPage mainPage;
-
     private Element logoutButton = new Element(By.xpath("//a[text()='Logout']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
     private Element mainPageButton = new Element(By.xpath("//a[@class='add' and text()='Add Page']"));
     private Element deleteButton = new Element(By.xpath("//a[@class='delete' and text()='Delete']"));
-//    private Element okButton = new Element(By.id("OK"));
-//    private Element cancelButton = new Element(By.id("Cancel"));
-//    private Element pageNameText = new Element(By.id("name"));
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
-    private Element pageTabRelativePosition = new Element("//li[a[text()='%s']]/following-sibling::li/a[text()=\"%s\"]");
+    private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
-    private Element childPageTab = new Element("//li[a[text()=\"%s\"]]/ul/descendant::a[text()=\"%s\"]");
-//    private Element mainPageDialogCombobox = new Element("//td[text()=\"%s\"']/following-sibling::td/select");
-//    private Element mainPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
-//    private Element mainPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
 
-
-    @Step("Go to page")
-    public void moveToPage(Page page) {
+    protected void hoverOnTab(Page page) {
         if (page.getParent() == null) {
             pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
             pageTab.hover();
             return;
         }
-        moveToPage(page.getParent());
+        hoverOnTab(page.getParent());
         pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
         pageTab.hover();
     }
@@ -54,7 +44,7 @@ public class HomePage implements IHomePage {
     @Step("Logout the account")
     @Override
     public void logout() {
-        moveToPage(new Page(MenuItem.ADMINISTRATOR.value()));
+        hoverOnTab(new Page(MenuItem.ADMINISTRATOR.value()));
         logoutButton.click();
     }
 
@@ -82,17 +72,32 @@ public class HomePage implements IHomePage {
         return pageTabRelativePosition.exists() && pageTabRelativePosition.isDisplayed();
     }
 
-    @Step("Delete page")
-    public void deletePage(Page page) {
+    @Step("Move To Page And Click Delete")
+    public void moveToPageAndClickDelete(Page page) {
         moveToPage(page);
-
         globalSettingTab.hover();
         deleteButton.click();
     }
 
-    public boolean childPageExists(Page page) {
-        childPageTab.set(page.getParent().getName().replace(" ", "\u00A0"), page.getName().replace(" ", "\u00A0"));
-        return childPageTab.exists();
+    @Step("Delete page")
+    public void deletePage(Page page) {
+        moveToPageAndClickDelete(page);
+        DriverUtils.acceptAlert();
+    }
+
+    @Step("Go to page")
+    public void moveToPage(Page page) {
+        hoverOnTab(page);
+        pageTab.click();
+    }
+
+
+    public boolean pageExists(Page page) {
+        if (page.getParent() != null) {
+            hoverOnTab(page.getParent());
+        }
+        pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
+        return pageTab.isDisplayed();
     }
 
     public List<String> getPageIds() {

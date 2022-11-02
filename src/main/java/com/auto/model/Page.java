@@ -19,7 +19,7 @@ public class Page {
         this.name = name;
         this.parent = null;
         this.column = 2;
-        this.displayAfter = overviewPage.name;
+        this.displayAfter = "";
         this.isPublic = false;
     }
 
