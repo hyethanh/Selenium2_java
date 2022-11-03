@@ -12,4 +12,6 @@ public interface IMainPage {
     void chooseComboboxOption(String value, String args);
 
     void createNewPage(Page page);
+
+    void editExistedPage(Page page, Page newPage);
 }

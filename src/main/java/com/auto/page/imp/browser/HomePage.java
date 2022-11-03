@@ -82,6 +82,18 @@ public class HomePage implements IHomePage {
         clickMenuItemButton(MenuItem.DELETE.value());
     }
 
+    @Step("Move To Page And Click Edit")
+    public void moveToPageAndClickEdit(Page page) {
+        moveToPage(page);
+        clickMenuItemButton(MenuItem.EDIT.value());
+    }
+
+    @Step("Move To Page And Click Button")
+    public void moveToPageAndClikButton(Page page, String button) {
+        moveToPage(page);
+        clickMenuItemButton(button);
+    }
+
     @Step("Delete page")
     public void deletePage(Page page) {
         moveToPageAndClickDelete(page);
@@ -99,7 +111,7 @@ public class HomePage implements IHomePage {
             hoverOnTab(page.getParent());
         }
         pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
-        return pageTab.isDisplayed();
+        return pageTab.isDisplayed() && pageTab.exists();
     }
 
     public List<String> getPageIds() {

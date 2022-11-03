@@ -23,6 +23,9 @@ public interface IHomePage {
 
     void moveToPageAndClickDelete(Page page);
 
+    void moveToPageAndClickEdit(Page page);
+
+    void moveToPageAndClikButton(Page page, String button);
     void moveToPage(Page page);
 
     List<String> getPageIds();

@@ -44,12 +44,22 @@ public class MainPage implements IMainPage {
 
         addPageDialogCombobox.select(option);
         addPageDialogComboboxOptionWithText.set(StringUtils.replaceSpaceCharWithNBSP(option));
-        addPageDialogComboboxOptionWithText.waitForInvisible();
     }
 
     @Step("Create a new page")
     public void createNewPage(Page page) {
         homePage.openAddPageDialog();
+        enterPageInformationPage(page);
+    }
+
+    @Step("Edit an existed page")
+    public void editExistedPage(Page page, Page newPage) {
+        homePage.moveToPageAndClickEdit(page);
+        enterPageInformationPage(newPage);
+    }
+
+    @Step("Enter page information")
+    protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());
         if (!page.getDisplayAfter().isEmpty()) {
             chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
