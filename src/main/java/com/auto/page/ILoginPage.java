@@ -1,8 +1,12 @@
 package com.auto.page;
 
-import com.auto.model.UserModel;
+import com.auto.model.User;
 
 public interface ILoginPage {
 
-    void login(UserModel user);
+    void enterUserAccount(User user);
+
+    void clickLoginButton();
+
+    boolean isLoginButtonDisplayed();
 }

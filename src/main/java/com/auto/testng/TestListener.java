@@ -1,12 +1,10 @@
 package com.auto.testng;
 
-import com.auto.integration.TestCase;
 import com.auto.utils.Constants;
 import com.auto.utils.ExecutionContext;
 import com.auto.utils.FileUtils;
 import com.logigear.statics.Selaium;
 import io.qameta.allure.Allure;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +30,6 @@ public class TestListener implements ITestListener {
         log.info("Test case \"{} - {}\" is started", result.getMethod().getMethodName(),
                 result.getMethod().getDescription());
 
-        // Clean all cached steps of previous test
     }
 
     @Override
@@ -52,6 +49,7 @@ public class TestListener implements ITestListener {
             }
             if (result.getThrowable() instanceof AssertionError) {
                 // Submit bugs to Jira automatically
+
                 // Submit test result into TestRail
                 addResultTestRail(result);
             }
@@ -70,4 +68,3 @@ public class TestListener implements ITestListener {
 
     }
 }
-
