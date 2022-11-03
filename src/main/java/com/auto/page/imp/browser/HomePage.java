@@ -3,7 +3,6 @@ package com.auto.page.imp.browser;
 import com.auto.data.enums.MenuItem;
 import com.auto.element.Element;
 import com.auto.model.Page;
-import com.auto.page.IMainPage;
 import com.auto.page.IHomePage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
@@ -90,7 +89,6 @@ public class HomePage implements IHomePage {
         hoverOnTab(page);
         pageTab.click();
     }
-
 
     public boolean pageExists(Page page) {
         if (page.getParent() != null) {
