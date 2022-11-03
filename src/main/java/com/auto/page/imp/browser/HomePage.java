@@ -17,8 +17,7 @@ public class HomePage implements IHomePage {
 
     private Element logoutButton = new Element(By.xpath("//a[text()='Logout']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
-    private Element mainPageButton = new Element(By.xpath("//a[@class='add' and text()='Add Page']"));
-    private Element deleteButton = new Element(By.xpath("//a[@class='delete' and text()='Delete']"));
+    private Element menuItemButton = new Element("//a[@class='%s']");
     private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
@@ -32,6 +31,12 @@ public class HomePage implements IHomePage {
         hoverOnTab(page.getParent());
         pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
         pageTab.hover();
+    }
+
+    protected void clickMenuItemButton(String value) {
+        globalSettingTab.hover();
+        menuItemButton.set(value);
+        menuItemButton.click();
     }
 
     @Step("Verify login successfully")
@@ -50,14 +55,14 @@ public class HomePage implements IHomePage {
     @Step("Open add page dialog")
     @Override
     public void openAddPageDialog() {
-        globalSettingTab.hover();
-        mainPageButton.click();
+        clickMenuItemButton(MenuItem.ADD.value());
     }
 
     @Step("Verify click Add Page button")
     public boolean ismainPageDialogOpened() {
         globalSettingTab.hover();
-        return mainPageButton.isDisplayed();
+        menuItemButton.set(MenuItem.ADD.value());
+        return menuItemButton.isDisplayed();
     }
 
     @Step("Verify page is beside")
@@ -74,8 +79,7 @@ public class HomePage implements IHomePage {
     @Step("Move To Page And Click Delete")
     public void moveToPageAndClickDelete(Page page) {
         moveToPage(page);
-        globalSettingTab.hover();
-        deleteButton.click();
+        clickMenuItemButton(MenuItem.DELETE.value());
     }
 
     @Step("Delete page")

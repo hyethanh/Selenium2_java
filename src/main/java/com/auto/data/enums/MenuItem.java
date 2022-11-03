@@ -2,10 +2,10 @@ package com.auto.data.enums;
 
 public enum MenuItem {
 
-    OVERVIEW("Overview"),
-    EXECUTION_DASHBOARD("Execution Dashboard"),
+    ADD("add"),
+    EDIT("edit"),
+    DELETE("delete"),
     ADMINISTRATOR("administrator");
-
 
     private String value;
 
