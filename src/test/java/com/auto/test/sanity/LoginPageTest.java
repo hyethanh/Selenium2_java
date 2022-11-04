@@ -6,14 +6,15 @@ import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
-import com.auto.utils.Assertion;
 import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class LoginPageTest extends BrowserTestBase {
-    private User user;
+
+    SoftAssert softAssert = new SoftAssert();
     private ILoginPage loginPage;
     private IHomePage homePage;
 
@@ -31,15 +32,17 @@ public class LoginPageTest extends BrowserTestBase {
 
     @Test(description = "Able to login specific repository successfully via Dashboard login page with correct credentials")
     public void DA_LOGIN_TC001() {
+
         User user = new User();
         user.username(UserUtils.getUsername("valid.username"));
         user.password(UserUtils.getPassword("valid.password"));
 
         loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
-        Assertion.assertTrue(homePage.isNavigated(), "Login unsuccessful");
+        softAssert.assertTrue(homePage.isNavigated(), "Login unsuccessful");
 
         homePage.logout();
-        Assertion.assertTrue(loginPage.isLoginButtonDisplayed(), "User is in login page");
+        softAssert.assertTrue(loginPage.isLoginButtonDisplayed(), "User is in login page");
+        softAssert.assertAll();
     }
 }

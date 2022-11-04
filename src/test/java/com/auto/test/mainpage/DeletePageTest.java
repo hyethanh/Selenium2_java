@@ -12,8 +12,11 @@ import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 public class DeletePageTest extends BrowserTestBase {
+
+    SoftAssert softAssert = new SoftAssert();
 
     private User user;
     private ILoginPage loginPage;
@@ -47,15 +50,16 @@ public class DeletePageTest extends BrowserTestBase {
         mainPage.createNewPage(childPage);
 
         homePage.moveToPageAndClickDelete(page);
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete page");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete page");
         DriverUtils.acceptAlert();
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page.getName()),"Verify warning message when deleting page has child page(s)");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page.getName()),"Verify warning message when deleting page has child page(s)");
         DriverUtils.acceptAlert();
 
         homePage.moveToPageAndClickDelete(childPage);
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete child page");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete child page");
         DriverUtils.acceptAlert();
 
+        softAssert.assertAll();
         homePage.deletePage(page);
     }
 
@@ -69,8 +73,9 @@ public class DeletePageTest extends BrowserTestBase {
 
         Page childPage2 = new Page(FakerUtils.name(), page);
         mainPage.createNewPage(childPage2);
-        Assertion.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
+        softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
 
+        softAssert.assertAll();
         homePage.deletePage(childPage2);
         homePage.deletePage(childPage);
         homePage.deletePage(page);
@@ -80,8 +85,9 @@ public class DeletePageTest extends BrowserTestBase {
     public void DA_MP_TC019() {
         Page page = new Page(FakerUtils.name(), Page.overviewPage());
         mainPage.createNewPage(page);
-        Assertion.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
+        softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
 
+        softAssert.assertAll();
         homePage.deletePage(page);
     }
 
@@ -94,12 +100,13 @@ public class DeletePageTest extends BrowserTestBase {
         mainPage.createNewPage(page2);
 
         homePage.deletePage(page1);
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page1.getName()),"Verify warning message when deleting page has child page(s)");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page1.getName()),"Verify warning message when deleting page has child page(s)");
         DriverUtils.acceptAlert();
 
         homePage.deletePage(page2);
-        Assertion.asserFalse(homePage.pageExists(page2),"Verify the child page is deleted successfully");
+        softAssert.assertFalse(homePage.pageExists(page2),"Verify the child page is deleted successfully");
 
+        softAssert.assertAll();
         homePage.deletePage(page1);
     }
 }

@@ -44,7 +44,6 @@ public class MainPage implements IMainPage {
 
         addPageDialogCombobox.select(option);
         addPageDialogComboboxOptionWithText.set(StringUtils.replaceSpaceCharWithNBSP(option));
-        addPageDialogComboboxOptionWithText.waitForInvisible();
     }
 
     @Step("Create a new page")
