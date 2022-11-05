@@ -37,7 +37,7 @@ public class AddPageNegativeTest extends BrowserTestBase {
     @Test(description = "Unable to open more than 1 'New Page' dialog")
     public void DA_MP_TC011() {
         homePage.openAddPageDialog();
-        softAssert.assertFalse(homePage.ismainPageDialogOpened(), "One more than 1 new page dialog is open");
+        softAssert.assertFalse(homePage.isAddPageDialogOpened(), "One more than 1 new page dialog is open");
         softAssert.assertAll();
     }
 }

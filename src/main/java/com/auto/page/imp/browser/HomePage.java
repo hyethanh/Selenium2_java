@@ -11,16 +11,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage implements IHomePage {
 
     private Element logoutButton = new Element(By.xpath("//a[text()='Logout']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
     private Element menuItemButton = new Element("//a[@class='%s']");
-    private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
+    private Element createdTabs = new Element(By.xpath("//li[@class='mn-panels']/preceding-sibling::li//a[not(text()=\"Overview\" or text()=\"Execution\u00A0Dashboard\")]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
+    private Element pageBreadcrumb = new Element("//li[contains(@class,'haschild')]/descendant::a");
+
 
     protected void hoverOnTab(Page page) {
         if (page.getParent() == null) {
@@ -59,7 +63,7 @@ public class HomePage implements IHomePage {
     }
 
     @Step("Verify click Add Page button")
-    public boolean ismainPageDialogOpened() {
+    public boolean isAddPageDialogOpened() {
         globalSettingTab.hover();
         menuItemButton.set(MenuItem.ADD.value());
         return menuItemButton.isDisplayed();
@@ -88,22 +92,32 @@ public class HomePage implements IHomePage {
         clickMenuItemButton(MenuItem.EDIT.value());
     }
 
-    @Step("Move To Page And Click Button")
-    public void moveToPageAndClikButton(Page page, String button) {
-        moveToPage(page);
-        clickMenuItemButton(button);
-    }
-
     @Step("Delete page")
     public void deletePage(Page page) {
         moveToPageAndClickDelete(page);
         DriverUtils.acceptAlert();
+        pageTab.waitForInvisible();
     }
 
     @Step("Go to page")
     public void moveToPage(Page page) {
         hoverOnTab(page);
         pageTab.click();
+    }
+
+    @Step("Get breadcrumb's order")
+    public boolean isPageBreadcrumb(Page... pages) {
+        List<String> namePageBreadcrumb = getPageNameOfBreadcrumb();
+        List<String> namePageList = new ArrayList<>();
+        for (Page page : pages) {
+            namePageList.add(page.getName());
+        }
+        for (int i = 0; i < namePageBreadcrumb.size(); i++) {
+            if (!namePageBreadcrumb.get(i).equals(namePageList.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean pageExists(Page page) {
@@ -114,17 +128,18 @@ public class HomePage implements IHomePage {
         return pageTab.isDisplayed() && pageTab.exists();
     }
 
-    public List<String> getPageIds() {
-        if (createdTabs.elements().size() != 0) {
-            List<WebElement> tabList = createdTabs.elements();
-            List<String> tabIds = new ArrayList<>();
-            for (WebElement tab : tabList) {
-                String[] temp = tab.getAttribute("href").split("/");
-                String id = temp[temp.length - 1].split("\\.")[0];
-                tabIds.add(id);
-            }
-            return tabIds;
+    protected List<String> getPageNameOfBreadcrumb() {
+        List<String> namePageList = new ArrayList<>();
+        for (WebElement page : pageBreadcrumb.elements()) {
+            namePageList.add(page.getText());
         }
-        return null;
+        return namePageList;
+    }
+
+    public List<String> getPageIds() {
+        List<String> list = createdTabs.elements().stream().map(p -> p.getAttribute("href").split("/"))
+                .map(t -> t[t.length - 1].split("\\.")[0]).collect(Collectors.toList());
+        Collections.reverse(list);
+        return list;
     }
 }

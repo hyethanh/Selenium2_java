@@ -13,7 +13,7 @@ public interface IHomePage {
 
     void openAddPageDialog();
 
-    boolean ismainPageDialogOpened();
+    boolean isAddPageDialogOpened();
 
     boolean isBesidePage(Page page1, Page page2);
 
@@ -25,8 +25,9 @@ public interface IHomePage {
 
     void moveToPageAndClickEdit(Page page);
 
-    void moveToPageAndClikButton(Page page, String button);
     void moveToPage(Page page);
+
+    boolean isPageBreadcrumb(Page... pages);
 
     List<String> getPageIds();
 }

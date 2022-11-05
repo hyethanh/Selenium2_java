@@ -36,6 +36,7 @@ public class DeletePageTest extends BrowserTestBase {
 
     @AfterMethod(alwaysRun = true)
     public void after() {
+        DriverUtils.deletePage(homePage.getPageIds());
         Selaium.closeWebDriver();
     }
 
@@ -58,9 +59,9 @@ public class DeletePageTest extends BrowserTestBase {
         homePage.moveToPageAndClickDelete(childPage);
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete child page");
         DriverUtils.acceptAlert();
+        softAssert.assertFalse(homePage.pageExists(childPage));
 
         softAssert.assertAll();
-        homePage.deletePage(page);
     }
 
     @Test(description = "Able to add additional sibling pages to the parent page successfully")
@@ -76,9 +77,6 @@ public class DeletePageTest extends BrowserTestBase {
         softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
 
         softAssert.assertAll();
-        homePage.deletePage(childPage2);
-        homePage.deletePage(childPage);
-        homePage.deletePage(page);
     }
 
     @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
@@ -88,7 +86,6 @@ public class DeletePageTest extends BrowserTestBase {
         softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
 
         softAssert.assertAll();
-        homePage.deletePage(page);
     }
 
     @Test(description = "Able to delete sibling page as long as that page has not children page under it")
@@ -107,6 +104,5 @@ public class DeletePageTest extends BrowserTestBase {
         softAssert.assertFalse(homePage.pageExists(page2),"Verify the child page is deleted successfully");
 
         softAssert.assertAll();
-        homePage.deletePage(page1);
     }
 }

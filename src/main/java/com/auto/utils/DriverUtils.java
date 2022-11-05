@@ -62,4 +62,8 @@ public class DriverUtils {
                     "\t\t\t});", id));
         }
     }
+
+    public static String getCurrentPageTitle() {
+        return Selaium.driverContainer().title();
+    }
 }

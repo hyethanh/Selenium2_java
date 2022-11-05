@@ -50,11 +50,15 @@ public class MainPage implements IMainPage {
     public void createNewPage(Page page) {
         homePage.openAddPageDialog();
         enterPageInformationPage(page);
+        clickOKButton();
+        okButton.waitForInvisible();
     }
 
     @Step("Edit an existed page")
     public void editExistedPage(Page page) {
         enterPageInformationPage(page);
+        clickOKButton();
+        okButton.waitForInvisible();
     }
 
     @Step("Enter page information")
@@ -66,6 +70,5 @@ public class MainPage implements IMainPage {
         if (page.getParent() != null) {
             chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
         }
-            clickOKButton();
     }
 }
