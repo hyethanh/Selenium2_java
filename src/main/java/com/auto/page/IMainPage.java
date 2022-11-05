@@ -13,5 +13,5 @@ public interface IMainPage {
 
     void createNewPage(Page page);
 
-    void editExistedPage(Page page, Page newPage);
+    void editExistedPage(Page page);
 }

@@ -41,6 +41,7 @@ public class Element extends com.logigear.element.Element {
 
     public void click() {
         stalenessOf();
+        waitForClickable();
         element.click();
     }
 

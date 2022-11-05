@@ -21,7 +21,7 @@ public class FakerUtils {
     }
 
     public static String name() {
-        return faker.book().title();
+        return String.format("Page_%s",faker.name().title());
     }
 
     public static double randomDouble(int min, int max) {

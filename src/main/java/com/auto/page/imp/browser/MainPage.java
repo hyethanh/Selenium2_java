@@ -5,6 +5,7 @@ import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.page.IMainPage;
+import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -28,7 +29,6 @@ public class MainPage implements IMainPage {
     @Step("Click OK to create new page")
     public void clickOKButton() {
         okButton.click();
-        okButton.waitForInvisible();
     }
 
     @Step("Click Cancel to close new page dialog")
@@ -53,9 +53,8 @@ public class MainPage implements IMainPage {
     }
 
     @Step("Edit an existed page")
-    public void editExistedPage(Page page, Page newPage) {
-        homePage.moveToPageAndClickEdit(page);
-        enterPageInformationPage(newPage);
+    public void editExistedPage(Page page) {
+        enterPageInformationPage(page);
     }
 
     @Step("Enter page information")
@@ -67,6 +66,6 @@ public class MainPage implements IMainPage {
         if (page.getParent() != null) {
             chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
         }
-        clickOKButton();
+            clickOKButton();
     }
 }
