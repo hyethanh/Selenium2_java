@@ -46,9 +46,9 @@ public class EditPageTest extends BrowserTestBase {
     public void DA_MP_TC021() {
         Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
         Page page2 = new Page(FakerUtils.name(), page1);
-
         mainPage.createNewPage(page1);
         mainPage.createNewPage(page2);
+
         homePage.moveToPageAndClickEdit(page1);
         page1.setName(FakerUtils.name());
         mainPage.editExistedPage(page1);
@@ -56,10 +56,12 @@ public class EditPageTest extends BrowserTestBase {
         page2.setName(FakerUtils.name());
         mainPage.editExistedPage(page2);
         softAssert.assertTrue(homePage.pageExists(page1), "Verify the old name of first page is replaced successfully");
-        softAssert.assertTrue(homePage.pageExists(page2), "Verify the first page is updated successfully");
+        softAssert.assertTrue(homePage.pageExists(page2), "Verify the second page is updated successfully");
+
+        softAssert.assertAll();
         homePage.deletePage(page2);
         homePage.deletePage(page1);
-        softAssert.assertAll();
+
     }
 
     @Test(description = "Unable to duplicate the name of sibling page under the same parent page")
@@ -73,8 +75,26 @@ public class EditPageTest extends BrowserTestBase {
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("duplicated.name", page2.getName()));
         DriverUtils.acceptAlert();
         mainPage.clickCancelButton();
+
+        softAssert.assertAll();
         homePage.deletePage(page2);
         homePage.deletePage(page1);
+    }
+
+    @Test(description = "Able to edit the parent page of the sibling page successfully")
+    public void DA_MP_TC023() {
+        Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
+        Page page2 = new Page(FakerUtils.name(), page1);
+
+        mainPage.createNewPage(page1);
+        mainPage.createNewPage(page2);
+        homePage.moveToPageAndClickEdit(page1);
+        page1.setName(FakerUtils.name());
+        mainPage.editExistedPage(page1);
+        softAssert.assertTrue(homePage.pageExists(page1), "Verify the old name of parent page has the sibling page is replaced successfully");
+
         softAssert.assertAll();
+        homePage.deletePage(page2);
+        homePage.deletePage(page1);
     }
 }
