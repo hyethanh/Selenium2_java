@@ -7,8 +7,11 @@ import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.logigear.statics.Selaium;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 public class LoginPageNegativeTest extends BrowserTestBase {
+
+    SoftAssert softAssert = new SoftAssert();
 
     private ILoginPage loginPage;
 
@@ -31,8 +34,10 @@ public class LoginPageNegativeTest extends BrowserTestBase {
 
         loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         DriverUtils.acceptAlert();
+
+        softAssert.assertAll();
     }
 
     @Test(description = "Fail to log in successfully via Dashboard login page with correct username and incorrect password")
@@ -43,8 +48,10 @@ public class LoginPageNegativeTest extends BrowserTestBase {
 
         loginPage.enterUserAccount(user);
         loginPage.clickLoginButton();
-        Assertion.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.username.password"), "Can not get alert message");
         DriverUtils.acceptAlert();
+
+        softAssert.assertAll();
     }
 
     @Test(description = "Unable to login when no input entered to Password and Username field")
