@@ -24,6 +24,7 @@ public class HomePage implements IHomePage {
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
     private Element pageBreadcrumb = new Element("//li[contains(@class,'haschild')]/descendant::a");
+    private Element pageColumns = new Element(By.xpath("//div[@id='columns']/ul[@class='column ui-sortable']"));
 
 
     protected void hoverOnTab(Page page) {
@@ -105,20 +106,11 @@ public class HomePage implements IHomePage {
         pageTab.click();
     }
 
-    @Step("Get breadcrumb's order")
-    public boolean isPageBreadcrumb(Page... pages) {
-        List<String> namePageBreadcrumb = getPageNameOfBreadcrumb();
-        List<String> namePageList = new ArrayList<>();
-        for (Page page : pages) {
-            namePageList.add(page.getName());
-        }
-        for (int i = 0; i < namePageBreadcrumb.size(); i++) {
-            if (!namePageBreadcrumb.get(i).equals(namePageList.get(i))) {
-                return false;
-            }
-        }
-        return true;
+    @Step("Get page columns")
+    public int getPageColumns() {
+        return pageColumns.elements().size();
     }
+
 
     public boolean pageExists(Page page) {
         if (page.getParent() != null) {

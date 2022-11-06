@@ -70,5 +70,8 @@ public class MainPage implements IMainPage {
         if (page.getParent() != null) {
             chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
         }
+        if (page.getColumn() != 2) {
+            chooseComboboxOption(PageCombobox.COLUMNS.value(), Integer.toString(page.getColumn()));
+        }
     }
 }

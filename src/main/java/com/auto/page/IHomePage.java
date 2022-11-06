@@ -27,7 +27,7 @@ public interface IHomePage {
 
     void moveToPage(Page page);
 
-    boolean isPageBreadcrumb(Page... pages);
+    int getPageColumns();
 
     List<String> getPageIds();
 }

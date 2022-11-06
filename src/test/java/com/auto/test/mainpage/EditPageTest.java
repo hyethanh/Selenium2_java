@@ -117,4 +117,16 @@ public class EditPageTest extends BrowserTestBase {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "Page column is correct when user edit 'Number of Columns' field of a specific page")
+    public void DA_MP_TC026() {
+        Page page = new Page(FakerUtils.name());
+        mainPage.createNewPage(page);
+        page.setColumn(3);
+        homePage.moveToPageAndClickEdit(page);
+        mainPage.editExistedPage(page);
+        homePage.moveToPage(page);
+        softAssert.assertEquals(homePage.getPageColumns(), page.getColumn(), "Verify page column is correct after updated");
+        softAssert.assertAll();
+    }
 }

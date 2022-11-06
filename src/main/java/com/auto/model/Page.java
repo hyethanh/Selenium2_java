@@ -3,6 +3,7 @@ package com.auto.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Getter
 @Setter
@@ -36,6 +37,14 @@ public class Page {
         this.parent = null;
         this.column = 2;
         this.displayAfter = displayAfter;
+        this.isPublic = false;
+    }
+
+    public Page(String name, int column) {
+        this.name = name;
+        this.parent = null;
+        this.column = column;
+        this.displayAfter = "";
         this.isPublic = false;
     }
 
