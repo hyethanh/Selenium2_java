@@ -12,12 +12,12 @@
 <!--            <class name="com.auto.test.sanity.LoginPageNegativeTest"/>-->
         </classes>
     </test>
-    <test name="MainPage tests">
+    <test name="dialogPage tests">
         <parameter name="platform" value="chrome"/>
         <classes>
-            <class name="com.auto.test.mainpage.AddPageTest"/>
-            <class name="com.auto.test.mainpage.AddPageNegativeTest"/>
-            <class name="com.auto.test.mainpage.DeletePageTest"/>
+            <class name="com.auto.test.dialogPage.AddPageTest"/>
+            <class name="com.auto.test.dialogPage.AddPageNegativeTest"/>
+            <class name="com.auto.test.dialogPage.DeletePageTest"/>
         </classes>
     </test>
 

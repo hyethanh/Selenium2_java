@@ -1,10 +1,10 @@
-package com.auto.test.mainpage;
+package com.auto.test.dialogPage;
 
 import com.auto.model.Page;
 import com.auto.model.User;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
-import com.auto.page.IMainPage;
+import com.auto.page.IDialogPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.*;
@@ -21,7 +21,7 @@ public class AddPageTest extends BrowserTestBase {
     private User user;
     private ILoginPage loginPage;
     private IHomePage homePage;
-    private IMainPage mainPage;
+    private IDialogPage dialogPage;
 
     Page page = new Page(FakerUtils.name());
     Page secondPage = new Page(FakerUtils.name(), page.getName());
@@ -31,7 +31,7 @@ public class AddPageTest extends BrowserTestBase {
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        mainPage = PageFactory.getMainPage();
+        dialogPage = PageFactory.getDialogPage();
         user = UserUtils.getUser();
 
         loginPage.login(user);
@@ -45,7 +45,7 @@ public class AddPageTest extends BrowserTestBase {
 
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
     public void DA_MP_TC012() {
-        mainPage.createNewPage(page);
+        dialogPage.createNewPage(page);
         softAssert.assertTrue(homePage.isBesidePage(Page.overviewPage(), page),
                             "A new page does not beside Overview page");
     }
@@ -53,21 +53,21 @@ public class AddPageTest extends BrowserTestBase {
     @Test(description = "The newly added main parent page is positioned at the location specified as set with " +
                         "'Displayed After' field of 'New Page' form on the main page bar 'Parent Page' dropped down menu")
     public void DA_MP_TC013() {
-        mainPage.createNewPage(page);
-        mainPage.createNewPage(secondPage);
+        dialogPage.createNewPage(page);
+        dialogPage.createNewPage(secondPage);
         softAssert.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
     }
 
     @Test(description = "Able to add additional sibling pages to the parent page successfully")
     public void DA_MP_TC018() {
         Page page = new Page(FakerUtils.name());
-        mainPage.createNewPage(page);
+        dialogPage.createNewPage(page);
 
         Page childPage = new Page(FakerUtils.name(), page);
-        mainPage.createNewPage(childPage);
+        dialogPage.createNewPage(childPage);
 
         Page childPage2 = new Page(FakerUtils.name(), page);
-        mainPage.createNewPage(childPage2);
+        dialogPage.createNewPage(childPage2);
         softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
 
         softAssert.assertAll();
@@ -79,7 +79,7 @@ public class AddPageTest extends BrowserTestBase {
     @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
     public void DA_MP_TC019() {
         Page page = new Page(FakerUtils.name(), Page.overviewPage());
-        mainPage.createNewPage(page);
+        dialogPage.createNewPage(page);
         softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
 
         softAssert.assertAll();

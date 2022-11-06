@@ -1,4 +1,4 @@
-package com.auto.test.mainpage;
+package com.auto.test.dialogPage;
 
 import com.auto.model.User;
 import com.auto.page.IHomePage;
