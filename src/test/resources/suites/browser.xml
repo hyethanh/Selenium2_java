@@ -9,15 +9,15 @@
         <parameter name="platform" value="chrome"/>
         <classes>
             <class name="com.auto.test.sanity.LoginPageTest"/>
-<!--            <class name="com.auto.test.sanity.LoginPageNegativeTest"/>-->
+            <class name="com.auto.test.sanity.LoginPageNegativeTest"/>
         </classes>
     </test>
     <test name="dialogPage tests">
         <parameter name="platform" value="chrome"/>
         <classes>
-            <class name="com.auto.test.dialogPage.AddPageTest"/>
-            <class name="com.auto.test.dialogPage.AddPageNegativeTest"/>
-            <class name="com.auto.test.dialogPage.DeletePageTest"/>
+            <class name="com.auto.test.mainpage.AddPageTest"/>
+            <class name="com.auto.test.mainpage.AddPageNegativeTest"/>
+            <class name="com.auto.test.mainpage.DeletePageTest"/>
         </classes>
     </test>
 
