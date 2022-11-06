@@ -28,7 +28,6 @@ public class MainPage implements IMainPage {
     @Step("Click OK to create new page")
     public void clickOKButton() {
         okButton.click();
-        okButton.waitForInvisible();
     }
 
     @Step("Click Cancel to close new page dialog")
@@ -49,6 +48,13 @@ public class MainPage implements IMainPage {
     @Step("Create a new page")
     public void createNewPage(Page page) {
         homePage.openAddPageDialog();
+        enterPageInformationPage(page);
+        clickOKButton();
+        okButton.waitForInvisible();
+    }
+
+    @Step("Enter page information")
+    protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());
         if (!page.getDisplayAfter().isEmpty()) {
             chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
@@ -56,6 +62,5 @@ public class MainPage implements IMainPage {
         if (page.getParent() != null) {
             chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
         }
-        clickOKButton();
     }
 }

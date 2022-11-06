@@ -13,7 +13,7 @@ public interface IHomePage {
 
     void openAddPageDialog();
 
-    boolean ismainPageDialogOpened();
+    boolean isAddPageDialogOpened();
 
     boolean isBesidePage(Page page1, Page page2);
 

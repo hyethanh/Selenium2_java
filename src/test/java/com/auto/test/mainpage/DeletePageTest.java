@@ -63,33 +63,6 @@ public class DeletePageTest extends BrowserTestBase {
         homePage.deletePage(page);
     }
 
-    @Test(description = "Able to add additional sibling pages to the parent page successfully")
-    public void DA_MP_TC018() {
-        Page page = new Page(FakerUtils.name());
-        mainPage.createNewPage(page);
-
-        Page childPage = new Page(FakerUtils.name(), page);
-        mainPage.createNewPage(childPage);
-
-        Page childPage2 = new Page(FakerUtils.name(), page);
-        mainPage.createNewPage(childPage2);
-        softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
-
-        softAssert.assertAll();
-        homePage.deletePage(childPage2);
-        homePage.deletePage(childPage);
-        homePage.deletePage(page);
-    }
-
-    @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
-    public void DA_MP_TC019() {
-        Page page = new Page(FakerUtils.name(), Page.overviewPage());
-        mainPage.createNewPage(page);
-        softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
-
-        softAssert.assertAll();
-        homePage.deletePage(page);
-    }
 
     @Test(description = "Able to delete sibling page as long as that page has not children page under it")
     public void DA_MP_TC020() {

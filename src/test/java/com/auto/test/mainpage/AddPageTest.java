@@ -12,10 +12,12 @@ import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 
 public class AddPageTest extends BrowserTestBase {
 
+    SoftAssert softAssert = new SoftAssert();
     private User user;
     private ILoginPage loginPage;
     private IHomePage homePage;
@@ -44,7 +46,7 @@ public class AddPageTest extends BrowserTestBase {
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
     public void DA_MP_TC012() {
         mainPage.createNewPage(page);
-        Assertion.assertTrue(homePage.isBesidePage(Page.overviewPage(), page),
+        softAssert.assertTrue(homePage.isBesidePage(Page.overviewPage(), page),
                             "A new page does not beside Overview page");
     }
 
@@ -53,6 +55,34 @@ public class AddPageTest extends BrowserTestBase {
     public void DA_MP_TC013() {
         mainPage.createNewPage(page);
         mainPage.createNewPage(secondPage);
-        Assertion.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
+        softAssert.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
+    }
+
+    @Test(description = "Able to add additional sibling pages to the parent page successfully")
+    public void DA_MP_TC018() {
+        Page page = new Page(FakerUtils.name());
+        mainPage.createNewPage(page);
+
+        Page childPage = new Page(FakerUtils.name(), page);
+        mainPage.createNewPage(childPage);
+
+        Page childPage2 = new Page(FakerUtils.name(), page);
+        mainPage.createNewPage(childPage2);
+        softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
+
+        softAssert.assertAll();
+        homePage.deletePage(childPage2);
+        homePage.deletePage(childPage);
+        homePage.deletePage(page);
+    }
+
+    @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
+    public void DA_MP_TC019() {
+        Page page = new Page(FakerUtils.name(), Page.overviewPage());
+        mainPage.createNewPage(page);
+        softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
+
+        softAssert.assertAll();
+        homePage.deletePage(page);
     }
 }

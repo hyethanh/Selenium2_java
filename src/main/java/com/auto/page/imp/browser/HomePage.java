@@ -59,7 +59,7 @@ public class HomePage implements IHomePage {
     }
 
     @Step("Verify click Add Page button")
-    public boolean ismainPageDialogOpened() {
+    public boolean isAddPageDialogOpened() {
         globalSettingTab.hover();
         menuItemButton.set(MenuItem.ADD.value());
         return menuItemButton.isDisplayed();
@@ -86,6 +86,7 @@ public class HomePage implements IHomePage {
     public void deletePage(Page page) {
         moveToPageAndClickDelete(page);
         DriverUtils.acceptAlert();
+        pageTab.waitForInvisible();
     }
 
     @Step("Go to page")
