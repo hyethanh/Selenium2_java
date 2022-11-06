@@ -2,7 +2,7 @@ package com.auto.page;
 
 import com.auto.model.Page;
 
-public interface IMainPage {
+public interface IDialogPage {
     void enterPageName(String value);
 
     void clickOKButton();

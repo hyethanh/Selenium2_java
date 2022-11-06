@@ -2,9 +2,9 @@ package com.auto.test.mainpage;
 
 import com.auto.model.Page;
 import com.auto.model.User;
+import com.auto.page.IDialogPage;
 import com.auto.page.IHomePage;
 import com.auto.page.ILoginPage;
-import com.auto.page.IMainPage;
 import com.auto.page.PageFactory;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.*;
@@ -21,14 +21,14 @@ public class EditPageTest extends BrowserTestBase {
     private User user;
     private ILoginPage loginPage;
     private IHomePage homePage;
-    private IMainPage mainPage;
+    private IDialogPage dialogPage;
 
 
     @BeforeMethod(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
-        mainPage = PageFactory.getMainPage();
+        dialogPage = PageFactory.getDialogPage();
         user = UserUtils.getUser();
 
         loginPage.login(user);
@@ -44,15 +44,15 @@ public class EditPageTest extends BrowserTestBase {
     public void DA_MP_TC021() {
         Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
         Page page2 = new Page(FakerUtils.name(), page1);
-        mainPage.createNewPage(page1);
-        mainPage.createNewPage(page2);
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
 
         homePage.moveToPageAndClickEdit(page1);
         page1.setName(FakerUtils.name());
-        mainPage.editExistedPage(page1);
+        dialogPage.editExistedPage(page1);
         homePage.moveToPageAndClickEdit(page2);
         page2.setName(FakerUtils.name());
-        mainPage.editExistedPage(page2);
+        dialogPage.editExistedPage(page2);
         softAssert.assertTrue(homePage.pageExists(page1), "Verify the old name of first page is replaced successfully");
         softAssert.assertTrue(homePage.pageExists(page2), "Verify the second page is updated successfully");
 
@@ -64,12 +64,12 @@ public class EditPageTest extends BrowserTestBase {
         Page page1 = new Page(FakerUtils.name());
         Page page2 = new Page(FakerUtils.name(), page1);
 
-        mainPage.createNewPage(page1);
-        mainPage.createNewPage(page2);
-        mainPage.createNewPage(page2);
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
+        dialogPage.createNewPage(page2);
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("duplicated.name", page2.getName()));
         DriverUtils.acceptAlert();
-        mainPage.clickCancelButton();
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -79,11 +79,11 @@ public class EditPageTest extends BrowserTestBase {
         Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
         Page page2 = new Page(FakerUtils.name(), page1);
 
-        mainPage.createNewPage(page1);
-        mainPage.createNewPage(page2);
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
         homePage.moveToPageAndClickEdit(page1);
         page1.setName(FakerUtils.name());
-        mainPage.editExistedPage(page1);
+        dialogPage.editExistedPage(page1);
         softAssert.assertTrue(homePage.pageExists(page1), "Verify the old name of parent page has the sibling page is replaced successfully");
 
         softAssert.assertAll();
@@ -94,8 +94,8 @@ public class EditPageTest extends BrowserTestBase {
         Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
         Page page2 = new Page(FakerUtils.name(), page1);
 
-        mainPage.createNewPage(page1);
-        mainPage.createNewPage(page2);
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
         homePage.moveToPage(page1);
         softAssert.assertEquals(DriverUtils.getCurrentPageTitle(), String.format(Constants.PAGE_TITLE_FORMAT,page1.getName()), "The first child page is navigated");
         homePage.moveToPage(page2);
@@ -109,8 +109,8 @@ public class EditPageTest extends BrowserTestBase {
         Page page1 = new Page(FakerUtils.name());
         Page page2 = new Page(FakerUtils.name());
 
-        mainPage.createNewPage(page1);
-        mainPage.createNewPage(page2);
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
         page2.setDisplayAfter(Page.overviewPage().getName());
         homePage.moveToPageAndClickEdit(page2);
         softAssert.assertTrue(homePage.isBesidePage(Page.overviewPage(), page2), "Verify the second page is displayed after Overview page");
@@ -121,10 +121,10 @@ public class EditPageTest extends BrowserTestBase {
     @Test(description = "Page column is correct when user edit 'Number of Columns' field of a specific page")
     public void DA_MP_TC026() {
         Page page = new Page(FakerUtils.name());
-        mainPage.createNewPage(page);
+        dialogPage.createNewPage(page);
         page.setColumn(3);
         homePage.moveToPageAndClickEdit(page);
-        mainPage.editExistedPage(page);
+        dialogPage.editExistedPage(page);
         homePage.moveToPage(page);
         softAssert.assertEquals(homePage.getPageColumns(), page.getColumn(), "Verify page column is correct after updated");
         softAssert.assertAll();

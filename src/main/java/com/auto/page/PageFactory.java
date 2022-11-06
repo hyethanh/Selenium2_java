@@ -3,10 +3,9 @@ package com.auto.page;
 
 import com.auto.page.imp.browser.HomePage;
 import com.auto.page.imp.browser.LoginPage;
-import com.auto.page.imp.browser.MainPage;
+import com.auto.page.imp.browser.DialogPage;
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
-import com.mifmif.common.regex.Main;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +30,8 @@ public class PageFactory {
             put(Constants.BROWSER, HomePage.class);
         }});
 
-        pages.put(Page.Main, new HashMap<String, Class<?>>() {{
-            put(Constants.BROWSER, MainPage.class);
+        pages.put(Page.Dialog, new HashMap<String, Class<?>>() {{
+            put(Constants.BROWSER, DialogPage.class);
         }});
     }
 
@@ -63,14 +62,14 @@ public class PageFactory {
         return get(Page.Home);
     }
 
-    public static IMainPage getMainPage() {
-        return get(Page.Main);
+    public static IDialogPage getDialogPage() {
+        return get(Page.Dialog);
     }
 
 
     private static class Page {
         private static final String Login = "LoginPage";
         private static final String Home = "HomePage";
-        private static final String Main = "MainPage";
+        private static final String Dialog = "DialogPage";
     }
 }

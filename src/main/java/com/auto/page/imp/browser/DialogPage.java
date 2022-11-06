@@ -4,13 +4,12 @@ import com.auto.data.enums.PageCombobox;
 import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.page.IHomePage;
-import com.auto.page.IMainPage;
-import com.auto.utils.DriverUtils;
+import com.auto.page.IDialogPage;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
-public class MainPage implements IMainPage {
+public class DialogPage implements IDialogPage {
 
     private IHomePage homePage = new HomePage() ;
     private Element okButton = new Element(By.id("OK"));
