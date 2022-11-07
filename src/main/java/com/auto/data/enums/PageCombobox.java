@@ -3,7 +3,8 @@ package com.auto.data.enums;
 public enum PageCombobox {
     DISPLAY_AFTER("Display After"),
     PARENT_PAGE("Parent Page"),
-    COLUMNS("Number of Columns");
+    COLUMNS("Number of Columns"),
+    SERIES("Series *");
 
 
     private String value;

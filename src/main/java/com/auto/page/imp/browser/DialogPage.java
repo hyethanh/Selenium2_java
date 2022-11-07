@@ -3,26 +3,36 @@ package com.auto.page.imp.browser;
 import com.auto.data.enums.PageCombobox;
 import com.auto.element.Element;
 import com.auto.model.Page;
+import com.auto.model.Panel;
 import com.auto.page.IHomePage;
 import com.auto.page.IDialogPage;
+import com.auto.page.IPanelPage;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
+import javafx.scene.layout.Pane;
 import org.openqa.selenium.By;
 
 public class DialogPage implements IDialogPage {
 
     private IHomePage homePage = new HomePage() ;
+    private IPanelPage panelPage = new PanelPage();
     private Element okButton = new Element(By.id("OK"));
     private Element cancelButton = new Element(By.id("Cancel"));
     private Element pageNameText = new Element(By.id("name"));
     private Element addPageDialogCombobox = new Element("//td[text()=\"%s\"]/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
-
+    private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
+    private Element panelConfigurationDialogTitle = new Element(By.id("//span[@id='ui-dialog-title-div_panelConfigurationDlg']"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
         pageNameText.enter(value);
+    }
+
+    @Step("Enter panel displayed name")
+    public void enterPanelName(String value) {
+        panelDisplayedName.enter(value);
     }
 
     @Step("Click OK to create new page")
@@ -53,6 +63,18 @@ public class DialogPage implements IDialogPage {
         okButton.waitForInvisible();
     }
 
+    @Step("Create a new panel")
+    public void createNewPanel(Panel panel) {
+        homePage.moveToPanelsPage();
+        panelPage.clickAddNewLink();
+        enterPanelInformation(panel);
+        clickOKButton();
+        okButton.waitForInvisible();
+        panelConfigurationDialogTitle.waitForVisible();
+        clickOKButton();
+        okButton.waitForInvisible();
+    }
+
     @Step("Edit an existed page")
     public void editExistedPage(Page page) {
         enterPageInformationPage(page);
@@ -72,5 +94,11 @@ public class DialogPage implements IDialogPage {
         if (page.getColumn() != 2) {
             chooseComboboxOption(PageCombobox.COLUMNS.value(), Integer.toString(page.getColumn()));
         }
+    }
+
+    @Step("Enter panel information")
+    protected void enterPanelInformation(Panel panel) {
+        enterPanelName(panel.getName());
+        chooseComboboxOption(PageCombobox.SERIES.value(), panel.getChartSeries().value());
     }
 }

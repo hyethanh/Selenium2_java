@@ -41,10 +41,4 @@ public class LoginPage implements ILoginPage {
         loginButton.waitForVisible();
         return loginButton.isDisplayed();
     }
-
-
-    public void input(Element element, String value) {
-        element.clear();
-        element.enter(value);
-    }
 }

@@ -27,7 +27,11 @@ public interface IHomePage {
 
     void moveToPage(Page page);
 
+    void clickChoosePanelButton();
+
     int getPageColumns();
+
+    void moveToPanelsPage();
 
     List<String> getPageIds();
 }
