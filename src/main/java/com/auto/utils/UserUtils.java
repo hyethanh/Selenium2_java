@@ -44,6 +44,13 @@ public class UserUtils {
         return user.get(key).getAsString();
     }
 
+    public static User getUser() {
+        User valid_user = new User();
+        valid_user.username(getUsername("valid.username"));
+        valid_user.password(getPassword("valid.password"));
+        return valid_user;
+    }
+
     public static String getPassword(String key) {
         return user.get(key).getAsString();
     }

@@ -13,7 +13,7 @@ public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
     Configuration config;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     @BeforeMethod
     @Parameters("platform")
     public void beforeAll(@Optional String platform) {
@@ -32,6 +32,7 @@ public class BrowserTestBase {
         Selaium.open("");
     }
 
-    @AfterClass
-    public void afterAll() {}
+    @AfterClass(alwaysRun = true)
+    public void afterAll() {
+    }
 }

@@ -8,8 +8,7 @@ public class Assertion {
 
     public static void assertTrue(boolean condition, String message) {
         try {
-            Assert.assertTrue(condition, message);
-            Allure.step(message);
+            Assert.assertTrue(condition);
         } catch (AssertionError ex) {
             Allure.step(message, Status.FAILED);
             throw ex;
@@ -27,8 +26,7 @@ public class Assertion {
 
     public static void assertEquals(String actual, String expect, String message) {
         try {
-            Assert.assertEquals(actual, expect, message);
-            Allure.step(message);
+            Assert.assertEquals(actual, expect);
         } catch (AssertionError ex) {
             Allure.step(message, Status.FAILED);
             throw ex;
