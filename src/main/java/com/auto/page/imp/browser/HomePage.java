@@ -19,13 +19,14 @@ public class HomePage implements IHomePage {
 
     private Element logoutButton = new Element(By.xpath("//a[text()='Logout']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
-    private Element menuItemButton = new Element("//a[@class='%s']");
+    private Element menuItemButton = new Element("//a[text()='%s']");
     private Element createdTabs = new Element(By.xpath("//li[@class='mn-panels']/preceding-sibling::li//a[not(text()=\"Overview\" or text()=\"Execution\u00A0Dashboard\")]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
     private Element pageBreadcrumb = new Element("//li[contains(@class,'haschild')]/descendant::a");
     private Element pageColumns = new Element(By.xpath("//div[@id='columns']/ul[@class='column ui-sortable']"));
-
+    private Element choosePanelButton = new Element(By.id("btnChoosepanel"));
+    private Element choosePanelTitle = new Element(By.xpath("//div[@class='phead' and text()='Choose panels']"));
 
     protected void hoverOnTab(Page page) {
         if (page.getParent() == null) {
@@ -40,6 +41,12 @@ public class HomePage implements IHomePage {
 
     protected void clickMenuItemButton(String value) {
         globalSettingTab.hover();
+        menuItemButton.set(value);
+        menuItemButton.click();
+    }
+
+    protected void clickAdministerMenuItemButton(String value) {
+        hoverOnTab(new Page(MenuItem.ADMINISTER.value()));
         menuItemButton.set(value);
         menuItemButton.click();
     }
@@ -60,13 +67,13 @@ public class HomePage implements IHomePage {
     @Step("Open add page dialog")
     @Override
     public void openAddPageDialog() {
-        clickMenuItemButton(MenuItem.ADD.value());
+        clickMenuItemButton(MenuItem.ADD_PAGE.value());
     }
 
     @Step("Verify click Add Page button")
     public boolean isAddPageDialogOpened() {
         globalSettingTab.hover();
-        menuItemButton.set(MenuItem.ADD.value());
+        menuItemButton.set(MenuItem.ADD_PAGE.value());
         return menuItemButton.isDisplayed();
     }
 
@@ -91,6 +98,17 @@ public class HomePage implements IHomePage {
     public void moveToPageAndClickEdit(Page page) {
         moveToPage(page);
         clickMenuItemButton(MenuItem.EDIT.value());
+    }
+
+    @Step("Move To Panes Page")
+    public void moveToPanelsPage() {
+        clickAdministerMenuItemButton(MenuItem.PANELS.value());
+    }
+
+    @Step("Go to page panel")
+    public void clickChoosePanelButton() {
+        choosePanelButton.click();
+        choosePanelTitle.waitForVisible();
     }
 
     @Step("Delete page")

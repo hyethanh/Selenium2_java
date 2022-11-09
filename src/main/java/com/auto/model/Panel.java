@@ -1,5 +1,6 @@
 package com.auto.model;
 
+import com.auto.data.enums.*;
 import com.auto.data.enums.ChartSeries;
 import com.auto.data.enums.ChartType;
 import com.auto.data.enums.DataProfile;
@@ -19,4 +20,28 @@ public class Panel {
     private String chartTitle;
     private ChartType chartType;
     private ChartSeries chartSeries;
+    private ChartLegends chartLegends;
+    private DataLabel dataLabel;
+
+    public Panel(String name) {
+        this.type = null;
+        this.dataProfile = null;
+        this.name = name;
+        this.chartTitle = "";
+        this.chartType = null;
+        this.chartSeries = ChartSeries.randomSeries();
+        this.chartLegends = null;
+        this.dataLabel = null;
+    }
+
+    public Panel(String name, ChartSeries chartSeries) {
+        this.type = null;
+        this.dataProfile = null;
+        this.name = name;
+        this.chartTitle = "";
+        this.chartType = null;
+        this.chartSeries = chartSeries;
+        this.chartLegends = null;
+        this.dataLabel = null;
+    }
 }

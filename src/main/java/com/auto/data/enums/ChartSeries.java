@@ -1,5 +1,7 @@
 package com.auto.data.enums;
 
+import java.util.Random;
+
 public enum ChartSeries {
 
     NAME("Name"),
@@ -17,11 +19,17 @@ public enum ChartSeries {
 
     private String value;
 
+    private static final Random random = new Random();
+
     ChartSeries(String value) {
         this.value = value;
     }
 
     public String value() {
         return value;
+    }
+
+    public static ChartSeries randomSeries() {
+        return values()[random.nextInt(values().length)];
     }
 }

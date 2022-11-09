@@ -2,9 +2,12 @@ package com.auto.data.enums;
 
 public enum MenuItem {
 
-    ADD("add"),
-    EDIT("edit"),
-    DELETE("delete"),
+    ADD_PAGE("Add Page"),
+    ADD_PANEL("Add Panel"),
+    EDIT("Edit"),
+    DELETE("Delete"),
+    ADMINISTER("Administer"),
+    PANELS("Panels"),
     ADMINISTRATOR("administrator");
 
     private String value;
