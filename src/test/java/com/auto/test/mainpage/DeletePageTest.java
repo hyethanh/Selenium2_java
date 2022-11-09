@@ -60,6 +60,7 @@ public class DeletePageTest extends BrowserTestBase {
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete child page");
         DriverUtils.acceptAlert();
         softAssert.assertFalse(homePage.pageExists(childPage));
+        homePage.deletePage(page);
 
         softAssert.assertAll();
     }
@@ -72,14 +73,17 @@ public class DeletePageTest extends BrowserTestBase {
         Page page2 = new Page(FakerUtils.name(), page1);
         dialogPage.createNewPage(page2);
 
-        homePage.deletePage(page1);
+        homePage.moveToPageAndClickDelete(page1);
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete page");
+        DriverUtils.acceptAlert();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page1.getName()),"Verify warning message when deleting page has child page(s)");
         DriverUtils.acceptAlert();
 
         homePage.deletePage(page2);
         softAssert.assertFalse(homePage.pageExists(page2),"Verify the child page is deleted successfully");
 
+
         softAssert.assertAll();
-        homePage.deletePage(page1);
+        DriverUtils.deletePage(homePage.getPageIds());
     }
 }

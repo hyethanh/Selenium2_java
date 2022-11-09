@@ -6,6 +6,7 @@ import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
+import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -23,7 +24,6 @@ public class HomePage implements IHomePage {
     private Element createdTabs = new Element(By.xpath("//li[@class='mn-panels']/preceding-sibling::li//a[not(text()=\"Overview\" or text()=\"Execution\u00A0Dashboard\")]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
-    private Element pageBreadcrumb = new Element("//li[contains(@class,'haschild')]/descendant::a");
     private Element pageColumns = new Element(By.xpath("//div[@id='columns']/ul[@class='column ui-sortable']"));
 
 
@@ -111,7 +111,6 @@ public class HomePage implements IHomePage {
         return pageColumns.elements().size();
     }
 
-
     public boolean pageExists(Page page) {
         if (page.getParent() != null) {
             hoverOnTab(page.getParent());
@@ -120,18 +119,13 @@ public class HomePage implements IHomePage {
         return pageTab.isDisplayed() && pageTab.exists();
     }
 
-    protected List<String> getPageNameOfBreadcrumb() {
-        List<String> namePageList = new ArrayList<>();
-        for (WebElement page : pageBreadcrumb.elements()) {
-            namePageList.add(page.getText());
-        }
-        return namePageList;
-    }
-
     public List<String> getPageIds() {
-        List<String> list = createdTabs.elements().stream().map(p -> p.getAttribute("href").split("/"))
-                .map(t -> t[t.length - 1].split("\\.")[0]).collect(Collectors.toList());
-        Collections.reverse(list);
-        return list;
+        if (createdTabs.exists()) {
+            List<String> list = createdTabs.elements().stream().map(p -> p.getAttribute("href").split("/"))
+                    .map(t -> t[t.length - 1].split("\\.")[0]).collect(Collectors.toList());
+            Collections.reverse(list);
+            return list;
+        }
+        return null;
     }
 }

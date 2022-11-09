@@ -43,23 +43,25 @@ public class DriverUtils {
     }
 
     public static void deletePage(List<String> ids) {
-        JavascriptExecutor js = Selaium.remoteWebDriver();
-        for (String id : ids) {
-            js.executeScript(String.format("$.ajax( {\n" +
-                    "\t\t\t\ttype : \"POST\",\n" +
-                    "\t\t\t\turl : \"deletepage.do\",\n" +
-                    "\t\t\t\tdata : $.param({\"id\" : \"%s\"}),\n" +
-                    "\t\t\t\terror : function(request, textStatus, errorThrown) {\n" +
-                    "\t\t\t\t\talert(MSG_CANNOT_CONNECT_TO_SERVER);\n" +
-                    "\t\t\t\t},\n" +
-                    "\t\t\t\tsuccess : function(receive) {\n" +
-                    "\t\t\t\t\tif (receive.substring(0, 2) == CONST_OK) {\n" +
-                    "\t\t\t\t\t\tdocument.location = receive.substring(3, receive.length);\n" +
-                    "\t\t\t\t\t} else {\n" +
-                    "\t\t\t\t\t\tDashboard.handleReturnError(receive);\n" +
-                    "\t\t\t\t\t}\n" +
-                    "\t\t\t\t}\n" +
-                    "\t\t\t});", id));
+        if (ids != null) {
+            JavascriptExecutor js = Selaium.remoteWebDriver();
+            for (String id : ids) {
+                js.executeScript(String.format("$.ajax( {\n" +
+                        "\t\t\t\ttype : \"POST\",\n" +
+                        "\t\t\t\turl : \"deletepage.do\",\n" +
+                        "\t\t\t\tdata : $.param({\"id\" : \"%s\"}),\n" +
+                        "\t\t\t\terror : function(request, textStatus, errorThrown) {\n" +
+                        "\t\t\t\t\talert(MSG_CANNOT_CONNECT_TO_SERVER);\n" +
+                        "\t\t\t\t},\n" +
+                        "\t\t\t\tsuccess : function(receive) {\n" +
+                        "\t\t\t\t\tif (receive.substring(0, 2) == CONST_OK) {\n" +
+                        "\t\t\t\t\t\tdocument.location = receive.substring(3, receive.length);\n" +
+                        "\t\t\t\t\t} else {\n" +
+                        "\t\t\t\t\t\tDashboard.handleReturnError(receive);\n" +
+                        "\t\t\t\t\t}\n" +
+                        "\t\t\t\t}\n" +
+                        "\t\t\t});", id));
+            }
         }
     }
 
