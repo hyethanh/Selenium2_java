@@ -8,9 +8,7 @@ import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -136,14 +134,6 @@ public class HomePage implements IHomePage {
         }
         pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
         return pageTab.isDisplayed() && pageTab.exists();
-    }
-
-    protected List<String> getPageNameOfBreadcrumb() {
-        List<String> namePageList = new ArrayList<>();
-        for (WebElement page : pageBreadcrumb.elements()) {
-            namePageList.add(page.getText());
-        }
-        return namePageList;
     }
 
     public List<String> getPageIds() {

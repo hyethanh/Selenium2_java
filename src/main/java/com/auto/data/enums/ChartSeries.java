@@ -9,7 +9,7 @@ public enum ChartSeries {
     DESCRIPTION("Description"),
     REVISION_TIMESTAMP("Revision Timestamp"),
     ASSIGNED_USER("Assigned user"),
-    STATUS("  Status"),
+    STATUS("Status"),
     LAST_UPDATE_DATE("Last update date"),
     LAST_UPDATE_BY("Last updated by"),
     CREATION_DATE("Creation date"),
@@ -26,7 +26,7 @@ public enum ChartSeries {
     }
 
     public String value() {
-        return value;
+        return "\u00A0 "+value;
     }
 
     public static ChartSeries randomSeries() {

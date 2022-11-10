@@ -42,6 +42,7 @@ public class PanelTest extends BrowserTestBase {
 
     @AfterClass(alwaysRun = true)
     public void after() {
+        DriverUtils.deletePanel(panelPage.getPanelIds());
         Selaium.closeWebDriver();
     }
 
@@ -81,6 +82,7 @@ public class PanelTest extends BrowserTestBase {
 
         homePage.moveToPanelsPage();
         panelPage.clickAddNewLink();
+        System.out.println(invalidNamePanel.getChartSeries().value());
         dialogPage.enterPanelInformation(invalidNamePanel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.name"),
@@ -89,7 +91,10 @@ public class PanelTest extends BrowserTestBase {
 
         dialogPage.enterPanelInformation(validNamePanel);
         dialogPage.clickOKButton();
-        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validNamePanel), "New created panel does not displayed in table");
+        dialogPage.waitToCreatePanelDialogClose();
+        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validNamePanel),
+                              String.format("New created panel '%s' does not displayed in table", validNamePanel.getName()));
+
         softAssert.assertAll();
     }
 }

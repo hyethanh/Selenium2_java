@@ -16,6 +16,8 @@ public interface IDialogPage {
 
     void createNewPanel(Panel panel);
 
+    void waitToCreatePanelDialogClose();
+
     void editExistedPage(Page page);
 
     void enterPanelInformation(Panel panel);

@@ -9,7 +9,6 @@ import com.auto.page.IDialogPage;
 import com.auto.page.IPanelPage;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
-import javafx.scene.layout.Pane;
 import org.openqa.selenium.By;
 
 public class DialogPage implements IDialogPage {
@@ -21,11 +20,11 @@ public class DialogPage implements IDialogPage {
     private Element pageNameText = new Element(By.id("name"));
     private Element dialogCombobox = new Element("//td[text()=\"%s\"]/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
-    private Element addSeriesPanelComboboxOption = new Element(By.xpath("//select[@id='cbbSeriesField']/optgroup/option"));
+    private Element addSeriesPanelComboboxOption = new Element(By.xpath("//select[@id='cbbSeriesField']//option[not (text()='Select a field...' )]"));
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
-    private Element addSeriesPanelComboboxOptionWithText = new Element("//select[@id='cbbSeriesField']/optgroup/option[text()=\"%s\"]");
+    private Element addSeriesPanelComboboxOptionWithText = new Element("//select[@id='cbbSeriesField']//option[not (text()='Select a field...' ) and text()=\"%s\"]");
     private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
-    private Element panelConfigurationDialogTitle = new Element(By.id("//span[@id='ui-dialog-title-div_panelConfigurationDlg']"));
+    private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -82,6 +81,7 @@ public class DialogPage implements IDialogPage {
         panelPage.clickAddNewLink();
         enterPanelInformation(panel);
         clickOKButton();
+        okButton.waitForInvisible();
     }
 
     @Step("Edit an existed page")
@@ -91,6 +91,10 @@ public class DialogPage implements IDialogPage {
         okButton.waitForInvisible();
     }
 
+    @Step("Wait to close add new panel dialog close")
+    public void waitToCreatePanelDialogClose() {
+        addNewPanelDialog.waitForInvisible();
+    }
     @Step("Enter page information")
     protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());
