@@ -71,9 +71,6 @@ public class AddPageTest extends BrowserTestBase {
         softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
 
         softAssert.assertAll();
-        homePage.deletePage(childPage2);
-        homePage.deletePage(childPage);
-        homePage.deletePage(page);
     }
 
     @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
@@ -83,6 +80,5 @@ public class AddPageTest extends BrowserTestBase {
         softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
 
         softAssert.assertAll();
-        homePage.deletePage(page);
     }
 }
