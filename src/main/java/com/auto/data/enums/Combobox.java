@@ -1,15 +1,16 @@
 package com.auto.data.enums;
 
-public enum PageCombobox {
+public enum Combobox {
     DISPLAY_AFTER("Display After"),
     PARENT_PAGE("Parent Page"),
     COLUMNS("Number of Columns"),
-    SERIES("Series *");
+    SERIES("Series *"),
+    DATA_PROFILE("Data Profile");
 
 
     private String value;
 
-    PageCombobox(String value) {
+    Combobox(String value) {
         this.value = value;
     }
 

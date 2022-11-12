@@ -32,7 +32,7 @@ public interface IHomePage {
 
     int getPageColumns();
 
-    void moveToPanelsPage();
+    void moveToPanelItemPage(String value);
 
     List<String> getPageIds();
 }

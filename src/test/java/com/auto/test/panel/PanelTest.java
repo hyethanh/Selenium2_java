@@ -1,5 +1,7 @@
 package com.auto.test.panel;
 
+import com.auto.data.enums.Combobox;
+import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.PanelType;
 import com.auto.model.Panel;
 import com.auto.model.User;
@@ -11,12 +13,14 @@ import com.auto.utils.MessageLoader;
 import com.auto.utils.UserUtils;
 import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
+import javafx.scene.layout.Pane;
 import lombok.extern.java.Log;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.awt.*;
 import java.util.logging.Logger;
 
 
@@ -44,13 +48,13 @@ public class PanelTest extends BrowserTestBase {
     @AfterClass(alwaysRun = true)
     public void after() {
         DriverUtils.deletePanel(panelPage.getPanelIds());
-        Selaium.closeWebDriver();
+        Selaium.driver().close();
     }
 
     @Test(description = "'Add New Panel' form is on focused all other control/form is disabled or locked.")
     public void DA_PANEL_TC028() {
-        homePage.moveToPanelsPage();
-        panelPage.clickAddNewLink();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         softAssert.assertFalse(homePage.isAddPageDialogOpened(), "Add Page Dialog is opened");
         homePage.logout();
         softAssert.assertFalse(loginPage.isLoginButtonDisplayed(), "User is at Login Page");
@@ -62,8 +66,8 @@ public class PanelTest extends BrowserTestBase {
         Panel blankSeriesPanel = new Panel(FakerUtils.name(), null);
         Panel blankNamePanel = new Panel("");
 
-        homePage.moveToPanelsPage();
-        panelPage.clickAddNewLink();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         dialogPage.enterPanelInformation(blankSeriesPanel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.series"), "No alert for blank series displays");
@@ -81,8 +85,8 @@ public class PanelTest extends BrowserTestBase {
         Panel invalidNamePanel = new Panel(FakerUtils.name()+"#$%");
         Panel validNamePanel = new Panel(FakerUtils.name()+"@");
 
-        homePage.moveToPanelsPage();
-        panelPage.clickAddNewLink();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         dialogPage.enterPanelInformation(invalidNamePanel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.name"),
@@ -100,13 +104,48 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Correct panel setting form is displayed with corresponding panel type selected")
     public void DA_PANEL_TC031() {
-//        Panel panel = new Panel(FakerUtils.name());
-        homePage.moveToPanelsPage();
-        panelPage.clickAddNewLink();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.CHART.value()), "Chart Type is not displayed above Display Name");
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.INDICATOR.value()), "Indicator Type is not displayed above Display Name");
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.REPORT.value()), "Report Type is not displayed above Display Name");
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.HEAT_MAP.value()), "Heat Map Type is not displayed above Display Name");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "User is not allowed to create panel with duplicated 'Display Name'")
+    public void DA_PANEL_TC032() {
+        Panel panel1 = new Panel(FakerUtils.name());
+        Panel panel2 = new Panel(panel1.getName());
+
+        dialogPage.createNewPanel(panel1);
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        dialogPage.enterPanelInformation(panel2);
+        dialogPage.clickOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(),
+                                MessageLoader.getMessage("duplicated.name", String.format(panel1.getName())),
+                        "The second panel is created successfully");
+        DriverUtils.acceptAlert();
+        dialogPage.clickCancelButton();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "'Data Profile' listing of 'Add New Panel' and 'Edit Panel' control/form are in alphabetical order")
+    public void DA_PANEL_TC033() {
+        Panel panel = new Panel(FakerUtils.name());
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
+        softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
+                      "Data Profile is not listing in alphabetical order when adding new panel");
+        dialogPage.clickCancelButton();
+        dialogPage.createNewPanel(panel);
+        panelPage.clickLinkButton(MenuItem.EDIT.value());
+        dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
+        softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
+                "Data Profile is not listing in alphabetical order when editing an existed panel");
 
         softAssert.assertAll();
     }

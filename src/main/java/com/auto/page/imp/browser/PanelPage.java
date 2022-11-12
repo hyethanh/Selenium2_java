@@ -12,13 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PanelPage implements IPanelPage {
-    private Element addNewLink = new Element(By.linkText("Add New"));
+    private Element linkButton = new Element("//a[text()='%s']");
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
 
     @Step("Click Add New link to create a new panel")
-    public void clickAddNewLink() {
-        addNewLink.click();
+    public void clickLinkButton(String value) {
+        linkButton.set(value);
+        linkButton.click();
     }
 
     @Step("Verify table has the created panel")

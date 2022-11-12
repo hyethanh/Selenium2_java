@@ -1,7 +1,7 @@
 package com.auto.page.imp.browser;
 
-import com.auto.data.enums.ChartType;
-import com.auto.data.enums.PageCombobox;
+import com.auto.data.enums.MenuItem;
+import com.auto.data.enums.Combobox;
 import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.model.Panel;
@@ -9,9 +9,13 @@ import com.auto.page.IHomePage;
 import com.auto.page.IDialogPage;
 import com.auto.page.IPanelPage;
 import com.auto.utils.StringUtils;
+import com.google.common.collect.Ordering;
 import io.qameta.allure.Step;
-import javafx.scene.chart.Chart;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DialogPage implements IDialogPage {
 
@@ -22,9 +26,9 @@ public class DialogPage implements IDialogPage {
     private Element pageNameText = new Element(By.id("name"));
     private Element dialogCombobox = new Element("//td[text()=\"%s\"]/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
-    private Element addSeriesPanelComboboxOption = new Element(By.xpath("//select[@id='cbbSeriesField']//option[not (text()='Select a field...' )]"));
+    private Element panelComboboxOption = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' )]");
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
-    private Element addSeriesPanelComboboxOptionWithText = new Element("//select[@id='cbbSeriesField']//option[not (text()='Select a field...' ) and text()=\"%s\"]");
+    private Element panelComboboxOptionWithText = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' ) and text()=\"%s\"]");
     private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
@@ -64,10 +68,11 @@ public class DialogPage implements IDialogPage {
     public void chooseComboBoxPanelPage(String comboBoxName, String option) {
         dialogCombobox.set(comboBoxName);
         dialogCombobox.click();
-        addSeriesPanelComboboxOption.waitForVisible();
+        panelComboboxOption.set(comboBoxName);
+        panelComboboxOption.waitForVisible();
 
         dialogCombobox.select(option);
-        addSeriesPanelComboboxOptionWithText.set(StringUtils.replaceSpaceCharWithNBSP(option));
+        panelComboboxOptionWithText.set(comboBoxName, StringUtils.replaceSpaceCharWithNBSP(option));
     }
 
     @Step("Create a new page")
@@ -80,8 +85,8 @@ public class DialogPage implements IDialogPage {
 
     @Step("Create a new panel")
     public void createNewPanel(Panel panel) {
-        homePage.moveToPanelsPage();
-        panelPage.clickAddNewLink();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         enterPanelInformation(panel);
         clickOKButton();
         okButton.waitForInvisible();
@@ -110,13 +115,13 @@ public class DialogPage implements IDialogPage {
     protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());
         if (!page.getDisplayAfter().isEmpty()) {
-            chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
+            chooseComboboxOption(Combobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
         }
         if (page.getParent() != null) {
-            chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
+            chooseComboboxOption(Combobox.PARENT_PAGE.value(), page.getParent().getName());
         }
         if (page.getColumn() != 2) {
-            chooseComboboxOption(PageCombobox.COLUMNS.value(), Integer.toString(page.getColumn()));
+            chooseComboboxOption(Combobox.COLUMNS.value(), Integer.toString(page.getColumn()));
         }
     }
 
@@ -124,7 +129,26 @@ public class DialogPage implements IDialogPage {
     public void enterPanelInformation(Panel panel) {
         enterPanelName(panel.getName());
         if (panel.getChartSeries() != null) {
-            chooseComboBoxPanelPage(PageCombobox.SERIES.value(), panel.getChartSeries().value());
+            chooseComboBoxPanelPage(Combobox.SERIES.value(), panel.getChartSeries().value());
         }
+    }
+
+    @Step("Open Add New Panel dialog's combobox")
+    public void clickAddNewPanelDialogComBoBox(String value) {
+        dialogCombobox.set(value);
+        dialogCombobox.click();
+        panelComboboxOption.set(value);
+        panelComboboxOption.waitForVisible();
+    }
+
+    @Step("Verify list is sorted alphabetically")
+    public boolean comboboxOptionsSortedAlphabetically(String comboboxName) {
+        List<String> list = new ArrayList<>();
+
+        panelComboboxOption.set(comboboxName);
+        for(WebElement element : panelComboboxOption.elements()) {
+            list.add(element.getText());
+        }
+        return Ordering.natural().isOrdered(list);
     }
 }

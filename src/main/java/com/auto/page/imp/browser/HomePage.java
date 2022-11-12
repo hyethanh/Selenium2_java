@@ -98,8 +98,8 @@ public class HomePage implements IHomePage {
     }
 
     @Step("Move To Panes Page")
-    public void moveToPanelsPage() {
-        clickAdministerMenuItemButton(MenuItem.PANELS.value());
+    public void moveToPanelItemPage(String value) {
+        clickAdministerMenuItemButton(value);
     }
 
     @Step("Go to page panel")

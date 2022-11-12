@@ -8,6 +8,8 @@ public enum MenuItem {
     DELETE("Delete"),
     ADMINISTER("Administer"),
     PANELS("Panels"),
+    DATA_PROFILES("Data Profiles"),
+    ADD_NEW("Add New"),
     ADMINISTRATOR("administrator");
 
     private String value;

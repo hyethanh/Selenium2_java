@@ -13,6 +13,8 @@ public interface IDialogPage {
 
     void chooseComboboxOption(String value, String args);
 
+    void clickAddNewPanelDialogComBoBox(String value);
+
     void createNewPage(Page page);
 
     void createNewPanel(Panel panel);
@@ -22,6 +24,8 @@ public interface IDialogPage {
     void editExistedPage(Page page);
 
     boolean isPanelSettingDisplayed(String value);
+
+    boolean comboboxOptionsSortedAlphabetically(String comboboxName);
 
     void enterPanelInformation(Panel panel);
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IPanelPage {
 
-    void clickAddNewLink();
+    void clickLinkButton(String value);
 
     boolean isPanelDisplayedInTable(Panel panel);
 
