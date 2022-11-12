@@ -1,5 +1,6 @@
 package com.auto.page;
 
+import com.auto.data.enums.ChartType;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 
@@ -19,6 +20,8 @@ public interface IDialogPage {
     void waitToCreatePanelDialogClose();
 
     void editExistedPage(Page page);
+
+    boolean isPanelSettingDisplayed(String value);
 
     void enterPanelInformation(Panel panel);
 }

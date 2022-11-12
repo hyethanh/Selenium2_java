@@ -6,7 +6,6 @@ import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
-import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 

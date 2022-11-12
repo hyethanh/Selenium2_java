@@ -36,7 +36,10 @@ public class PanelPage implements IPanelPage {
     }
 
     public List<String> getPanelIds() {
-        List<String> list = createdPanels.elements().stream().map(p -> p.getAttribute("value")).collect(Collectors.toList());
-        return list;
+        if (createdPanels.exists()) {
+            List<String> list = createdPanels.elements().stream().map(p -> p.getAttribute("value")).collect(Collectors.toList());
+            return list;
+        }
+        return null;
     }
 }

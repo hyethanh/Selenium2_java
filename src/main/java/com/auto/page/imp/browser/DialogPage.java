@@ -1,5 +1,6 @@
 package com.auto.page.imp.browser;
 
+import com.auto.data.enums.ChartType;
 import com.auto.data.enums.PageCombobox;
 import com.auto.element.Element;
 import com.auto.model.Page;
@@ -9,6 +10,7 @@ import com.auto.page.IDialogPage;
 import com.auto.page.IPanelPage;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
+import javafx.scene.chart.Chart;
 import org.openqa.selenium.By;
 
 public class DialogPage implements IDialogPage {
@@ -25,6 +27,7 @@ public class DialogPage implements IDialogPage {
     private Element addSeriesPanelComboboxOptionWithText = new Element("//select[@id='cbbSeriesField']//option[not (text()='Select a field...' ) and text()=\"%s\"]");
     private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
+    private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -95,6 +98,14 @@ public class DialogPage implements IDialogPage {
     public void waitToCreatePanelDialogClose() {
         addNewPanelDialog.waitForInvisible();
     }
+
+    @Step("Verify Panel Setting Form displays above Display Name")
+    public boolean isPanelSettingDisplayed(String value) {
+        panelSettingForm.set(value);
+        return panelSettingForm.isDisplayed();
+    }
+
+
     @Step("Enter page information")
     protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());

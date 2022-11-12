@@ -1,5 +1,6 @@
 package com.auto.test.panel;
 
+import com.auto.data.enums.PanelType;
 import com.auto.model.Panel;
 import com.auto.model.User;
 import com.auto.page.*;
@@ -82,7 +83,6 @@ public class PanelTest extends BrowserTestBase {
 
         homePage.moveToPanelsPage();
         panelPage.clickAddNewLink();
-        System.out.println(invalidNamePanel.getChartSeries().value());
         dialogPage.enterPanelInformation(invalidNamePanel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.name"),
@@ -94,6 +94,19 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.waitToCreatePanelDialogClose();
         softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validNamePanel),
                               String.format("New created panel '%s' does not displayed in table", validNamePanel.getName()));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Correct panel setting form is displayed with corresponding panel type selected")
+    public void DA_PANEL_TC031() {
+//        Panel panel = new Panel(FakerUtils.name());
+        homePage.moveToPanelsPage();
+        panelPage.clickAddNewLink();
+        softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.CHART.value()), "Chart Type is not displayed above Display Name");
+        softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.INDICATOR.value()), "Indicator Type is not displayed above Display Name");
+        softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.REPORT.value()), "Report Type is not displayed above Display Name");
+        softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.HEAT_MAP.value()), "Heat Map Type is not displayed above Display Name");
 
         softAssert.assertAll();
     }

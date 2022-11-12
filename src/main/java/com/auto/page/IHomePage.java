@@ -1,6 +1,7 @@
 package com.auto.page;
 
 
+import com.auto.data.enums.ChartType;
 import com.auto.model.Page;
 
 import java.util.List;
