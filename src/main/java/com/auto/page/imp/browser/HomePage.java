@@ -97,7 +97,7 @@ public class HomePage implements IHomePage {
         clickMenuItemButton(MenuItem.EDIT.value());
     }
 
-    @Step("Move To Panes Page")
+    @Step("Move To Panel Page")
     public void moveToPanelItemPage(String value) {
         clickAdministerMenuItemButton(value);
     }

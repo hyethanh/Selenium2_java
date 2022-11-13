@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PanelPage implements IPanelPage {
+
+    private Element profileNameTextBox = new Element(By.id("txtProfileName"));
+    private Element finishButton = new Element(By.xpath("//input[@value='Finish']"));
     private Element linkButton = new Element("//a[text()='%s']");
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
@@ -34,6 +37,17 @@ public class PanelPage implements IPanelPage {
             }
         }
         return false;
+    }
+
+    @Step("Enter profile name")
+    public void enterProfileName(String value) {
+        profileNameTextBox.enter(value);
+    }
+
+    @Step("Click Finish button")
+    public void clickFinishButton() {
+        finishButton.click();
+        finishButton.waitForInvisible();
     }
 
     public List<String> getPanelIds() {

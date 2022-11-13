@@ -3,6 +3,7 @@ package com.auto.test.panel;
 import com.auto.data.enums.Combobox;
 import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.PanelType;
+import com.auto.model.DataProfile;
 import com.auto.model.Panel;
 import com.auto.model.User;
 import com.auto.page.*;
@@ -140,6 +141,30 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
         softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
                       "Data Profile is not listing in alphabetical order when adding new panel");
+        dialogPage.clickCancelButton();
+        dialogPage.createNewPanel(panel);
+        panelPage.clickLinkButton(MenuItem.EDIT.value());
+        dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
+        softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
+                "Data Profile is not listing in alphabetical order when editing an existed panel");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Newly created data profiles are populated correctly under the 'Data Profile' dropped down menu in  'Add New Panel' and 'Edit Panel' control/form")
+    public void DA_PANEL_TC034() {
+        DataProfile profile = new DataProfile(FakerUtils.name());
+        Panel panel = new Panel(FakerUtils.name());
+
+        homePage.moveToPanelItemPage(MenuItem.DATA_PROFILES.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        panelPage.enterProfileName(profile.getName());
+        panelPage.clickFinishButton();
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
+        softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
+                "Data Profile is not listing in alphabetical order when adding new panel");
         dialogPage.clickCancelButton();
         dialogPage.createNewPanel(panel);
         panelPage.clickLinkButton(MenuItem.EDIT.value());

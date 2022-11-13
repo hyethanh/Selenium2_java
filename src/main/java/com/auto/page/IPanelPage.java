@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface IPanelPage {
 
+    void enterProfileName(String value);
+
+    void clickFinishButton();
+
     void clickLinkButton(String value);
 
     boolean isPanelDisplayedInTable(Panel panel);
