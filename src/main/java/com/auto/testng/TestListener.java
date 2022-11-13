@@ -13,6 +13,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.util.Properties;
 
 
@@ -38,21 +39,15 @@ public class TestListener implements ITestListener {
         Properties properties = new Properties();
         properties.putAll(ExecutionContext.getEnvironments());
         FileUtils.savePropertiesToFile(properties, Constants.ENV_ALLURE_FILE);
+
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         try {
-            if (Selaium.driverContainer().isAlive()) {
-                ByteArrayInputStream input = new ByteArrayInputStream(Selaium.takeScreenShot(OutputType.BYTES));
-                Allure.addAttachment("screenShot", input);
-            }
-            if (result.getThrowable() instanceof AssertionError) {
-                // Submit bugs to Jira automatically
+            File f = Selaium.takeScreenShot(OutputType.FILE);
+            FileUtils.copyFile(f, new File(Constants.SCREENSHOT + System.nanoTime() + ".png"));
 
-                // Submit test result into TestRail
-                addResultTestRail(result);
-            }
         } catch (Exception ex) {
             log.error("Error occurred", ex);
         }

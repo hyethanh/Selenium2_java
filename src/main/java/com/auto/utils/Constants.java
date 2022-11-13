@@ -6,6 +6,7 @@ import java.util.Map;
 public class Constants {
     public static final Map<String, String> ConfigFiles = new HashMap<>();
     public static final String ENV_ALLURE_FILE = "allure-results/environment.properties";
+    public static final String SCREENSHOT = "screenshots/failure_";
     public static final String BROWSER = "chrome";
     public static final String ACCOUNT = "account";
     public static final String TEST_RAIL = "testrail";
