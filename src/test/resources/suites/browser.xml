@@ -20,5 +20,4 @@
             <class name="com.auto.test.mainpage.DeletePageTest"/>
         </classes>
     </test>
-
 </suite>
