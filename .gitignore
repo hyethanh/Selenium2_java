@@ -16,6 +16,7 @@ allure-results/
 
 # Package Files #
 *.jar
+!selenium-core-0.0.4.jar
 *.war
 *.nar
 *.ear
