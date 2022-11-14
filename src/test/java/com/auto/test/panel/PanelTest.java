@@ -1,5 +1,6 @@
 package com.auto.test.panel;
 
+import com.auto.data.enums.ChartSeries;
 import com.auto.data.enums.Combobox;
 import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.PanelType;
@@ -64,7 +65,7 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Unable to create new panel when (*) required field is not filled")
     public void DA_PANEL_TC029() {
-        Panel blankSeriesPanel = new Panel(FakerUtils.name(), null);
+        Panel blankSeriesPanel = new Panel(FakerUtils.name(), (ChartSeries) null);
         Panel blankNamePanel = new Panel("");
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
@@ -171,6 +172,25 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
         softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
                 "Data Profile is not listing in alphabetical order when editing an existed panel");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "No special character except '@' character is allowed to be inputted into 'Chart Title' field")
+    public void DA_PANEL_TC035() {
+        Panel invalidTitlePanel = new Panel(FakerUtils.name(), FakerUtils.title() + "#$%");
+        Panel validPanel = new Panel(FakerUtils.name()+"@", FakerUtils.title()+"@");
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        dialogPage.enterPanelInformation(invalidTitlePanel);
+        dialogPage.clickOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.title"),
+                String.format("New created panel '%s' does not displayed in table", invalidTitlePanel.getName()));
+        DriverUtils.acceptAlert();
+        dialogPage.clickCancelButton();
+        dialogPage.createNewPanel(validPanel);
+        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validPanel),
+                String.format("New created panel '%s' does not displayed in table", validPanel.getName()));
 
         softAssert.assertAll();
     }

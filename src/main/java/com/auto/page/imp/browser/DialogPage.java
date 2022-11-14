@@ -30,6 +30,7 @@ public class DialogPage implements IDialogPage {
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
     private Element panelComboboxOptionWithText = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' ) and text()=\"%s\"]");
     private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
+    private Element panelChartTitleTextBox = new Element(By.id("txtChartTitle"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
 
@@ -130,6 +131,9 @@ public class DialogPage implements IDialogPage {
         enterPanelName(panel.getName());
         if (panel.getChartSeries() != null) {
             chooseComboBoxPanelPage(Combobox.SERIES.value(), panel.getChartSeries().value());
+        }
+        if (!panel.getChartTitle().isEmpty()) {
+            panelChartTitleTextBox.enter(panel.getChartTitle());
         }
     }
 

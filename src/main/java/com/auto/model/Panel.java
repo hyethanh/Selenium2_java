@@ -44,4 +44,15 @@ public class Panel {
         this.chartLegends = null;
         this.dataLabel = null;
     }
+
+    public Panel(String name, String chartTitle) {
+        this.type = null;
+        this.dataProfile = null;
+        this.name = name;
+        this.chartTitle = chartTitle;
+        this.chartType = null;
+        this.chartSeries = ChartSeries.randomSeries();
+        this.chartLegends = null;
+        this.dataLabel = null;
+    }
 }

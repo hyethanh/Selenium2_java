@@ -6,5 +6,6 @@
   "duplicated.name": "%s already exists. Please enter a different name.",
   "blank.name.panel": "Display Name is a required field.",
   "blank.series": "Series is a required field.",
-  "invalid.name": "Invalid display name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;"
+  "invalid.name": "Invalid display name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;",
+  "invalid.title": "Invalid title name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;"
 }
