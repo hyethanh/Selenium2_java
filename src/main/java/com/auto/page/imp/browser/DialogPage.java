@@ -38,6 +38,7 @@ public class DialogPage implements IDialogPage {
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
     private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
+    private Element captionTextBox = new Element(By.id("txtValueYAxis"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -128,6 +129,12 @@ public class DialogPage implements IDialogPage {
         if (!panel.getChartTitle().isEmpty()) {
             panelChartTitleTextBox.enter(panel.getChartTitle());
         }
+        if (panel.getChartType() != null) {
+            chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), panel.getChartType().value());
+        }
+        if (panel.getDataProfile() != null) {
+            chooseComboBoxPanelPage(Combobox.DATA_PROFILE.value(), panel.getDataProfile().value());
+        }
     }
 
     @Step("Open Add New Panel dialog's combobox")
@@ -166,5 +173,15 @@ public class DialogPage implements IDialogPage {
         panelComboboxOption.set(Combobox.CHART_TYPE.value());
         List<String> list = Arrays.stream(ChartType.values()).map(ChartType::value).collect(Collectors.toList());
         return list.containsAll(panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList())) && panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList()).containsAll(list);
+    }
+
+    @Step("Verify Combobox in Chart Settings is enabled or not")
+    public boolean isComboboxEnabled(String comboboxName) {
+        dialogCombobox.set(comboboxName);
+        return dialogCombobox.isEnabled();
+    }
+    @Step("Verify Caption text box in Chart Settings is enabled or not")
+    public boolean isCaptionTextBoxEnabled() {
+        return captionTextBox.isEnabled();
     }
 }

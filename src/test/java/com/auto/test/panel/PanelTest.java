@@ -13,15 +13,11 @@ import com.auto.utils.FakerUtils;
 import com.auto.utils.MessageLoader;
 import com.auto.utils.UserUtils;
 import com.logigear.statics.Selaium;
-import io.qameta.allure.Step;
-import javafx.scene.layout.Pane;
-import lombok.extern.java.Log;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.awt.*;
 import java.util.logging.Logger;
 
 
@@ -202,6 +198,41 @@ public class PanelTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         dialogPage.clickCreateNewPanelButton();
         softAssert.assertTrue(dialogPage.chartTypeComoboxOptionsIsFullyListed());
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Category, Series and Caption field are enabled and disabled correctly corresponding to each type of the Chart Type")
+    public void DA_PANEL_TC037() {
+        Page page = new Page(FakerUtils.name());
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+
+        dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.PIE.value());
+        softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is disabled with PIE type");
+        softAssert.assertFalse(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is disabled with PIE type");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with PIE type");
+
+        dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.SINGLE_BAR.value());
+        softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is disabled with SINGLE BAR type");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with SINGLE BAR type");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with SINGLE BAR type");
+
+        dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.STACKED_BAR.value());
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is enabled with STACKED BAR type");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with STACKED BAR type");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with STACKED BAR type");
+
+        dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.GROUP_BAR.value());
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is enabled with GROUP BAR type");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with GROUP BAR type");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with GROUP BAR type");
+
+        dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.LINE.value());
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is enabled with LINE type");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with LINE type");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with LINE type");
 
         softAssert.assertAll();
     }

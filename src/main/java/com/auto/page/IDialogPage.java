@@ -13,6 +13,8 @@ public interface IDialogPage {
 
     void chooseComboboxOption(String value, String args);
 
+    void chooseComboBoxPanelPage(String comboBoxName, String option);
+
     void clickAddNewPanelDialogComBoBox(String value);
 
     void createNewPage(Page page);
@@ -32,4 +34,8 @@ public interface IDialogPage {
     void clickCreateNewPanelButton();
 
     boolean chartTypeComoboxOptionsIsFullyListed();
+
+    boolean isComboboxEnabled(String comboboxName);
+
+    boolean isCaptionTextBoxEnabled();
 }

@@ -5,6 +5,7 @@ public enum Combobox {
     PARENT_PAGE("Parent Page"),
     COLUMNS("Number of Columns"),
     SERIES("Series *"),
+    CATEGORY("Category *"),
     DATA_PROFILE("Data Profile"),
     CHART_TYPE("Chart Type");
 

@@ -1,6 +1,6 @@
 package com.auto.data.enums;
 
-public enum DataProfile {
+public enum DataProfiles {
 
     ACTION_BY_STATUS("Action Implementation By Status"),
     FUNCTIONAL_TESTS("Functional Tests"),
@@ -24,7 +24,7 @@ public enum DataProfile {
 
     private String value;
 
-    DataProfile(String value) {
+    DataProfiles(String value) {
         this.value = value;
     }
 
