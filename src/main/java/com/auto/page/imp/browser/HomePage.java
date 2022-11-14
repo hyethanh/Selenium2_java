@@ -102,7 +102,7 @@ public class HomePage implements IHomePage {
         clickAdministerMenuItemButton(value);
     }
 
-    @Step("Go to page panel")
+    @Step("Open Choose Panel Dialog")
     public void clickChoosePanelButton() {
         choosePanelButton.click();
         choosePanelTitle.waitForVisible();

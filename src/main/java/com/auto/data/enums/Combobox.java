@@ -5,11 +5,10 @@ public enum Combobox {
     PARENT_PAGE("Parent Page"),
     COLUMNS("Number of Columns"),
     SERIES("Series *"),
-    DATA_PROFILE("Data Profile");
-
+    DATA_PROFILE("Data Profile"),
+    CHART_TYPE("Chart Type");
 
     private String value;
-
     Combobox(String value) {
         this.value = value;
     }

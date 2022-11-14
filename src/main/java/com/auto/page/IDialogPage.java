@@ -28,4 +28,8 @@ public interface IDialogPage {
     boolean comboboxOptionsSortedAlphabetically(String comboboxName);
 
     void enterPanelInformation(Panel panel);
+
+    void clickCreateNewPanelButton();
+
+    boolean chartTypeComoboxOptionsIsFullyListed();
 }

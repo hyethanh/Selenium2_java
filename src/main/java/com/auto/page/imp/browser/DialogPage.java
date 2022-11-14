@@ -1,5 +1,6 @@
 package com.auto.page.imp.browser;
 
+import com.auto.data.enums.ChartType;
 import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.Combobox;
 import com.auto.element.Element;
@@ -15,7 +16,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DialogPage implements IDialogPage {
 
@@ -33,6 +37,7 @@ public class DialogPage implements IDialogPage {
     private Element panelChartTitleTextBox = new Element(By.id("txtChartTitle"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
+    private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -100,18 +105,6 @@ public class DialogPage implements IDialogPage {
         okButton.waitForInvisible();
     }
 
-    @Step("Wait to close add new panel dialog close")
-    public void waitToCreatePanelDialogClose() {
-        addNewPanelDialog.waitForInvisible();
-    }
-
-    @Step("Verify Panel Setting Form displays above Display Name")
-    public boolean isPanelSettingDisplayed(String value) {
-        panelSettingForm.set(value);
-        return panelSettingForm.isDisplayed();
-    }
-
-
     @Step("Enter page information")
     protected void enterPageInformationPage(Page page) {
         enterPageName(page.getName());
@@ -145,14 +138,33 @@ public class DialogPage implements IDialogPage {
         panelComboboxOption.waitForVisible();
     }
 
+    @Step("Click create new panel button from choose panel dialog")
+    public void clickCreateNewPanelButton() {
+        createPanelButton.click();
+    }
+
+    @Step("Wait to close add new panel dialog close")
+    public void waitToCreatePanelDialogClose() {
+        addNewPanelDialog.waitForInvisible();
+    }
+
+    @Step("Verify Panel Setting Form displays above Display Name")
+    public boolean isPanelSettingDisplayed(String value) {
+        panelSettingForm.set(value);
+        return panelSettingForm.isDisplayed();
+    }
+
     @Step("Verify list is sorted alphabetically")
     public boolean comboboxOptionsSortedAlphabetically(String comboboxName) {
-        List<String> list = new ArrayList<>();
-
         panelComboboxOption.set(comboboxName);
-        for(WebElement element : panelComboboxOption.elements()) {
-            list.add(element.getText());
-        }
-        return Ordering.natural().isOrdered(list);
+        return Ordering.natural().isOrdered(panelComboboxOption.elements().stream().
+                map(WebElement::getText).collect(Collectors.toList()));
+    }
+
+    @Step("Verify combobox lists full options")
+    public boolean chartTypeComoboxOptionsIsFullyListed() {
+        panelComboboxOption.set(Combobox.CHART_TYPE.value());
+        List<String> list = Arrays.stream(ChartType.values()).map(ChartType::value).collect(Collectors.toList());
+        return list.containsAll(panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList())) && panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList()).containsAll(list);
     }
 }

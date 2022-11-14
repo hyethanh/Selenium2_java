@@ -1,10 +1,9 @@
 package com.auto.test.panel;
 
-import com.auto.data.enums.ChartSeries;
-import com.auto.data.enums.Combobox;
+import com.auto.data.enums.*;
 import com.auto.data.enums.MenuItem;
-import com.auto.data.enums.PanelType;
 import com.auto.model.DataProfile;
+import com.auto.model.Page;
 import com.auto.model.Panel;
 import com.auto.model.User;
 import com.auto.page.*;
@@ -50,6 +49,7 @@ public class PanelTest extends BrowserTestBase {
     @AfterClass(alwaysRun = true)
     public void after() {
         DriverUtils.deletePanel(panelPage.getPanelIds());
+        DriverUtils.deletePage(homePage.getPageIds());
         Selaium.driver().close();
     }
 
@@ -191,6 +191,17 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPanel(validPanel);
         softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validPanel),
                 String.format("New created panel '%s' does not displayed in table", validPanel.getName()));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Chart types ( Pie, Single Bar, Stacked Bar, Group Bar, Line ) are listed correctly under 'Chart Type' dropped down menu.")
+    public void DA_PANEL_TC036() {
+        Page page = new Page(FakerUtils.name());
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+        softAssert.assertTrue(dialogPage.chartTypeComoboxOptionsIsFullyListed());
 
         softAssert.assertAll();
     }
