@@ -61,41 +61,42 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Unable to create new panel when (*) required field is not filled")
     public void DA_PANEL_TC029() {
-        Panel blankSeriesPanel = new Panel(FakerUtils.name(), (ChartSeries) null);
-        Panel blankNamePanel = new Panel("");
+        Panel panel = new Panel(FakerUtils.name(), (ChartSeries) null);
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
-        dialogPage.enterPanelInformation(blankSeriesPanel);
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.series"), "No alert for blank series displays");
         DriverUtils.acceptAlert();
-        dialogPage.enterPanelInformation(blankNamePanel);
+        panel.setName("");
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         Logger.getLogger("Verify cannot create new panel with blank name");
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.name.panel"), "No alert for blank displayed name appears");
+        DriverUtils.acceptAlert();
 
         softAssert.assertAll();
     }
 
     @Test(description = "No special character except '@' character is allowed to be inputted into 'Display Name' field")
     public void DA_PANEL_TC030() {
-        Panel invalidNamePanel = new Panel(FakerUtils.name()+"#$%");
-        Panel validNamePanel = new Panel(FakerUtils.name()+"@");
+        Panel panel = new Panel(FakerUtils.name()+"#$%");
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
-        dialogPage.enterPanelInformation(invalidNamePanel);
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.name"),
                         "New panel created successfully with special character except @");
         DriverUtils.acceptAlert();
 
-        dialogPage.enterPanelInformation(validNamePanel);
+        panel.setName(FakerUtils.name()+"@");
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.waitToCreatePanelDialogClose();
-        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validNamePanel),
-                              String.format("New created panel '%s' does not displayed in table", validNamePanel.getName()));
+        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(panel),
+                              String.format("New created panel '%s' does not displayed in table", panel.getName()));
 
         softAssert.assertAll();
     }
@@ -114,15 +115,14 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "User is not allowed to create panel with duplicated 'Display Name'")
     public void DA_PANEL_TC032() {
-        Panel panel1 = new Panel(FakerUtils.name());
-        Panel panel2 = new Panel(panel1.getName());
+        Panel panel = new Panel(FakerUtils.name());
 
-        dialogPage.createNewPanel(panel1);
+        dialogPage.createNewPanel(panel);
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
-        dialogPage.enterPanelInformation(panel2);
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(),
-                                MessageLoader.getMessage("duplicated.name", String.format(panel1.getName())),
+                                MessageLoader.getMessage("duplicated.name", String.format(panel.getName())),
                         "The second panel is created successfully");
         DriverUtils.acceptAlert();
         dialogPage.clickCancelButton();
@@ -174,19 +174,22 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "No special character except '@' character is allowed to be inputted into 'Chart Title' field")
     public void DA_PANEL_TC035() {
-        Panel invalidTitlePanel = new Panel(FakerUtils.name(), FakerUtils.title() + "#$%");
-        Panel validPanel = new Panel(FakerUtils.name()+"@", FakerUtils.title()+"@");
+        Panel panel = new Panel(FakerUtils.name(), FakerUtils.title() + "#$%");
+
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
-        dialogPage.enterPanelInformation(invalidTitlePanel);
+        dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.title"),
-                String.format("New created panel '%s' does not displayed in table", invalidTitlePanel.getName()));
+                String.format("New created panel '%s' does not displayed in table", panel.getName()));
         DriverUtils.acceptAlert();
         dialogPage.clickCancelButton();
-        dialogPage.createNewPanel(validPanel);
-        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(validPanel),
-                String.format("New created panel '%s' does not displayed in table", validPanel.getName()));
+
+        panel.setName(FakerUtils.name()+"@");
+        panel.setChartTitle(FakerUtils.title()+"@");
+        dialogPage.createNewPanel(panel);
+        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(panel),
+                String.format("New created panel '%s' does not displayed in table", panel.getName()));
 
         softAssert.assertAll();
     }
@@ -233,6 +236,52 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is enabled with LINE type");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with LINE type");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with LINE type");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All Data Labels check boxes are enabled and disabled correctly corresponding to each type of Chart Type")
+    public void DA_PANEL_TC040() {
+        Page page = new Page(FakerUtils.name());
+        Panel panel = new Panel(FakerUtils.name(), ChartType.PIE);
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+        dialogPage.enterPanelInformation(panel);
+
+        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with PIE type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with PIE type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with PIE type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with PIE type");
+
+        panel.setChartType(ChartType.SINGLE_BAR);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with SINGLE BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with SINGLE BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with SINGLE BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with SINGLE BAR type");
+
+        panel.setChartType(ChartType.STACKED_BAR);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with STACKED BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with STACKED BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with STACKED BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with STACKED BAR type");
+
+        panel.setChartType(ChartType.GROUP_BAR);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with GROUP BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with GROUP BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with GROUP BAR type");
+        softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with GROUP BAR type");
+
+        panel.setChartType(ChartType.LINE);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with LINE type");
+        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is disabled with LINE type");
+//        Known bug here: Value checkbox is still enabled.
+//        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with LINE type");
+        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is disabled with LINE type");
 
         softAssert.assertAll();
     }

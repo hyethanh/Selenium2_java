@@ -15,9 +15,7 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +37,8 @@ public class DialogPage implements IDialogPage {
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
     private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
     private Element captionTextBox = new Element(By.id("txtValueYAxis"));
+//    private Element checkboxButton = new Element("//label[text()=' %s\u00A0\u00A0']/input");
+    private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -183,5 +183,11 @@ public class DialogPage implements IDialogPage {
     @Step("Verify Caption text box in Chart Settings is enabled or not")
     public boolean isCaptionTextBoxEnabled() {
         return captionTextBox.isEnabled();
+    }
+
+    @Step("Verify checkbox is enabled or not")
+    public boolean isCheckboxEnabled(String value) {
+        checkboxButton.set(value);
+        return checkboxButton.isEnabled();
     }
 }

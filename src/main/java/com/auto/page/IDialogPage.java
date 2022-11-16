@@ -38,4 +38,6 @@ public interface IDialogPage {
     boolean isComboboxEnabled(String comboboxName);
 
     boolean isCaptionTextBoxEnabled();
+
+    boolean isCheckboxEnabled(String value);
 }
