@@ -94,7 +94,7 @@ public class PanelTest extends BrowserTestBase {
         panel.setName(FakerUtils.name()+"@");
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
-        dialogPage.waitToCreatePanelDialogClose();
+        dialogPage.waitForPanelDialogClose();
         softAssert.assertTrue(panelPage.isPanelDisplayedInTable(panel),
                               String.format("New created panel '%s' does not displayed in table", panel.getName()));
 
@@ -240,10 +240,35 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertAll();
     }
 
+    @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between 2D and 3D radio buttons")
+    public void DA_PANEL_TC038() {
+        Page page = new Page(FakerUtils.name());
+        Panel panel = new Panel(FakerUtils.name());
+
+        panel.setChartType(ChartType.STACKED_BAR);
+        panel.setDataProfile(DataProfiles.TEST_CASE_EXECUTION);
+        panel.setShowTitle(true);
+        panel.setChartLegends(ChartLegends.TOP);
+        panel.setStyle("3D");
+
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled");
+
+        panel.setStyle("2D");
+        dialogPage.clickStyleButton(panel.getStyle());
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when changing style");
+
+        softAssert.assertAll();
+    }
+
     @Test(description = "All Data Labels check boxes are enabled and disabled correctly corresponding to each type of Chart Type")
     public void DA_PANEL_TC040() {
         Page page = new Page(FakerUtils.name());
         Panel panel = new Panel(FakerUtils.name(), ChartType.PIE);
+
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
         dialogPage.clickCreateNewPanelButton();

@@ -14,5 +14,7 @@ public interface IPanelPage {
 
     boolean isPanelDisplayedInTable(Panel panel);
 
+    void clickEditPanelButton();
+
     List<String> getPanelIds();
 }

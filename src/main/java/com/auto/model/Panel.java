@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,6 +23,8 @@ public class Panel {
     private ChartSeries chartSeries;
     private ChartLegends chartLegends;
     private DataLabel dataLabel;
+    private boolean isShowTitle;
+    private String style;
 
     public Panel(String name) {
         this.type = null;
@@ -32,6 +35,8 @@ public class Panel {
         this.chartSeries = ChartSeries.randomSeries();
         this.chartLegends = null;
         this.dataLabel = null;
+        this.isShowTitle = false;
+        this.style = "2D";
     }
 
     public Panel(String name, ChartSeries chartSeries) {
@@ -43,6 +48,8 @@ public class Panel {
         this.chartSeries = chartSeries;
         this.chartLegends = null;
         this.dataLabel = null;
+        this.isShowTitle = false;
+        this.style = "2D";
     }
 
     public Panel(String name, String chartTitle) {
@@ -54,6 +61,8 @@ public class Panel {
         this.chartSeries = ChartSeries.randomSeries();
         this.chartLegends = null;
         this.dataLabel = null;
+        this.isShowTitle = false;
+        this.style = "2D";
     }
 
     public Panel(String name, ChartType chartType) {
@@ -65,5 +74,7 @@ public class Panel {
         this.chartSeries = ChartSeries.randomSeries();
         this.chartLegends = null;
         this.dataLabel = null;
+        this.isShowTitle = false;
+        this.style = "2D";
     }
 }

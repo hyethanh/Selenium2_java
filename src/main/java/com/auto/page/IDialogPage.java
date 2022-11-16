@@ -21,7 +21,9 @@ public interface IDialogPage {
 
     void createNewPanel(Panel panel);
 
-    void waitToCreatePanelDialogClose();
+    void waitForPanelDialogClose();
+
+    void waitForPanelDialogOpen();
 
     void editExistedPage(Page page);
 
@@ -40,4 +42,8 @@ public interface IDialogPage {
     boolean isCaptionTextBoxEnabled();
 
     boolean isCheckboxEnabled(String value);
+
+    boolean isStayUnchanged(Panel panel);
+
+    void clickStyleButton(String value);
 }

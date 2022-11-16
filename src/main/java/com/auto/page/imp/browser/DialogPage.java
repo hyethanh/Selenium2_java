@@ -14,6 +14,7 @@ import com.google.common.collect.Ordering;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +38,11 @@ public class DialogPage implements IDialogPage {
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
     private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
     private Element captionTextBox = new Element(By.id("txtValueYAxis"));
-//    private Element checkboxButton = new Element("//label[text()=' %s\u00A0\u00A0']/input");
     private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
+    private Element showTitleCheckboxButton = new Element(By.id("/chkShowTitle"));
+    private Element legendsRadioButton = new Element(By.xpath("//td[text()='Legends']//following-sibling::td//label[input[@checked='checked']]"));
+    private Element displaySettingTab = new Element(By.xpath("//a[text()='Display Settings']"));
+    private Element styleRadioButton = new Element("//input[@value=\"%s\"]");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -150,9 +154,20 @@ public class DialogPage implements IDialogPage {
         createPanelButton.click();
     }
 
+    @Step("Click style button")
+    public void clickStyleButton(String value) {
+        styleRadioButton.set(value);
+        styleRadioButton.click();
+    }
+
     @Step("Wait to close add new panel dialog close")
-    public void waitToCreatePanelDialogClose() {
+    public void waitForPanelDialogClose() {
         addNewPanelDialog.waitForInvisible();
+    }
+
+    @Step("Wait for panel dialog open")
+    public void waitForPanelDialogOpen() {
+        addNewPanelDialog.waitForVisible();
     }
 
     @Step("Verify Panel Setting Form displays above Display Name")
@@ -189,5 +204,34 @@ public class DialogPage implements IDialogPage {
     public boolean isCheckboxEnabled(String value) {
         checkboxButton.set(value);
         return checkboxButton.isEnabled();
+    }
+
+    @Step("Verify type setting is not changed")
+    public boolean isLegendSettingUnchanged(Panel panel) {
+        return legendsRadioButton.getText().equals(panel.getName());
+    }
+
+    @Step("Verify combobox setting is not changed")
+    public boolean isChartTypeSettingUnchanged(Panel panel, Combobox combobox) {
+        dialogCombobox.set(combobox);
+        Select select = new Select(dialogCombobox.element());
+        return select.getFirstSelectedOption().getText().equals(panel.getName());
+    }
+
+    @Step("Verify displayed name is not changed")
+    public boolean isDisplayedNameUnchanged(Panel panel) {
+        return panelDisplayedName.getText().equals(panel.getName());
+    }
+
+    @Step("Verify show title checkbox is not changed")
+    public boolean isShowTitleUnchanged() {
+        return showTitleCheckboxButton.isSelected();
+    }
+
+    @Step("Verify all settings stay unchanged")
+    public boolean isStayUnchanged(Panel panel) {
+        displaySettingTab.click();
+        return isLegendSettingUnchanged(panel) && isChartTypeSettingUnchanged(panel, Combobox.CHART_TYPE) && isShowTitleUnchanged()
+                && isChartTypeSettingUnchanged(panel, Combobox.DISPLAY_AFTER) && isDisplayedNameUnchanged(panel) ;
     }
 }

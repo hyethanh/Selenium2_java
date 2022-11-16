@@ -18,6 +18,7 @@ public class PanelPage implements IPanelPage {
     private Element linkButton = new Element("//a[text()='%s']");
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
+    private Element editButton = new Element(By.xpath("//li[@class='edit'and @title='Edit Panel']"));
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(String value) {
@@ -48,6 +49,11 @@ public class PanelPage implements IPanelPage {
     public void clickFinishButton() {
         finishButton.click();
         finishButton.waitForInvisible();
+    }
+
+    @Step("Click Edit Panel button")
+    public void clickEditPanelButton() {
+        editButton.click();
     }
 
     public List<String> getPanelIds() {
