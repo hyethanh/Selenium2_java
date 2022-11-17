@@ -26,6 +26,7 @@ public class Panel {
     private boolean isShowTitle;
     private String style;
 
+    public Panel() {    }
     public Panel(String name) {
         this.type = null;
         this.dataProfile = null;

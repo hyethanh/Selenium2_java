@@ -258,7 +258,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled");
 
         panel.setStyle("2D");
-        dialogPage.clickStyleButton(panel.getStyle());
+        dialogPage.clickRadioButton(panel.getStyle());
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when changing style");
 
         softAssert.assertAll();
@@ -307,6 +307,49 @@ public class PanelTest extends BrowserTestBase {
 //        Known bug here: Value checkbox is still enabled.
 //        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with LINE type");
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is disabled with LINE type");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between Data Labels check boxes buttons")
+    public void DA_PANEL_TC041() {
+        Panel panel = new Panel(FakerUtils.name());
+
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        panel.setDataLabel(DataLabel.SERIES);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when checking label SERIES value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
+
+        panel.setDataLabel(DataLabel.VALUE);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label VALUE value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
+
+        panel.setDataLabel(DataLabel.PERCENTAGE);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label PERCENTAGE value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
+
+        dialogPage.clickCancelButton();
+        dialogPage.createNewPanel(panel);
+        panelPage.clickLinkButton(MenuItem.EDIT.value());
+
+        panel.setDataLabel(DataLabel.SERIES);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label SERIES value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
+
+        panel.setDataLabel(DataLabel.VALUE);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label VALUE value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
+
+        panel.setDataLabel(DataLabel.PERCENTAGE);
+        dialogPage.enterPanelInformation(panel);
+        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label PERCENTAGE value");
+        dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         softAssert.assertAll();
     }

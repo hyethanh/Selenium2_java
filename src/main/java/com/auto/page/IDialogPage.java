@@ -1,6 +1,6 @@
 package com.auto.page;
 
-import com.auto.data.enums.ChartType;
+import com.auto.data.enums.DataLabel;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 
@@ -45,5 +45,7 @@ public interface IDialogPage {
 
     boolean isStayUnchanged(Panel panel);
 
-    void clickStyleButton(String value);
+    void clickRadioButton(String value);
+
+    void clickLabelOptionButton(DataLabel label);
 }

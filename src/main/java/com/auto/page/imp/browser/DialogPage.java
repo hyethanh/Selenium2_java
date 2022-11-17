@@ -1,6 +1,7 @@
 package com.auto.page.imp.browser;
 
 import com.auto.data.enums.ChartType;
+import com.auto.data.enums.DataLabel;
 import com.auto.data.enums.MenuItem;
 import com.auto.data.enums.Combobox;
 import com.auto.element.Element;
@@ -39,10 +40,10 @@ public class DialogPage implements IDialogPage {
     private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
     private Element captionTextBox = new Element(By.id("txtValueYAxis"));
     private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
-    private Element showTitleCheckboxButton = new Element(By.id("/chkShowTitle"));
-    private Element legendsRadioButton = new Element(By.xpath("//td[text()='Legends']//following-sibling::td//label[input[@checked='checked']]"));
+    private Element showTitleCheckboxButton = new Element(By.id("chkShowTitle"));
+    private Element legendsRadioButton = new Element(By.xpath("//td[text()='Legends']//following-sibling::td//label"));
     private Element displaySettingTab = new Element(By.xpath("//a[text()='Display Settings']"));
-    private Element styleRadioButton = new Element("//input[@value=\"%s\"]");
+    private Element radioButton = new Element("//input[@value=\"%s\"]");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -139,6 +140,18 @@ public class DialogPage implements IDialogPage {
         if (panel.getDataProfile() != null) {
             chooseComboBoxPanelPage(Combobox.DATA_PROFILE.value(), panel.getDataProfile().value());
         }
+        if (panel.getStyle() != null) {
+            clickRadioButton(panel.getStyle());
+        }
+        if (panel.getChartLegends() != null) {
+            clickRadioButton(panel.getChartLegends().value());
+        }
+        if (panel.isShowTitle() == true) {
+            showTitleCheckboxButton.click();
+        }
+        if (panel.getDataLabel() != null) {
+            clickLabelOptionButton(panel.getDataLabel());
+        }
     }
 
     @Step("Open Add New Panel dialog's combobox")
@@ -155,9 +168,9 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Click style button")
-    public void clickStyleButton(String value) {
-        styleRadioButton.set(value);
-        styleRadioButton.click();
+    public void clickRadioButton(String value) {
+        radioButton.set(value);
+        radioButton.click();
     }
 
     @Step("Wait to close add new panel dialog close")
@@ -168,6 +181,12 @@ public class DialogPage implements IDialogPage {
     @Step("Wait for panel dialog open")
     public void waitForPanelDialogOpen() {
         addNewPanelDialog.waitForVisible();
+    }
+
+    @Step("Choose Label option")
+    public void clickLabelOptionButton(DataLabel label) {
+        checkboxButton.set(label.value());
+        checkboxButton.click();
     }
 
     @Step("Verify Panel Setting Form displays above Display Name")
@@ -206,32 +225,28 @@ public class DialogPage implements IDialogPage {
         return checkboxButton.isEnabled();
     }
 
-    @Step("Verify type setting is not changed")
-    public boolean isLegendSettingUnchanged(Panel panel) {
-        return legendsRadioButton.getText().equals(panel.getName());
-    }
-
     @Step("Verify combobox setting is not changed")
-    public boolean isChartTypeSettingUnchanged(Panel panel, Combobox combobox) {
-        dialogCombobox.set(combobox);
+    public String optionComboboxSelected(Combobox combobox) {
+        dialogCombobox.set(combobox.value());
         Select select = new Select(dialogCombobox.element());
-        return select.getFirstSelectedOption().getText().equals(panel.getName());
-    }
-
-    @Step("Verify displayed name is not changed")
-    public boolean isDisplayedNameUnchanged(Panel panel) {
-        return panelDisplayedName.getText().equals(panel.getName());
+        return select.getFirstSelectedOption().getText();
     }
 
     @Step("Verify show title checkbox is not changed")
-    public boolean isShowTitleUnchanged() {
-        return showTitleCheckboxButton.isSelected();
+    public boolean isShowTitleUnchanged(Panel panel) {
+        return showTitleCheckboxButton.isSelected() == panel.isShowTitle();
     }
 
     @Step("Verify all settings stay unchanged")
     public boolean isStayUnchanged(Panel panel) {
         displaySettingTab.click();
-        return isLegendSettingUnchanged(panel) && isChartTypeSettingUnchanged(panel, Combobox.CHART_TYPE) && isShowTitleUnchanged()
-                && isChartTypeSettingUnchanged(panel, Combobox.DISPLAY_AFTER) && isDisplayedNameUnchanged(panel) ;
+        if (panel.getChartType() != null && panel.getDataProfile() != null) {
+            return optionComboboxSelected(Combobox.CHART_TYPE).equals(panel.getChartType().value()) && isShowTitleUnchanged(panel)
+                    && optionComboboxSelected(Combobox.DATA_PROFILE).equals(panel.getDataProfile().value());
+        } else if(panel.getChartType() != null) {
+            return optionComboboxSelected(Combobox.CHART_TYPE).equals(panel.getChartType().value()) && isShowTitleUnchanged(panel);
+        } else {
+            return isShowTitleUnchanged(panel);
+        }
     }
 }
