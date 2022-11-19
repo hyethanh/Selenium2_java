@@ -5,6 +5,7 @@ import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.page.IDialogPage;
+import com.auto.utils.Constants;
 import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -60,17 +61,30 @@ public class DialogPage implements IDialogPage {
         okButton.waitForInvisible();
     }
 
-    @Step("Enter page information")
-    protected void enterPageInformationPage(Page page) {
-        enterPageName(page.getName());
+    public void chooseDisplayAfterCombobox(Page page) {
         if (!page.getDisplayAfter().isEmpty()) {
             chooseComboboxOption(PageCombobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
         }
+    }
+
+    public void chooseParentPageCombobox(Page page) {
         if (page.getParent() != null) {
             chooseComboboxOption(PageCombobox.PARENT_PAGE.value(), page.getParent().getName());
         }
-        if (page.getColumn() != 2) {
+    }
+
+    public void chooseColumnCombobox(Page page) {
+        if (page.getColumn() != Constants.DEFAULT_PAGE_COLUMN) {
             chooseComboboxOption(PageCombobox.COLUMNS.value(), Integer.toString(page.getColumn()));
         }
+    }
+
+
+    @Step("Enter page information")
+    public void enterPageInformationPage(Page page) {
+        enterPageName(page.getName());
+        chooseDisplayAfterCombobox(page);
+        chooseParentPageCombobox(page);
+        chooseColumnCombobox(page);
     }
 }

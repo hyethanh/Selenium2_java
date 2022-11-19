@@ -14,4 +14,6 @@ public interface IDialogPage {
     void createNewPage(Page page);
 
     void editExistedPage(Page page);
+
+    void enterPageInformationPage(Page page);
 }
