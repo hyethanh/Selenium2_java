@@ -27,6 +27,8 @@ public interface IDialogPage {
 
     void editExistedPage(Page page);
 
+    void enterPageInformationPage(Page page);
+
     boolean isPanelSettingDisplayed(String value);
 
     boolean comboboxOptionsSortedAlphabetically(String comboboxName);
@@ -35,7 +37,7 @@ public interface IDialogPage {
 
     void clickCreateNewPanelButton();
 
-    boolean chartTypeComoboxOptionsIsFullyListed();
+    boolean chartTypeComboboxOptionsIsFullyListed();
 
     boolean isComboboxEnabled(String comboboxName);
 
@@ -48,4 +50,8 @@ public interface IDialogPage {
     void clickRadioButton(String value);
 
     void clickLabelOptionButton(DataLabel label);
+
+    void chooseChartTypeCombobox(Panel panel);
+
+    void chooseLabelOption(Panel panel);
 }

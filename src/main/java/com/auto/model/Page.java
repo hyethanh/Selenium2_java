@@ -1,5 +1,6 @@
 package com.auto.model;
 
+import com.auto.utils.FakerUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,14 @@ public class Page {
     private boolean isPublic;
     private static final Page overviewPage = new Page("Overview", null, 2, "", false);
 
+    public Page() {
+        this.name = FakerUtils.name();
+        this.parent = null;
+        this.column = 2;
+        this.displayAfter = "";
+        this.isPublic = false;
+    }
+
     public Page(String name) {
         this.name = name;
         this.parent = null;
@@ -22,31 +31,6 @@ public class Page {
         this.displayAfter = "";
         this.isPublic = false;
     }
-
-    public Page(String name, Page parent) {
-        this.name = name;
-        this.parent = parent;
-        this.column = 2;
-        this.displayAfter = "";
-        this.isPublic = false;
-    }
-
-    public Page(String name, String displayAfter) {
-        this.name = name;
-        this.parent = null;
-        this.column = 2;
-        this.displayAfter = displayAfter;
-        this.isPublic = false;
-    }
-
-    public Page(String name, int column) {
-        this.name = name;
-        this.parent = null;
-        this.column = column;
-        this.displayAfter = "";
-        this.isPublic = false;
-    }
-
 
     public static Page overviewPage() {
         return Page.overviewPage;

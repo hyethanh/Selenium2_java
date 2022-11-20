@@ -10,6 +10,7 @@ import com.auto.model.Panel;
 import com.auto.page.IHomePage;
 import com.auto.page.IDialogPage;
 import com.auto.page.IPanelPage;
+import com.auto.utils.Constants;
 import com.auto.utils.StringUtils;
 import com.google.common.collect.Ordering;
 import io.qameta.allure.Step;
@@ -111,47 +112,94 @@ public class DialogPage implements IDialogPage {
         okButton.waitForInvisible();
     }
 
-    @Step("Enter page information")
-    protected void enterPageInformationPage(Page page) {
-        enterPageName(page.getName());
+    @Step("Choose Display After")
+    public void chooseDisplayAfterCombobox(Page page) {
         if (!page.getDisplayAfter().isEmpty()) {
             chooseComboboxOption(Combobox.DISPLAY_AFTER.value(), page.getDisplayAfter());
         }
+    }
+
+    @Step("Choose Parent Page")
+    public void chooseParentPageCombobox(Page page) {
         if (page.getParent() != null) {
             chooseComboboxOption(Combobox.PARENT_PAGE.value(), page.getParent().getName());
         }
-        if (page.getColumn() != 2) {
+    }
+
+    @Step("Choose Page's Column")
+    public void chooseColumnCombobox(Page page) {
+        if (page.getColumn() != Constants.DEFAULT_PAGE_COLUMN) {
             chooseComboboxOption(Combobox.COLUMNS.value(), Integer.toString(page.getColumn()));
         }
+    }
+
+    @Step("Choose Chart Type")
+    public void chooseChartTypeCombobox(Panel panel) {
+        if (panel.getChartType() != null) {
+            chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), panel.getChartType().value());
+        }
+    }
+
+    @Step("Choose Chart Series")
+    public void chooseChartSeriesCombobox(Panel panel) {
+        if (panel.getChartSeries() != null) {
+            chooseComboBoxPanelPage(Combobox.SERIES.value(), panel.getChartSeries().value());
+        }
+    }
+
+    @Step("Enter title for chart panel")
+    public void enterChartTitle(Panel panel) {
+        if (!panel.getChartTitle().isEmpty()) {
+            panelChartTitleTextBox.enter(panel.getChartTitle());
+        }
+    }
+
+    @Step("Choose Data Profile")
+    public void chooseDataProfileCombobox(Panel panel) {
+        if (panel.getDataProfile() != null) {
+            chooseComboBoxPanelPage(Combobox.DATA_PROFILE.value(), panel.getDataProfile().value());
+        }
+    }
+
+    @Step("Choose Panel Style")
+    public void choosePanelStyle(Panel panel) {
+        if (panel.getStyle() != null) {
+            clickRadioButton(panel.getStyle());
+        }
+    }
+
+    @Step("Click Show Title button")
+    public void clickShowTitleButton(Panel panel) {
+        if (panel.isShowTitle() == true) {
+            showTitleCheckboxButton.click();
+        }
+    }
+
+    @Step("Choose Panel Label")
+    public void chooseLabelOption(Panel panel) {
+        if (panel.getDataLabel() != null) {
+            clickLabelOptionButton(panel.getDataLabel());
+        }
+    }
+
+    @Step("Enter page information")
+    public void enterPageInformationPage(Page page) {
+        enterPageName(page.getName());
+        chooseDisplayAfterCombobox(page);
+        chooseParentPageCombobox(page);
+        chooseColumnCombobox(page);
     }
 
     @Step("Enter panel information")
     public void enterPanelInformation(Panel panel) {
         enterPanelName(panel.getName());
-        if (panel.getChartSeries() != null) {
-            chooseComboBoxPanelPage(Combobox.SERIES.value(), panel.getChartSeries().value());
-        }
-        if (!panel.getChartTitle().isEmpty()) {
-            panelChartTitleTextBox.enter(panel.getChartTitle());
-        }
-        if (panel.getChartType() != null) {
-            chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), panel.getChartType().value());
-        }
-        if (panel.getDataProfile() != null) {
-            chooseComboBoxPanelPage(Combobox.DATA_PROFILE.value(), panel.getDataProfile().value());
-        }
-        if (panel.getStyle() != null) {
-            clickRadioButton(panel.getStyle());
-        }
-        if (panel.getChartLegends() != null) {
-            clickRadioButton(panel.getChartLegends().value());
-        }
-        if (panel.isShowTitle() == true) {
-            showTitleCheckboxButton.click();
-        }
-        if (panel.getDataLabel() != null) {
-            clickLabelOptionButton(panel.getDataLabel());
-        }
+        enterChartTitle(panel);
+        chooseChartTypeCombobox(panel);
+        chooseChartSeriesCombobox(panel);
+        chooseDataProfileCombobox(panel);
+        chooseLabelOption(panel);
+        choosePanelStyle(panel);
+        clickShowTitleButton(panel);
     }
 
     @Step("Open Add New Panel dialog's combobox")
@@ -203,7 +251,7 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Verify combobox lists full options")
-    public boolean chartTypeComoboxOptionsIsFullyListed() {
+    public boolean chartTypeComboboxOptionsIsFullyListed() {
         panelComboboxOption.set(Combobox.CHART_TYPE.value());
         List<String> list = Arrays.stream(ChartType.values()).map(ChartType::value).collect(Collectors.toList());
         return list.containsAll(panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList())) && panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList()).containsAll(list);
@@ -225,7 +273,6 @@ public class DialogPage implements IDialogPage {
         return checkboxButton.isEnabled();
     }
 
-    @Step("Verify combobox setting is not changed")
     public String optionComboboxSelected(Combobox combobox) {
         dialogCombobox.set(combobox.value());
         Select select = new Select(dialogCombobox.element());
@@ -234,19 +281,28 @@ public class DialogPage implements IDialogPage {
 
     @Step("Verify show title checkbox is not changed")
     public boolean isShowTitleUnchanged(Panel panel) {
-        return showTitleCheckboxButton.isSelected() == panel.isShowTitle();
+       return showTitleCheckboxButton.isSelected() == panel.isShowTitle();
+    }
+
+    @Step("Verify Panel Chart Type is stabled")
+    public boolean isChartTypeSettingUnchanged(Panel panel) {
+        if (panel.getChartType() != null) {
+            return optionComboboxSelected(Combobox.CHART_TYPE).equals(panel.getChartType().value());
+        }
+        return true;
+    }
+
+    @Step("Verify Panel Data Profile is stabled")
+    public boolean isDataProfileSettingUnchanged(Panel panel) {
+        if (panel.getDataProfile() != null) {
+            return (optionComboboxSelected(Combobox.DATA_PROFILE).equals(panel.getDataProfile().value()));
+        }
+        return true;
     }
 
     @Step("Verify all settings stay unchanged")
     public boolean isStayUnchanged(Panel panel) {
         displaySettingTab.click();
-        if (panel.getChartType() != null && panel.getDataProfile() != null) {
-            return optionComboboxSelected(Combobox.CHART_TYPE).equals(panel.getChartType().value()) && isShowTitleUnchanged(panel)
-                    && optionComboboxSelected(Combobox.DATA_PROFILE).equals(panel.getDataProfile().value());
-        } else if(panel.getChartType() != null) {
-            return optionComboboxSelected(Combobox.CHART_TYPE).equals(panel.getChartType().value()) && isShowTitleUnchanged(panel);
-        } else {
-            return isShowTitleUnchanged(panel);
-        }
+        return isShowTitleUnchanged(panel) && isChartTypeSettingUnchanged(panel) && isDataProfileSettingUnchanged(panel);
     }
 }

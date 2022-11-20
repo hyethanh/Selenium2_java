@@ -49,7 +49,7 @@ public class PanelTest extends BrowserTestBase {
         Selaium.driver().close();
     }
 
-    @Test(description = "'Add New Panel' form is on focused all other control/form is disabled or locked.")
+    @Test(description = "Add New Panel form is on focused all other control/form is disabled or locked.")
     public void DA_PANEL_TC028() {
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -61,7 +61,8 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Unable to create new panel when (*) required field is not filled")
     public void DA_PANEL_TC029() {
-        Panel panel = new Panel(FakerUtils.name(), (ChartSeries) null);
+        Panel panel = new Panel();
+        panel.setChartSeries(null);
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -81,7 +82,8 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "No special character except '@' character is allowed to be inputted into 'Display Name' field")
     public void DA_PANEL_TC030() {
-        Panel panel = new Panel(FakerUtils.name()+"#$%");
+        Panel panel = new Panel();
+        panel.setName(FakerUtils.name()+"#$%");
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -115,7 +117,7 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "User is not allowed to create panel with duplicated 'Display Name'")
     public void DA_PANEL_TC032() {
-        Panel panel = new Panel(FakerUtils.name());
+        Panel panel = new Panel();
 
         dialogPage.createNewPanel(panel);
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -132,7 +134,7 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "'Data Profile' listing of 'Add New Panel' and 'Edit Panel' control/form are in alphabetical order")
     public void DA_PANEL_TC033() {
-        Panel panel = new Panel(FakerUtils.name());
+        Panel panel = new Panel();
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
         dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
@@ -150,8 +152,8 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Newly created data profiles are populated correctly under the 'Data Profile' dropped down menu in  'Add New Panel' and 'Edit Panel' control/form")
     public void DA_PANEL_TC034() {
-        DataProfile profile = new DataProfile(FakerUtils.name());
-        Panel panel = new Panel(FakerUtils.name());
+        DataProfile profile = new DataProfile();
+        Panel panel = new Panel();
 
         homePage.moveToPanelItemPage(MenuItem.DATA_PROFILES.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -174,7 +176,8 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "No special character except '@' character is allowed to be inputted into 'Chart Title' field")
     public void DA_PANEL_TC035() {
-        Panel panel = new Panel(FakerUtils.name(), FakerUtils.title() + "#$%");
+        Panel panel = new Panel();
+        panel.setChartTitle(FakerUtils.title() + "#$%");
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -196,18 +199,18 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Chart types ( Pie, Single Bar, Stacked Bar, Group Bar, Line ) are listed correctly under 'Chart Type' dropped down menu.")
     public void DA_PANEL_TC036() {
-        Page page = new Page(FakerUtils.name());
+        Page page = new Page();
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
         dialogPage.clickCreateNewPanelButton();
-        softAssert.assertTrue(dialogPage.chartTypeComoboxOptionsIsFullyListed());
+        softAssert.assertTrue(dialogPage.chartTypeComboboxOptionsIsFullyListed());
 
         softAssert.assertAll();
     }
 
     @Test(description = "Category, Series and Caption field are enabled and disabled correctly corresponding to each type of the Chart Type")
     public void DA_PANEL_TC037() {
-        Page page = new Page(FakerUtils.name());
+        Page page = new Page();
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
         dialogPage.clickCreateNewPanelButton();
@@ -242,8 +245,8 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between 2D and 3D radio buttons")
     public void DA_PANEL_TC038() {
-        Page page = new Page(FakerUtils.name());
-        Panel panel = new Panel(FakerUtils.name());
+        Page page = new Page();
+        Panel panel = new Panel();
 
         panel.setChartType(ChartType.STACKED_BAR);
         panel.setDataProfile(DataProfiles.TEST_CASE_EXECUTION);
@@ -266,8 +269,9 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "All Data Labels check boxes are enabled and disabled correctly corresponding to each type of Chart Type")
     public void DA_PANEL_TC040() {
-        Page page = new Page(FakerUtils.name());
-        Panel panel = new Panel(FakerUtils.name(), ChartType.PIE);
+        Page page = new Page();
+        Panel panel =new Panel();
+        panel.setChartType(ChartType.PIE);
 
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
@@ -280,28 +284,28 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with PIE type");
 
         panel.setChartType(ChartType.SINGLE_BAR);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseChartTypeCombobox(panel);
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with SINGLE BAR type");
 
         panel.setChartType(ChartType.STACKED_BAR);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseChartTypeCombobox(panel);
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with STACKED BAR type");
 
         panel.setChartType(ChartType.GROUP_BAR);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseChartTypeCombobox(panel);
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with GROUP BAR type");
 
         panel.setChartType(ChartType.LINE);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseChartTypeCombobox(panel);
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with LINE type");
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is disabled with LINE type");
 //        Known bug here: Value checkbox is still enabled.
@@ -313,7 +317,7 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between Data Labels check boxes buttons")
     public void DA_PANEL_TC041() {
-        Panel panel = new Panel(FakerUtils.name());
+        Panel panel = new Panel();
 
         homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
@@ -323,12 +327,12 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.VALUE);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label VALUE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.PERCENTAGE);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label PERCENTAGE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
@@ -337,20 +341,33 @@ public class PanelTest extends BrowserTestBase {
         panelPage.clickLinkButton(MenuItem.EDIT.value());
 
         panel.setDataLabel(DataLabel.SERIES);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label SERIES value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.VALUE);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label VALUE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.PERCENTAGE);
-        dialogPage.enterPanelInformation(panel);
+        dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label PERCENTAGE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         softAssert.assertAll();
+    }
+
+    @Test("All pages are listed correctly under the 'Select page * dropped down menu of Panel Configuration form/ control")
+    public void DA_PANEL_TC042() {
+        Page page1 = new Page();
+        Page page2 = new Page();
+        Page page3 = new Page();
+
+        dialogPage.createNewPage(page1);
+        dialogPage.createNewPage(page2);
+        dialogPage.createNewPage(page3);
+
+        homePage.clickChoosePanelButton();
     }
 }
