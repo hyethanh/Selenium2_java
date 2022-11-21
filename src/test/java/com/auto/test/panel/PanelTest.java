@@ -200,7 +200,7 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
         dialogPage.clickCreateNewPanelButton();
-        softAssert.assertTrue(dialogPage.chartTypeComboboxOptionsIsFullyListed());
+        softAssert.assertTrue(dialogPage.chartTypeComboboxOptionsAreFullyListed());
 
         softAssert.assertAll();
     }
@@ -353,19 +353,5 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         softAssert.assertAll();
-    }
-
-    @Test(description = "All pages are listed correctly under the 'Select page * dropped down menu of Panel Configuration form/ control")
-    public void DA_PANEL_TC042() {
-        Page page1 = new Page();
-        Page page2 = new Page();
-        Page page3 = new Page();
-
-        dialogPage.createNewPage(page1);
-        dialogPage.createNewPage(page2);
-        dialogPage.createNewPage(page3);
-
-        homePage.clickChoosePanelButton();
-        dialogPage.clickLinkText(DataProfiles.randomDataProfiles().value());
     }
 }

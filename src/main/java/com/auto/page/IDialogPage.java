@@ -1,5 +1,6 @@
 package com.auto.page;
 
+import com.auto.data.enums.Combobox;
 import com.auto.data.enums.DataLabel;
 import com.auto.model.Page;
 import com.auto.model.Panel;
@@ -37,7 +38,7 @@ public interface IDialogPage {
 
     void clickCreateNewPanelButton();
 
-    boolean chartTypeComboboxOptionsIsFullyListed();
+    boolean chartTypeComboboxOptionsAreFullyListed();
 
     boolean isComboboxEnabled(String comboboxName);
 
@@ -56,4 +57,10 @@ public interface IDialogPage {
     void chooseLabelOption(Panel panel);
 
     void clickLinkText(String value);
+
+    boolean comboboxOptionsAreFullyListed(Combobox comboboxName, String ...values);
+
+    void enterPanelHeight(String value);
+
+    void enterFolderLink(String value);
 }

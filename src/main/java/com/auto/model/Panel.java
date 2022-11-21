@@ -4,7 +4,6 @@ import com.auto.data.enums.*;
 import com.auto.data.enums.ChartSeries;
 import com.auto.data.enums.ChartType;
 import com.auto.data.enums.DataProfiles;
-import com.auto.data.enums.DisplayType;
 import com.auto.utils.Constants;
 import com.auto.utils.FakerUtils;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Panel {
 
-    private DisplayType type;
+    private ChartType type;
     private DataProfiles dataProfile;
     private String name;
     private String chartTitle;
@@ -28,7 +27,6 @@ public class Panel {
     private boolean isShowTitle;
     private String style;
 
-//    public Panel() {    }
     public Panel() {
         this.type = null;
         this.dataProfile = null;
@@ -41,43 +39,4 @@ public class Panel {
         this.isShowTitle = false;
         this.style = Constants.DEFAULT_PANEL_STYLE;
     }
-
-//    public Panel(String name, ChartSeries chartSeries) {
-//        this.type = null;
-//        this.dataProfile = null;
-//        this.name = name;
-//        this.chartTitle = "";
-//        this.chartType = null;
-//        this.chartSeries = chartSeries;
-//        this.chartLegends = null;
-//        this.dataLabel = null;
-//        this.isShowTitle = false;
-//        this.style = "2D";
-//    }
-//
-//    public Panel(String name, String chartTitle) {
-//        this.type = null;
-//        this.dataProfile = null;
-//        this.name = name;
-//        this.chartTitle = chartTitle;
-//        this.chartType = null;
-//        this.chartSeries = ChartSeries.randomSeries();
-//        this.chartLegends = null;
-//        this.dataLabel = null;
-//        this.isShowTitle = false;
-//        this.style = "2D";
-//    }
-//
-//    public Panel(String name, ChartType chartType) {
-//        this.type = null;
-//        this.dataProfile = null;
-//        this.name = name;
-//        this.chartTitle = "";
-//        this.chartType = chartType;
-//        this.chartSeries = ChartSeries.randomSeries();
-//        this.chartLegends = null;
-//        this.dataLabel = null;
-//        this.isShowTitle = false;
-//        this.style = "2D";
-//    }
 }

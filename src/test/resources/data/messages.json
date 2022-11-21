@@ -7,5 +7,9 @@
   "blank.name.panel": "Display Name is a required field.",
   "blank.series": "Series is a required field.",
   "invalid.name": "Invalid display name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;",
-  "invalid.title": "Invalid title name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;"
+  "invalid.title": "Invalid title name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;",
+  "invalid.height": "Panel height must be greater than or equal to 300 and less than or equal to 800.",
+  "invalid.type.height": "Panel height must be an integer number",
+  "blank.height": "Panel height is a required field.",
+  "invalid.panel.folder": "Panel folder is incorrect"
 }

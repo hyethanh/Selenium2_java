@@ -7,7 +7,8 @@ public enum Combobox {
     SERIES("Series *"),
     CATEGORY("Category *"),
     DATA_PROFILE("Data Profile"),
-    CHART_TYPE("Chart Type");
+    CHART_TYPE("Chart Type"),
+    SELECT_PAGE("Select page *");
 
     private String value;
     Combobox(String value) {

@@ -31,7 +31,7 @@ public class DialogPage implements IDialogPage {
     private Element pageNameText = new Element(By.id("name"));
     private Element dialogCombobox = new Element("//td[text()=\"%s\"]/following-sibling::td/select");
     private Element addPageDialogComboboxOption = new Element(By.xpath("//select[@id='parent']/option"));
-    private Element panelComboboxOption = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' )]");
+    private Element panelComboboxOption = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' or text()='Overview' or text()='Execution Dashboard')]");
     private Element addPageDialogComboboxOptionWithText = new Element("//select[@id='parent']/option[text()=\"%s\"]");
     private Element panelComboboxOptionWithText = new Element("//td[text()='%s']/following-sibling::td/select//option[not (text()='Select a field...' ) and text()=\"%s\"]");
     private Element panelDisplayedName = new Element(By.id("txtDisplayName"));
@@ -45,6 +45,9 @@ public class DialogPage implements IDialogPage {
     private Element displaySettingTab = new Element(By.xpath("//a[text()='Display Settings']"));
     private Element radioButton = new Element("//input[@value=\"%s\"]");
     private Element linkText = new Element("//a[text()=\"%s\"]");
+    private Element heightTextBox = new Element(By.id("txtHeight"));
+    private Element folderTextBox = new Element(By.id("txtFolder"));
+    private Element panelConfigurationTitle = new Element(By.id("ui-dialog-title-div_panelConfigurationDlg"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -257,10 +260,18 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Verify combobox lists full options")
-    public boolean chartTypeComboboxOptionsIsFullyListed() {
+    public boolean chartTypeComboboxOptionsAreFullyListed() {
         panelComboboxOption.set(Combobox.CHART_TYPE.value());
         List<String> list = Arrays.stream(ChartType.values()).map(ChartType::value).collect(Collectors.toList());
         return list.containsAll(panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList())) && panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList()).containsAll(list);
+    }
+
+    @Step("Verify Page combobox lists full options")
+    public boolean comboboxOptionsAreFullyListed(Combobox comboboxName, String ...values) {
+        panelComboboxOption.set(comboboxName.value());
+        List<String> list = Arrays.stream(values).collect(Collectors.toList());
+        return list.containsAll(panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList())) &&
+                (panelComboboxOption.elements().stream().map(WebElement::getText).collect(Collectors.toList()).containsAll(list));
     }
 
     @Step("Verify Combobox in Chart Settings is enabled or not")
@@ -310,5 +321,18 @@ public class DialogPage implements IDialogPage {
     public boolean isStayUnchanged(Panel panel) {
         displaySettingTab.click();
         return isShowTitleUnchanged(panel) && isChartTypeSettingUnchanged(panel) && isDataProfileSettingUnchanged(panel);
+    }
+
+    @Step("Enter height value in Panel Configuration")
+    public void enterPanelHeight(String value) {
+        heightTextBox.clear();
+        heightTextBox.enter(value);
+    }
+
+    @Step("Enter panel's folder")
+    public void enterFolderLink(String value) {
+        folderTextBox.clear();
+        folderTextBox.enter(value);
+        panelConfigurationTitle.click();
     }
 }
