@@ -42,9 +42,9 @@ public class DialogPage implements IDialogPage {
     private Element captionTextBox = new Element(By.id("txtValueYAxis"));
     private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
     private Element showTitleCheckboxButton = new Element(By.id("chkShowTitle"));
-    private Element legendsRadioButton = new Element(By.xpath("//td[text()='Legends']//following-sibling::td//label"));
     private Element displaySettingTab = new Element(By.xpath("//a[text()='Display Settings']"));
     private Element radioButton = new Element("//input[@value=\"%s\"]");
+    private Element linkText = new Element("//a[text()=\"%s\"]");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -235,6 +235,12 @@ public class DialogPage implements IDialogPage {
     public void clickLabelOptionButton(DataLabel label) {
         checkboxButton.set(label.value());
         checkboxButton.click();
+    }
+
+    @Step("Click link text")
+    public void clickLinkText(String value) {
+        linkText.set(StringUtils.replaceSpaceCharWithNBSP(value));
+        linkText.click();
     }
 
     @Step("Verify Panel Setting Form displays above Display Name")

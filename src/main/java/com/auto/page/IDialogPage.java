@@ -54,4 +54,6 @@ public interface IDialogPage {
     void chooseChartTypeCombobox(Panel panel);
 
     void chooseLabelOption(Panel panel);
+
+    void clickLinkText(String value);
 }

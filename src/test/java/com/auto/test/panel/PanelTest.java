@@ -8,10 +8,7 @@ import com.auto.model.Panel;
 import com.auto.model.User;
 import com.auto.page.*;
 import com.auto.test.BrowserTestBase;
-import com.auto.utils.DriverUtils;
-import com.auto.utils.FakerUtils;
-import com.auto.utils.MessageLoader;
-import com.auto.utils.UserUtils;
+import com.auto.utils.*;
 import com.logigear.statics.Selaium;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -358,7 +355,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertAll();
     }
 
-    @Test("All pages are listed correctly under the 'Select page * dropped down menu of Panel Configuration form/ control")
+    @Test(description = "All pages are listed correctly under the 'Select page * dropped down menu of Panel Configuration form/ control")
     public void DA_PANEL_TC042() {
         Page page1 = new Page();
         Page page2 = new Page();
@@ -369,5 +366,6 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPage(page3);
 
         homePage.clickChoosePanelButton();
+        dialogPage.clickLinkText(DataProfiles.randomDataProfiles().value());
     }
 }

@@ -1,5 +1,7 @@
 package com.auto.data.enums;
 
+import java.util.Random;
+
 public enum DataProfiles {
 
     ACTION_BY_STATUS("Action Implementation By Status"),
@@ -24,6 +26,8 @@ public enum DataProfiles {
 
     private String value;
 
+    private static final Random random = new Random();
+
     DataProfiles(String value) {
         this.value = value;
     }
@@ -31,4 +35,9 @@ public enum DataProfiles {
     public String value() {
         return value;
     }
+
+    public static DataProfiles randomDataProfiles() {
+        return values()[random.nextInt(values().length)];
+    }
+
 }
