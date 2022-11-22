@@ -4,6 +4,7 @@
 target/
 allure-results/
 .gitignore
+*.iml
 
 # Log file
 *.log
