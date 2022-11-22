@@ -41,6 +41,7 @@ public class PanelTest extends BrowserTestBase {
 
     @AfterClass(alwaysRun = true)
     public void after() {
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
         DriverUtils.deletePanel(panelPage.getPanelIds());
         DriverUtils.deletePage(homePage.getPageIds());
         Selaium.driver().close();

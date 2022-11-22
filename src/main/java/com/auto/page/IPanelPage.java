@@ -16,5 +16,9 @@ public interface IPanelPage {
 
     void clickEditPanelButton();
 
+    boolean isPanelCreated(String name);
+
     List<String> getPanelIds();
+
+    List<String> getPanelContentIds();
 }

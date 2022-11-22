@@ -47,7 +47,8 @@ public class DialogPage implements IDialogPage {
     private Element linkText = new Element("//a[text()=\"%s\"]");
     private Element heightTextBox = new Element(By.id("txtHeight"));
     private Element folderTextBox = new Element(By.id("txtFolder"));
-    private Element panelConfigurationTitle = new Element(By.id("ui-dialog-title-div_panelConfigurationDlg"));
+    private Element panelConfigurationOKButton = new Element(By.xpath("//div[@id='div_panelConfigurationDlg']//input[@id='OK']"));
+    private Element openFolderIcon = new Element(By.xpath("//a[@title='Open']"));
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -333,6 +334,15 @@ public class DialogPage implements IDialogPage {
     public void enterFolderLink(String value) {
         folderTextBox.clear();
         folderTextBox.enter(value);
-        panelConfigurationTitle.click();
+    }
+
+    @Step("Click Panel Configuration OK Button")
+    public void clickPanelConfigurationOKButton() {
+        panelConfigurationOKButton.click();
+    }
+
+    @Step("Click Open Folder icon")
+    public void clickOpenFolderIcon() {
+        openFolderIcon.click();
     }
 }

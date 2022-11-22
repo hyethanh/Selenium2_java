@@ -19,6 +19,8 @@ public class PanelPage implements IPanelPage {
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
     private Element editButton = new Element(By.xpath("//li[@class='edit'and @title='Edit Panel']"));
+    private Element panelTitle = new Element("//div[@title='%s']");
+    private Element createdPanelContents = new Element(By.xpath("//li[@class='widget']/div"));
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(String value) {
@@ -56,9 +58,23 @@ public class PanelPage implements IPanelPage {
         editButton.click();
     }
 
+    @Step("Verify panel is created successfully")
+    public boolean isPanelCreated(String name) {
+        panelTitle.set(name);
+        return panelTitle.isDisplayed() && panelTitle.exists();
+    }
+
     public List<String> getPanelIds() {
         if (createdPanels.exists()) {
             List<String> list = createdPanels.elements().stream().map(p -> p.getAttribute("value")).collect(Collectors.toList());
+            return list;
+        }
+        return null;
+    }
+
+    public List<String> getPanelContentIds() {
+        if (createdPanelContents.isDisplayed()) {
+            List<String> list = createdPanelContents.elements().stream().map(p -> p.getAttribute("id")).collect(Collectors.toList());
             return list;
         }
         return null;

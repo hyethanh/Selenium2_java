@@ -2,6 +2,8 @@ package com.auto.test.panel;
 
 import com.auto.data.enums.Charts;
 import com.auto.data.enums.Combobox;
+import com.auto.data.enums.FolderLink;
+import com.auto.data.enums.MenuItem;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 import com.auto.model.User;
@@ -41,8 +43,10 @@ public class PanelConfigurationTest extends BrowserTestBase {
 
     @AfterClass(alwaysRun = true)
     public void after() {
-        DriverUtils.deletePanel(panelPage.getPanelIds());
         DriverUtils.deletePage(homePage.getPageIds());
+        DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
+        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        DriverUtils.deletePanel(panelPage.getPanelIds());
         Selaium.driver().close();
     }
 
@@ -120,10 +124,44 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.enterFolderLink("");
-        dialogPage.clickOKButton();
-        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.folder"));
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "Only valid folder path of corresponding item type ( e.g. Actions, Test Modules) are allowed to be entered into Folder field")
+    public void DA_PANEL_TC046() {
+        Page page = new Page();
+        Panel panel = new Panel();
+
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+        dialogPage.enterFolderLink("abc");
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
+        DriverUtils.acceptAlert();
+        dialogPage.enterFolderLink(FolderLink.randomFolderLink().value());
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertTrue(panelPage.isPanelCreated(panel.getName()));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "User is able to navigate properly to folders with Select Folder form")
+    public void DA_PANEL_TC047() {
+        Page page = new Page();
+        Panel panel = new Panel();
+
+        dialogPage.createNewPage(page);
+        homePage.clickChoosePanelButton();
+        dialogPage.clickCreateNewPanelButton();
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+        dialogPage.clickOpenFolderIcon();
     }
 }

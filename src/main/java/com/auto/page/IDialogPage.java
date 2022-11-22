@@ -63,4 +63,8 @@ public interface IDialogPage {
     void enterPanelHeight(String value);
 
     void enterFolderLink(String value);
+
+    void clickPanelConfigurationOKButton();
+
+    void clickOpenFolderIcon();
 }
