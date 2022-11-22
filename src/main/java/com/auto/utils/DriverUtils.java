@@ -108,11 +108,11 @@ public class DriverUtils {
                       "\t\t\t\t\tDashboard.handleReturnError(receive);\n" +
                       "\t\t\t\t} else if (true) {\n" +
                       "\t\t\t\t\tDashboard.loading(\"%s\");\n" +
-                      "\t\t\t\t\tDashboard.getPanelContent(\"2gfoixsd2m\");\n" +
+                      "\t\t\t\t\tDashboard.getPanelContent(\"%s\");\n" +
                       "\t\t\t\t}\n" +
                       "\t\t\t\tDashboard.updateColumns();\n" +
                       "\t\t\t}\n" +
-                      "\t\t});"), id);
+                      "\t\t});", id, id, id, id));
           }
         }
     }

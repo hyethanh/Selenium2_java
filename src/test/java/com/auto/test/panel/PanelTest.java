@@ -210,8 +210,7 @@ public class PanelTest extends BrowserTestBase {
     public void DA_PANEL_TC037() {
         Page page = new Page();
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
 
         dialogPage.chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), ChartType.PIE.value());
         softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is disabled with PIE type");
@@ -253,8 +252,7 @@ public class PanelTest extends BrowserTestBase {
         panel.setStyle("3D");
 
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
         softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled");
 
@@ -272,8 +270,7 @@ public class PanelTest extends BrowserTestBase {
         panel.setChartType(ChartType.PIE);
 
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
 
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with PIE type");

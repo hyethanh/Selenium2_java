@@ -2,6 +2,7 @@ package com.auto.page;
 
 import com.auto.data.enums.Combobox;
 import com.auto.data.enums.DataLabel;
+import com.auto.data.enums.Folder;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 
@@ -66,5 +67,15 @@ public interface IDialogPage {
 
     void clickPanelConfigurationOKButton();
 
+    void clickPanelConfigurationCancelButton();
+
     void clickOpenFolderIcon();
+
+    void closeChooseFolderForm();
+
+    void chooseFolderInForm(Folder folder);
+
+    void openCreatePanelDialogFromHomePage();
+
+    boolean isFolderCorrectInSelectFolderForm();
 }

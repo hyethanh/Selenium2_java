@@ -73,7 +73,7 @@ public class PanelPage implements IPanelPage {
     }
 
     public List<String> getPanelContentIds() {
-        if (createdPanelContents.isDisplayed()) {
+        if (createdPanelContents.isDisplayed() && createdPanelContents.exists()) {
             List<String> list = createdPanelContents.elements().stream().map(p -> p.getAttribute("id")).collect(Collectors.toList());
             return list;
         }

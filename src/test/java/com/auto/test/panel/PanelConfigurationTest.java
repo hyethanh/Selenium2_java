@@ -2,7 +2,7 @@ package com.auto.test.panel;
 
 import com.auto.data.enums.Charts;
 import com.auto.data.enums.Combobox;
-import com.auto.data.enums.FolderLink;
+import com.auto.data.enums.Folder;
 import com.auto.data.enums.MenuItem;
 import com.auto.model.Page;
 import com.auto.model.Panel;
@@ -119,8 +119,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         Panel panel = new Panel();
 
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.enterFolderLink("");
@@ -137,15 +136,14 @@ public class PanelConfigurationTest extends BrowserTestBase {
         Panel panel = new Panel();
 
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.enterFolderLink("abc");
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
-        dialogPage.enterFolderLink(FolderLink.randomFolderLink().value());
+        dialogPage.enterFolderLink(Folder.randomFolderLink());
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isPanelCreated(panel.getName()));
 
@@ -158,10 +156,31 @@ public class PanelConfigurationTest extends BrowserTestBase {
         Panel panel = new Panel();
 
         dialogPage.createNewPage(page);
-        homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.clickOpenFolderIcon();
+        dialogPage.chooseFolderInForm(Folder.randomFolder());
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertTrue(panelPage.isPanelCreated(panel.getName()));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Population of corresponding item type ( e.g. Actions, Test Modules) folders is correct in Select Folder form")
+    public void DA_PANEL_TC048() {
+        Page page = new Page();
+        Panel panel = new Panel();
+
+        dialogPage.createNewPage(page);
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+        dialogPage.clickOpenFolderIcon();
+        softAssert.assertTrue(dialogPage.isFolderCorrectInSelectFolderForm());
+        dialogPage.closeChooseFolderForm();
+        dialogPage.clickPanelConfigurationCancelButton();
+
+        softAssert.assertAll();
     }
 }
