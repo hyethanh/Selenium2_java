@@ -1,6 +1,6 @@
 package com.auto.data.enums;
 
-public enum MenuItem {
+public enum LinkText {
 
     ADD_PAGE("Add Page"),
     ADD_PANEL("Add Panel"),
@@ -14,7 +14,7 @@ public enum MenuItem {
 
     private String value;
 
-    MenuItem(String value) {
+    LinkText(String value) {
         this.value = value;
     }
 

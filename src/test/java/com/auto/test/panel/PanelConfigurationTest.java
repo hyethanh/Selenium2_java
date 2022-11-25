@@ -3,7 +3,7 @@ package com.auto.test.panel;
 import com.auto.data.enums.Charts;
 import com.auto.data.enums.Combobox;
 import com.auto.data.enums.Folder;
-import com.auto.data.enums.MenuItem;
+import com.auto.data.enums.LinkText;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 import com.auto.model.User;
@@ -45,7 +45,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
     public void after() {
         DriverUtils.deletePage(homePage.getPageIds());
         DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
-        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
+        homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
         Selaium.driver().close();
     }
@@ -145,7 +145,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         DriverUtils.acceptAlert();
         dialogPage.enterFolderLink(Folder.randomFolderLink());
         dialogPage.clickPanelConfigurationOKButton();
-        softAssert.assertTrue(panelPage.isPanelCreated(panel.getName()));
+        softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
         softAssert.assertAll();
     }
@@ -162,7 +162,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickOpenFolderIcon();
         dialogPage.chooseFolderInForm(Folder.randomFolder());
         dialogPage.clickPanelConfigurationOKButton();
-        softAssert.assertTrue(panelPage.isPanelCreated(panel.getName()));
+        softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
         softAssert.assertAll();
     }
@@ -180,6 +180,46 @@ public class PanelConfigurationTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isFolderCorrectInSelectFolderForm());
         dialogPage.closeChooseFolderForm();
         dialogPage.clickPanelConfigurationCancelButton();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All folder paths of corresponding item type ( e.g. Actions, Test Modules) are correct in Select Folder form ")
+    public void DA_PANEL_TC049() {
+        Page page = new Page();
+        Panel panel = new Panel();
+        Folder folder = Folder.randomFolder();
+
+        dialogPage.createNewPage(page);
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+        dialogPage.clickOpenFolderIcon();
+        dialogPage.chooseFolderInForm(folder);
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertTrue(panelPage.isFolderPathAsSelected(String.format("/%s/Actions", folder.value())));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "User is unable to edit Height * field to anything apart from integer number with in 300-800 range")
+    public void DA_PANEL_TC052() {
+        Panel panel = new Panel();
+        Random r = new Random();
+
+        dialogPage.createNewPage(new Page());
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+
+        dialogPage.enterPanelHeight(String.valueOf(300 - r.nextInt(301)));
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.height"));
+        DriverUtils.acceptAlert();
+
+        dialogPage.enterPanelHeight(String.valueOf(300 + r.nextInt(501)));
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
         softAssert.assertAll();
     }

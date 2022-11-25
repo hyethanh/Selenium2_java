@@ -1,6 +1,6 @@
 package com.auto.page.imp.browser;
 
-import com.auto.data.enums.MenuItem;
+import com.auto.data.enums.LinkText;
 import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.page.IHomePage;
@@ -43,7 +43,7 @@ public class HomePage implements IHomePage {
     }
 
     protected void clickAdministerMenuItemButton(String value) {
-        hoverOnTab(new Page(MenuItem.ADMINISTER.value()));
+        hoverOnTab(new Page(LinkText.ADMINISTER.value()));
         menuItemButton.set(value);
         menuItemButton.click();
     }
@@ -57,20 +57,20 @@ public class HomePage implements IHomePage {
     @Step("Logout the account")
     @Override
     public void logout() {
-        hoverOnTab(new Page(MenuItem.ADMINISTRATOR.value()));
+        hoverOnTab(new Page(LinkText.ADMINISTRATOR.value()));
         logoutButton.click();
     }
 
     @Step("Open add page dialog")
     @Override
     public void openAddPageDialog() {
-        clickMenuItemButton(MenuItem.ADD_PAGE.value());
+        clickMenuItemButton(LinkText.ADD_PAGE.value());
     }
 
     @Step("Verify click Add Page button")
     public boolean isAddPageDialogOpened() {
         globalSettingTab.hover();
-        menuItemButton.set(MenuItem.ADD_PAGE.value());
+        menuItemButton.set(LinkText.ADD_PAGE.value());
         return menuItemButton.isDisplayed();
     }
 
@@ -88,18 +88,18 @@ public class HomePage implements IHomePage {
     @Step("Move To Page And Click Delete")
     public void moveToPageAndClickDelete(Page page) {
         moveToPage(page);
-        clickMenuItemButton(MenuItem.DELETE.value());
+        clickMenuItemButton(LinkText.DELETE.value());
     }
 
     @Step("Move To Page And Click Edit")
     public void moveToPageAndClickEdit(Page page) {
         moveToPage(page);
-        clickMenuItemButton(MenuItem.EDIT.value());
+        clickMenuItemButton(LinkText.EDIT.value());
     }
 
     @Step("Move To Panel Page")
-    public void moveToPanelItemPage(String value) {
-        clickAdministerMenuItemButton(value);
+    public void moveToPanelItemPage(LinkText value) {
+        clickAdministerMenuItemButton(value.value());
     }
 
     @Step("Open Choose Panel Dialog")

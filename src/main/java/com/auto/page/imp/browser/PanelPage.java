@@ -1,5 +1,6 @@
 package com.auto.page.imp.browser;
 
+import com.auto.data.enums.LinkText;
 import com.auto.element.Element;
 import com.auto.model.Panel;
 import com.auto.page.IPanelPage;
@@ -18,13 +19,15 @@ public class PanelPage implements IPanelPage {
     private Element linkButton = new Element("//a[text()='%s']");
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
-    private Element editButton = new Element(By.xpath("//li[@class='edit'and @title='Edit Panel']"));
+    private Element editButton = new Element(By.xpath("//li[@class='edit' and @title='Edit Panel']"));
     private Element panelTitle = new Element("//div[@title='%s']");
     private Element createdPanelContents = new Element(By.xpath("//li[@class='widget']/div"));
+    private Element projectLabel = new Element(By.xpath("//td[@align='left']"));
+    private Element folderLabel = new Element(By.xpath("//td[@align='right']"));
 
     @Step("Click Add New link to create a new panel")
-    public void clickLinkButton(String value) {
-        linkButton.set(value);
+    public void clickLinkButton(LinkText value) {
+        linkButton.set(value.value());
         linkButton.click();
     }
 
@@ -59,9 +62,16 @@ public class PanelPage implements IPanelPage {
     }
 
     @Step("Verify panel is created successfully")
-    public boolean isPanelCreated(String name) {
-        panelTitle.set(name);
+    public boolean isPanelCreated(Panel panel) {
+        panelTitle.set(panel.getName());
         return panelTitle.isDisplayed() && panelTitle.exists();
+    }
+
+    @Step("Verify the newly created folder path is correct as selected")
+    public boolean isFolderPathAsSelected(String link) {
+        String project = projectLabel.elements().stream().findFirst().map(p -> p.getText()).get().replace("Project: ","");
+        String folder = folderLabel.elements().stream().findFirst().map(p -> p.getText()).get().replace("Folder: ","");
+        return link.equals(String.format("/%s/%s", project, folder));
     }
 
     public List<String> getPanelIds() {

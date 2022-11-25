@@ -1,5 +1,6 @@
 package com.auto.page;
 
+import com.auto.data.enums.LinkText;
 import com.auto.model.Panel;
 
 import java.util.List;
@@ -10,15 +11,17 @@ public interface IPanelPage {
 
     void clickFinishButton();
 
-    void clickLinkButton(String value);
+    void clickLinkButton(LinkText value);
 
     boolean isPanelDisplayedInTable(Panel panel);
 
     void clickEditPanelButton();
 
-    boolean isPanelCreated(String name);
+    boolean isPanelCreated(Panel panel);
 
     List<String> getPanelIds();
 
     List<String> getPanelContentIds();
+
+    boolean isFolderPathAsSelected(String link);
 }

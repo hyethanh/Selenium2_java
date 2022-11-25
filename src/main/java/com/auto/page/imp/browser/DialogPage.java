@@ -105,8 +105,8 @@ public class DialogPage implements IDialogPage {
 
     @Step("Create a new panel")
     public void createNewPanel(Panel panel) {
-        homePage.moveToPanelItemPage(MenuItem.PANELS.value());
-        panelPage.clickLinkButton(MenuItem.ADD_NEW.value());
+        homePage.moveToPanelItemPage(LinkText.PANELS);
+        panelPage.clickLinkButton(LinkText.ADD_NEW);
         enterPanelInformation(panel);
         clickOKButton();
         okButton.waitForInvisible();
@@ -342,7 +342,6 @@ public class DialogPage implements IDialogPage {
     @Step("Click Panel Configuration OK Button")
     public void clickPanelConfigurationOKButton() {
         panelConfigurationOKButton.click();
-        panelConfigurationOKButton.waitForInvisible();
     }
 
     @Step("Click Panel Configuration Cancel Button")
