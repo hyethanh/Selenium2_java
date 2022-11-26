@@ -29,6 +29,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
     private IHomePage homePage;
     private IDialogPage dialogPage;
     private IPanelPage panelPage;
+    private IFormPage formPage;
 
     @BeforeClass(alwaysRun = true)
     public void before() {
@@ -36,6 +37,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         homePage = PageFactory.getHomePage();
         dialogPage = PageFactory.getDialogPage();
         panelPage = PageFactory.getPanelPage();
+        formPage = PageFactory.getFormPage();
         user = UserUtils.getUser();
 
         loginPage.login(user);
@@ -160,7 +162,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.clickOpenFolderIcon();
-        dialogPage.chooseFolderInForm(Folder.randomFolder());
+        formPage.chooseFolderInForm(Folder.randomFolder());
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
@@ -177,8 +179,8 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.clickOpenFolderIcon();
-        softAssert.assertTrue(dialogPage.isFolderCorrectInSelectFolderForm());
-        dialogPage.closeChooseFolderForm();
+        softAssert.assertTrue(formPage.isFolderCorrectInSelectFolderForm());
+        formPage.closeChooseFolderForm();
         dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
@@ -195,7 +197,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
         dialogPage.clickOpenFolderIcon();
-        dialogPage.chooseFolderInForm(folder);
+        formPage.chooseFolderInForm(folder);
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isFolderPathAsSelected(String.format("/%s/Actions", folder.value())));
 

@@ -71,11 +71,11 @@ public interface IDialogPage {
 
     void clickOpenFolderIcon();
 
-    void closeChooseFolderForm();
+//    void closeChooseFolderForm();
 
-    void chooseFolderInForm(Folder folder);
+//    void chooseFolderInForm(Folder folder);
 
     void openCreatePanelDialogFromHomePage();
 
-    boolean isFolderCorrectInSelectFolderForm();
+//    boolean isFolderCorrectInSelectFolderForm();
 }

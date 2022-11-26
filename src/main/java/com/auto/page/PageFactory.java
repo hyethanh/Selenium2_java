@@ -1,10 +1,7 @@
 package com.auto.page;
 
 
-import com.auto.page.imp.browser.HomePage;
-import com.auto.page.imp.browser.LoginPage;
-import com.auto.page.imp.browser.DialogPage;
-import com.auto.page.imp.browser.PanelPage;
+import com.auto.page.imp.browser.*;
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +34,10 @@ public class PageFactory {
 
         pages.put(Page.Panel, new HashMap<String, Class<?>>() {{
             put(Constants.BROWSER, PanelPage.class);
+        }});
+
+        pages.put(Page.Form, new HashMap<String, Class<?>>() {{
+            put(Constants.BROWSER, FormPage.class);
         }});
     }
 
@@ -75,11 +76,16 @@ public class PageFactory {
         return get(Page.Panel);
     }
 
+    public static IFormPage getFormPage() {
+        return get(Page.Form);
+    }
+
 
     private static class Page {
         private static final String Login = "LoginPage";
         private static final String Home = "HomePage";
         private static final String Dialog = "DialogPage";
-        public static final String Panel = "PanelPage";
+        private static final String Panel = "PanelPage";
+        private static final String Form = "FormPage";
     }
 }

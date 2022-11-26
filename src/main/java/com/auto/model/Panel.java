@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Panel {
 
-    private ChartType type;
+    private PanelType type;
     private DataProfiles dataProfile;
     private String name;
     private String chartTitle;
