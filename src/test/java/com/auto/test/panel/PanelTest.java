@@ -27,6 +27,7 @@ public class PanelTest extends BrowserTestBase {
     private IHomePage homePage;
     private IDialogPage dialogPage;
     private IPanelPage panelPage;
+    private IFormPage formPage;
 
     @BeforeClass(alwaysRun = true)
     public void before() {
@@ -34,6 +35,7 @@ public class PanelTest extends BrowserTestBase {
         homePage = PageFactory.getHomePage();
         dialogPage = PageFactory.getDialogPage();
         panelPage = PageFactory.getPanelPage();
+        formPage = PageFactory.getFormPage();
         user = UserUtils.getUser();
 
         loginPage.login(user);
@@ -43,6 +45,7 @@ public class PanelTest extends BrowserTestBase {
     public void after() {
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
+        homePage.moveToPage(Page.overviewPage());
         DriverUtils.deletePage(homePage.getPageIds());
         Selaium.driver().close();
     }
@@ -200,7 +203,7 @@ public class PanelTest extends BrowserTestBase {
         Page page = new Page();
         dialogPage.createNewPage(page);
         homePage.clickChoosePanelButton();
-        dialogPage.clickCreateNewPanelButton();
+        formPage.clickCreateNewPanelButton();
         softAssert.assertTrue(dialogPage.chartTypeComboboxOptionsAreFullyListed());
 
         softAssert.assertAll();
@@ -394,4 +397,41 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertAll();
     }
 
+    @Test(description = "Newly created panel are populated and sorted correctly in Panel lists under Choose panels form")
+    public void DA_PANEL_TC053() {
+        Page page = new Page();
+        Panel panel1 = new Panel();
+        Panel panel2 = new Panel();
+        Panel panel3 = new Panel();
+        Panel panel4 = new Panel();
+
+        dialogPage.createNewPage(page);
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.createNewPanelWithoutConfiguration(panel1);
+        formPage.clickHideChoosePanelsButton();
+
+        homePage.moveToPage(page);
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.createNewPanelWithoutConfiguration(panel2);
+
+        panel3.setType(PanelType.INDICATOR);
+        homePage.moveToPage(Page.overviewPage());
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.createNewPanelWithoutConfiguration(panel3);
+        formPage.clickHideChoosePanelsButton();
+
+        panel4.setType(PanelType.REPORT);
+        homePage.moveToPage(Page.overviewPage());
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.createNewPanelWithoutConfiguration(panel4);
+        homePage.moveToPage(Page.overviewPage());
+        homePage.clickChoosePanelButton();
+//
+        softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.CHART, panel1), "Verify first panel existed in Choose Panels form");
+        softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.CHART, panel2), "Verify second panel existed in Choose Panels form");
+        softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.INDICATOR, panel3), "Verify third panel existed in Choose Panels form");
+        softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.REPORT, panel4), "Verify fourth panel existed in Choose Panels form");
+
+        softAssert.assertAll();
+    }
 }

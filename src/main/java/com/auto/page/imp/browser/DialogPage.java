@@ -4,6 +4,7 @@ import com.auto.data.enums.*;
 import com.auto.element.Element;
 import com.auto.model.Page;
 import com.auto.model.Panel;
+import com.auto.page.IFormPage;
 import com.auto.page.IHomePage;
 import com.auto.page.IDialogPage;
 import com.auto.page.IPanelPage;
@@ -23,6 +24,8 @@ public class DialogPage implements IDialogPage {
 
     private IHomePage homePage = new HomePage() ;
     private IPanelPage panelPage = new PanelPage();
+    private IFormPage formPage = new FormPage();
+
     private Element okButton = new Element(By.id("OK"));
     private Element cancelButton = new Element(By.id("Cancel"));
     private Element pageNameText = new Element(By.id("name"));
@@ -35,7 +38,6 @@ public class DialogPage implements IDialogPage {
     private Element panelChartTitleTextBox = new Element(By.id("txtChartTitle"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
-    private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
     private Element captionTextBox = new Element(By.id("txtValueYAxis"));
     private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
     private Element showTitleCheckboxButton = new Element(By.id("chkShowTitle"));
@@ -47,6 +49,9 @@ public class DialogPage implements IDialogPage {
     private Element panelConfigurationOKButton = new Element(By.xpath("//div[@id='div_panelConfigurationDlg']//input[@id='OK']"));
     private Element panelConfigurationCancelButton = new Element(By.xpath("//div[@id='div_panelConfigurationDlg']//input[@id='Cancel']"));
     private Element openFolderIcon = new Element(By.xpath("//a[@title='Open']"));
+    private Element statisticFieldCombobox = new Element(By.xpath("//select[@id='cbbStatField']"));
+    private Element statisticFieldComboboxOption = new Element(By.xpath("//select[@id='cbbStatField']/optgroup/option"));
+    private Element statisticFieldComboboxOptionWithText = new Element("//select[@id='cbbStatField']/optgroup/option[contains(text(),\"%s\")]");
 
     @Step("Enter page name")
     public void enterPageName(String value) {
@@ -59,7 +64,7 @@ public class DialogPage implements IDialogPage {
         panelDisplayedName.enter(value);
     }
 
-    @Step("Click OK to create new page")
+    @Step("Click OK button")
     public void clickOKButton() {
         okButton.click();
     }
@@ -82,12 +87,14 @@ public class DialogPage implements IDialogPage {
     @Step("Choose an option in Create Panel drop down")
     public void chooseComboBoxPanelPage(String comboBoxName, String option) {
         dialogCombobox.set(comboBoxName);
-        dialogCombobox.click();
-        panelComboboxOption.set(comboBoxName);
-        panelComboboxOption.waitForVisible();
+        if (dialogCombobox.isDisplayed() && dialogCombobox.exists()) {
+            dialogCombobox.click();
+            panelComboboxOption.set(comboBoxName);
+            panelComboboxOption.waitForVisible();
 
-        dialogCombobox.select(option);
-        panelComboboxOptionWithText.set(comboBoxName, StringUtils.replaceSpaceCharWithNBSP(option));
+            dialogCombobox.select(option);
+            panelComboboxOptionWithText.set(comboBoxName, StringUtils.replaceSpaceCharWithNBSP(option));
+        }
     }
 
     @Step("Create a new page")
@@ -132,6 +139,14 @@ public class DialogPage implements IDialogPage {
     public void chooseColumnCombobox(Page page) {
         if (page.getColumn() != Constants.DEFAULT_PAGE_COLUMN) {
             chooseComboboxOption(Combobox.COLUMNS.value(), Integer.toString(page.getColumn()));
+        }
+    }
+
+    @Step("Choose Type Panel")
+    public void chooseTypePanel(Panel panel) {
+        if (panel.getType() != null) {
+            checkboxButton.set(panel.getType().value());
+            checkboxButton.click();
         }
     }
 
@@ -196,12 +211,14 @@ public class DialogPage implements IDialogPage {
     public void enterPanelInformation(Panel panel) {
         enterPanelName(panel.getName());
         enterChartTitle(panel);
+        chooseTypePanel(panel);
         chooseChartTypeCombobox(panel);
         chooseChartSeriesCombobox(panel);
         chooseDataProfileCombobox(panel);
         chooseLabelOption(panel);
         choosePanelStyle(panel);
         clickShowTitleButton(panel);
+        chooseStatisticFieldCombobox(panel);
     }
 
     @Step("Open Add New Panel dialog's combobox")
@@ -212,15 +229,13 @@ public class DialogPage implements IDialogPage {
         panelComboboxOption.waitForVisible();
     }
 
-    @Step("Click create new panel button from choose panel dialog")
-    public void clickCreateNewPanelButton() {
-        createPanelButton.click();
-    }
 
     @Step("Click style button")
     public void clickRadioButton(String value) {
         radioButton.set(value);
-        radioButton.click();
+        if (radioButton.isDisplayed()) {
+            radioButton.click();
+        }
     }
 
     @Step("Wait to close add new panel dialog close")
@@ -349,38 +364,27 @@ public class DialogPage implements IDialogPage {
     public void clickOpenFolderIcon() {
         openFolderIcon.click();
     }
-//
-//    @Step("Click expand icon folder")
-//    public void clickExpandIconFolder(String folder) {
-//        expandIcon.set(folder);
-//        expandIcon.click();
-//    }
-//
-//    @Step("Click Actions link text")
-//    public void clickActionsLinkText() {
-//        actionsLinkText.click();
-//    }
-//
-//    public void chooseFolderInForm(Folder folder) {
-//        clickExpandIconFolder(folder.value());
-//        clickActionsLinkText();
-//        folderSelectionOKButton.click();
-//    }
 
     public void openCreatePanelDialogFromHomePage() {
         homePage.clickChoosePanelButton();
-        clickCreateNewPanelButton();
+        formPage.clickCreateNewPanelButton();
+        waitForPanelDialogOpen();
     }
 
-//    @Step("Close Choose Panel Folder Form")
-//    public void closeChooseFolderForm() {
-//        folderSelectionCancelButton.click();
-//    }
-//
-//    @Step("Verify corresponding item type folders is correct in Select Folder form")
-//    public boolean isFolderCorrectInSelectFolderForm() {
-//        List<String> list = Arrays.stream(Folder.values()).map(Folder::value).collect(Collectors.toList());
-//        return list.containsAll(panelFolderTree.elements().stream().map(p -> p.getText().trim()).collect(Collectors.toList())) &&
-//                (panelFolderTree.elements().stream().map(p -> p.getText().trim()).collect(Collectors.toList())).containsAll(list);
-//    }
+    @Step("Create new panel without configuration")
+    public void createNewPanelWithoutConfiguration(Panel panel) {
+        enterPanelInformation(panel);
+        clickOKButton();
+        clickPanelConfigurationCancelButton();
+    }
+
+    @Step("Choose Statistic Field Combobox")
+    public void chooseStatisticFieldCombobox(Panel panel) {
+        if (statisticFieldCombobox.isDisplayed()) {
+            statisticFieldCombobox.click();
+            statisticFieldComboboxOption.waitForVisible();
+            statisticFieldCombobox.select(panel.getStatisticField().value());
+            statisticFieldComboboxOptionWithText.set(panel.getStatisticField().value());
+        }
+    }
 }

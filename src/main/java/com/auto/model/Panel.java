@@ -26,6 +26,7 @@ public class Panel {
     private DataLabel dataLabel;
     private boolean isShowTitle;
     private String style;
+    private StatisticField statisticField;
 
     public Panel() {
         this.type = null;
@@ -38,5 +39,6 @@ public class Panel {
         this.dataLabel = null;
         this.isShowTitle = false;
         this.style = Constants.DEFAULT_PANEL_STYLE;
+        this.statisticField = StatisticField.randomStatisticField();
     }
 }

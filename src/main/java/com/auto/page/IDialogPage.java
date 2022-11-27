@@ -37,8 +37,6 @@ public interface IDialogPage {
 
     void enterPanelInformation(Panel panel);
 
-    void clickCreateNewPanelButton();
-
     boolean chartTypeComboboxOptionsAreFullyListed();
 
     boolean isComboboxEnabled(String comboboxName);
@@ -71,11 +69,9 @@ public interface IDialogPage {
 
     void clickOpenFolderIcon();
 
-//    void closeChooseFolderForm();
-
-//    void chooseFolderInForm(Folder folder);
-
     void openCreatePanelDialogFromHomePage();
 
-//    boolean isFolderCorrectInSelectFolderForm();
+    void createNewPanelWithoutConfiguration(Panel panel);
+
+    void chooseTypePanel(Panel panel);
 }

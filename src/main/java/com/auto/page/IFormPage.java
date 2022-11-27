@@ -1,6 +1,8 @@
 package com.auto.page;
 
 import com.auto.data.enums.Folder;
+import com.auto.data.enums.PanelType;
+import com.auto.model.Panel;
 
 public interface IFormPage {
 
@@ -13,4 +15,10 @@ public interface IFormPage {
     void closeChooseFolderForm();
 
     boolean isFolderCorrectInSelectFolderForm();
+
+    boolean isPanelInChoosePanelsForm(PanelType panelType, Panel panel);
+
+    void clickCreateNewPanelButton();
+
+    void clickHideChoosePanelsButton();
 }
