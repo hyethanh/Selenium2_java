@@ -199,7 +199,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickOpenFolderIcon();
         formPage.chooseFolderInForm(folder);
         dialogPage.clickPanelConfigurationOKButton();
-        softAssert.assertTrue(panelPage.isFolderPathAsSelected(String.format("/%s/Actions", folder.value())));
+        softAssert.assertTrue(panelPage.isFolderPathAsSelected(panel, String.format("/%s/Actions", folder.value())));
 
         softAssert.assertAll();
     }
@@ -222,6 +222,24 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterPanelHeight(String.valueOf(300 + r.nextInt(501)));
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isPanelCreated(panel));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "User is able to successfully edit Folder field with valid path")
+    public void DA_PANEL_TC054() {
+        Panel panel = new Panel();
+        String folder = Folder.randomFolderLink();
+        System.out.println(folder);
+
+        dialogPage.createNewPage(new Page());
+        dialogPage.createNewPanel(panel);
+        homePage.moveToPage(Page.overviewPage());
+        homePage.clickChoosePanelButton();
+        formPage.choosePanelFromChoosePanelsForm(panel);
+        dialogPage.enterFolderLink(folder);
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertTrue(panelPage.isFolderPathAsSelected(panel, folder), "Verify path folder is updated successfully");
 
         softAssert.assertAll();
     }

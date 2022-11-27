@@ -21,4 +21,6 @@ public interface IFormPage {
     void clickCreateNewPanelButton();
 
     void clickHideChoosePanelsButton();
+
+    void choosePanelFromChoosePanelsForm(Panel panel);
 }

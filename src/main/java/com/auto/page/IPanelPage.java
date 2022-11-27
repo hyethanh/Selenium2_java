@@ -23,5 +23,5 @@ public interface IPanelPage {
 
     List<String> getPanelContentIds();
 
-    boolean isFolderPathAsSelected(String link);
+    boolean isFolderPathAsSelected(Panel panel, String link);
 }

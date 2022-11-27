@@ -4,6 +4,7 @@ import com.auto.data.enums.LinkText;
 import com.auto.element.Element;
 import com.auto.model.Panel;
 import com.auto.page.IPanelPage;
+import com.auto.utils.StringUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -22,8 +23,10 @@ public class PanelPage implements IPanelPage {
     private Element editButton = new Element(By.xpath("//li[@class='edit' and @title='Edit Panel']"));
     private Element panelTitle = new Element("//div[@title='%s']");
     private Element createdPanelContents = new Element(By.xpath("//li[@class='widget']/div"));
-    private Element projectLabel = new Element(By.xpath("//td[@align='left']"));
-    private Element folderLabel = new Element(By.xpath("//td[@align='right']"));
+//    private Element projectLabel = new Element(By.xpath("//td[@align='left']"));
+    private Element projectLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='left']");
+//    private Element folderLabel = new Element(By.xpath("//td[@align='right']"));
+    private Element folderLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='right']");
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(LinkText value) {
@@ -68,9 +71,12 @@ public class PanelPage implements IPanelPage {
     }
 
     @Step("Verify the newly created folder path is correct as selected")
-    public boolean isFolderPathAsSelected(String link) {
-        String project = projectLabel.elements().stream().findFirst().map(p -> p.getText()).get().replace("Project: ","");
-        String folder = folderLabel.elements().stream().findFirst().map(p -> p.getText()).get().replace("Folder: ","");
+    public boolean isFolderPathAsSelected(Panel panel, String link) {
+        projectLabel.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
+        folderLabel.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
+        String project = projectLabel.getText().replace("Project: ","");
+        String folder = folderLabel.getText().replace("Folder: ","");
+
         return link.equals(String.format("/%s/%s", project, folder));
     }
 

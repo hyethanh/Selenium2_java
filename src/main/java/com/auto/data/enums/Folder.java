@@ -22,7 +22,7 @@ public enum Folder {
     }
 
     public static String randomFolderLink() {
-        return String.format("/%s/Actions",values()[random.nextInt(values().length)]);
+        return String.format("/%s/Actions", randomFolder().value);
     }
 
     public static Folder randomFolder() {

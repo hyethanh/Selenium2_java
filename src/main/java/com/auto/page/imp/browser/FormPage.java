@@ -19,9 +19,10 @@ public class FormPage implements IFormPage {
     private Element folderSelectionOKButton = new Element(By.id("btnFolderSelectionOK"));
     private Element folderSelectionCancelButton = new Element(By.id("btnFolderSelectionCancel"));
     private Element panelFolderTree = new Element(By.xpath("//div[@class='general_display_block']//td[@class='general_white_space']/a[img[@class='panel_setting_treefolder'] and not (text()=' Actions')]"));
-    private Element panelItems = new Element("//div[div[text()=\"%s\"]]//a");
+    private Element panelItemsByType = new Element("//div[div[text()=\"%s\"]]//a");
     private Element createPanelButton = new Element(By.xpath("//span[text()='Create new panel']"));
     private Element hideChoosePanelsFormButton = new Element(By.id("btnHidePanel"));
+    private Element choosePanelFormItems = new Element("//div[@class='cpanels']//a[text()=\"%s\"]");
 
     @Step("Click expand icon folder")
     public void clickExpandIconFolder(String folder) {
@@ -65,8 +66,14 @@ public class FormPage implements IFormPage {
 
     @Step("Verify panel existed in Choose Panels form")
     public boolean isPanelInChoosePanelsForm(PanelType panelType, Panel panel) {
-        panelItems.set(panelType.value() + "s");
-        List<String> panelList = panelItems.elements().stream().map(p -> p.getText()).collect(Collectors.toList());
+        panelItemsByType.set(panelType.value() + "s");
+        List<String> panelList = panelItemsByType.elements().stream().map(p -> p.getText()).collect(Collectors.toList());
         return panelList.contains(panel.getName());
+    }
+
+    @Step("Choose Panel in Choose Panels form")
+    public void choosePanelFromChoosePanelsForm(Panel panel) {
+        choosePanelFormItems.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
+        choosePanelFormItems.click();
     }
 }

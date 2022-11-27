@@ -26,7 +26,7 @@ public enum ChartSeries {
     }
 
     public String value() {
-        return "\u00A0 "+value;
+        return "\u00A0 " + value;
     }
 
     public static ChartSeries randomSeries() {
