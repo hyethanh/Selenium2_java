@@ -230,7 +230,6 @@ public class PanelConfigurationTest extends BrowserTestBase {
     public void DA_PANEL_TC054() {
         Panel panel = new Panel();
         String folder = Folder.randomFolderLink();
-        System.out.println(folder);
 
         dialogPage.createNewPage(new Page());
         dialogPage.createNewPanel(panel);
@@ -240,6 +239,23 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.enterFolderLink(folder);
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isFolderPathAsSelected(panel, folder), "Verify path folder is updated successfully");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Unable to edit Folder field with invalid path")
+    public void DA_PANEL_TC055() {
+        Panel panel = new Panel();
+
+        dialogPage.createNewPage(new Page());
+        dialogPage.createNewPanel(panel);
+        homePage.moveToPage(Page.overviewPage());
+        homePage.clickChoosePanelButton();
+        formPage.choosePanelFromChoosePanelsForm(panel);
+        dialogPage.enterFolderLink("abc");
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
+        DriverUtils.acceptAlert();
 
         softAssert.assertAll();
     }
