@@ -70,7 +70,7 @@ public class EditPageTest extends BrowserTestBase {
         dialogPage.createNewPage(fistPage);
         dialogPage.createNewPage(secondPage);
         homePage.openAddPageDialog();
-        dialogPage.enterPageInformationPage(secondPage);
+        dialogPage.enterPageInformation(secondPage);
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("duplicated.name", secondPage.getName()));
         DriverUtils.acceptAlert();

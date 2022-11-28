@@ -100,7 +100,7 @@ public class DialogPage implements IDialogPage {
     @Step("Create a new page")
     public void createNewPage(Page page) {
         homePage.openAddPageDialog();
-        enterPageInformationPage(page);
+        enterPageInformation(page);
         clickOKButton();
         okButton.waitForInvisible();
     }
@@ -116,7 +116,15 @@ public class DialogPage implements IDialogPage {
 
     @Step("Edit an existed page")
     public void editExistedPage(Page page) {
-        enterPageInformationPage(page);
+        enterPageInformation(page);
+        clickOKButton();
+        okButton.waitForInvisible();
+    }
+
+    @Step("Edit an existed panel")
+    public void editExistedPanel(Panel panel) {
+        panelPage.clickActionButton(panel, LinkText.EDIT);
+        enterPanelInformation(panel);
         clickOKButton();
         okButton.waitForInvisible();
     }
@@ -200,7 +208,7 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Enter page information")
-    public void enterPageInformationPage(Page page) {
+    public void enterPageInformation(Page page) {
         enterPageName(page.getName());
         chooseDisplayAfterCombobox(page);
         chooseParentPageCombobox(page);
@@ -332,7 +340,7 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Verify all settings stay unchanged")
-    public boolean isStayUnchanged(Panel panel) {
+    public boolean isPanelUnchanged(Panel panel) {
         displaySettingTab.click();
         return isShowTitleUnchanged(panel) && isChartTypeSettingUnchanged(panel) && isDataProfileSettingUnchanged(panel);
     }

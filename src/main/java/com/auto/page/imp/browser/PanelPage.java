@@ -23,10 +23,9 @@ public class PanelPage implements IPanelPage {
     private Element editButton = new Element(By.xpath("//li[@class='edit' and @title='Edit Panel']"));
     private Element panelTitle = new Element("//div[@title='%s']");
     private Element createdPanelContents = new Element(By.xpath("//li[@class='widget']/div"));
-//    private Element projectLabel = new Element(By.xpath("//td[@align='left']"));
     private Element projectLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='left']");
-//    private Element folderLabel = new Element(By.xpath("//td[@align='right']"));
     private Element folderLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='right']");
+    private Element panelActionButton = new Element("//td[a[text()=\"%s\"]]/following-sibling::td/a[text()=\"%s\"]");
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(LinkText value) {
@@ -94,5 +93,11 @@ public class PanelPage implements IPanelPage {
             return list;
         }
         return null;
+    }
+
+    @Step("Click Action Button")
+    public void clickActionButton(Panel panel, LinkText action) {
+        panelActionButton.set(panel.getName(), action.value());
+        panelActionButton.click();
     }
 }

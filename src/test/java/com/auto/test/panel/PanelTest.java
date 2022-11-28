@@ -257,11 +257,11 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPage(page);
         dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled");
 
         panel.setStyle("2D");
         dialogPage.clickRadioButton(panel.getStyle());
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when changing style");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled when changing style");
 
         softAssert.assertAll();
     }
@@ -321,17 +321,17 @@ public class PanelTest extends BrowserTestBase {
         panelPage.clickLinkButton(LinkText.ADD_NEW);
         panel.setDataLabel(DataLabel.SERIES);
         dialogPage.enterPanelInformation(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when checking label SERIES value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled when checking label SERIES value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.VALUE);
         dialogPage.chooseLabelOption(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label VALUE value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label VALUE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.PERCENTAGE);
         dialogPage.chooseLabelOption(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label PERCENTAGE value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled when unchecking label PERCENTAGE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         dialogPage.clickCancelButton();
@@ -340,17 +340,17 @@ public class PanelTest extends BrowserTestBase {
 
         panel.setDataLabel(DataLabel.SERIES);
         dialogPage.chooseLabelOption(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label SERIES value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label SERIES value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.VALUE);
         dialogPage.chooseLabelOption(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label VALUE value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label VALUE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         panel.setDataLabel(DataLabel.PERCENTAGE);
         dialogPage.chooseLabelOption(panel);
-        softAssert.assertTrue(dialogPage.isStayUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label PERCENTAGE value");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label PERCENTAGE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
 
         softAssert.assertAll();
@@ -426,12 +426,87 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPanelWithoutConfiguration(panel4);
         homePage.moveToPage(Page.overviewPage());
         homePage.clickChoosePanelButton();
-//
+
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.CHART, panel1), "Verify first panel existed in Choose Panels form");
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.CHART, panel2), "Verify second panel existed in Choose Panels form");
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.INDICATOR, panel3), "Verify third panel existed in Choose Panels form");
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.REPORT, panel4), "Verify fourth panel existed in Choose Panels form");
 
         softAssert.assertAll();
+    }
+
+    @Test(description = "User is able to successfully edit Chart Type")
+    public void DA_PANEL_TC057() {
+        Panel panel = new Panel();
+        panel.setChartType(ChartType.PIE);
+
+        dialogPage.createNewPanel(panel);
+        panel.setChartType(ChartType.SINGLE_BAR);
+        dialogPage.editExistedPanel(panel);
+        softAssert.assertTrue(panelPage.isPanelDisplayedInTable(panel));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Category, Series and Caption field are enabled and disabled correctly corresponding to each type of the Chart Type in Edit Panel form")
+    public void DA_PANEL_TC058() {
+        Panel panel = new Panel();
+        dialogPage.createNewPanel(panel);
+
+        panel.setChartType(ChartType.PIE);
+        panelPage.clickActionButton(panel, LinkText.EDIT);
+        dialogPage.chooseChartTypeCombobox(panel);
+        softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is disabled when type is PIE");
+        softAssert.assertFalse(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is disabled when type is PIE");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is PIE");
+
+        panel.setChartType(ChartType.SINGLE_BAR);
+        dialogPage.chooseChartTypeCombobox(panel);
+        softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is disabled when type is SINGLE BAR");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is SINGLE BAR");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is SINGLE BAR");
+
+        panel.setChartType(ChartType.STACKED_BAR);
+        dialogPage.chooseChartTypeCombobox(panel);
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is STACKED BAR");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is STACKED BAR");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is STACKED BAR");
+
+        panel.setChartType(ChartType.GROUP_BAR);
+        dialogPage.chooseChartTypeCombobox(panel);
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is GROUP BAR");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is GROUP BAR");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is GROUP BAR");
+
+        panel.setChartType(ChartType.LINE);
+        dialogPage.chooseChartTypeCombobox(panel);
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is LINE");
+        softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is LINE");
+        softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is LINE");
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between 2D and 3D radio buttons in Edit Panel form")
+    public void DA_PANEL_TC059() {
+        Panel panel = new Panel();
+        homePage.moveToPanelItemPage(LinkText.PANELS);
+        panelPage.clickLinkButton(LinkText.ADD_NEW);
+        panel.setStyle("3D");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel));
+        panel.setStyle("2D");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel));
+        dialogPage.enterPanelInformation(panel);
+        dialogPage.clickOKButton();
+        panelPage.clickActionButton(panel, LinkText.EDIT);
+        panel.setStyle("3D");
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel));
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between Legends radio buttons in Edit Panel form")
+    public void DA_PANEL_TC060() {
+
     }
 }

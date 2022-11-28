@@ -24,4 +24,6 @@ public interface IPanelPage {
     List<String> getPanelContentIds();
 
     boolean isFolderPathAsSelected(Panel panel, String link);
+
+    void clickActionButton(Panel panel, LinkText action);
 }

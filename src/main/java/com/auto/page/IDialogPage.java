@@ -29,7 +29,7 @@ public interface IDialogPage {
 
     void editExistedPage(Page page);
 
-    void enterPageInformationPage(Page page);
+    void enterPageInformation(Page page);
 
     boolean isPanelSettingDisplayed(String value);
 
@@ -45,7 +45,7 @@ public interface IDialogPage {
 
     boolean isCheckboxEnabled(String value);
 
-    boolean isStayUnchanged(Panel panel);
+    boolean isPanelUnchanged(Panel panel);
 
     void clickRadioButton(String value);
 
@@ -74,4 +74,6 @@ public interface IDialogPage {
     void createNewPanelWithoutConfiguration(Panel panel);
 
     void chooseTypePanel(Panel panel);
+
+    void editExistedPanel(Panel panel);
 }

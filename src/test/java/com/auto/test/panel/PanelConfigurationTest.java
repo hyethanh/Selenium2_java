@@ -45,10 +45,11 @@ public class PanelConfigurationTest extends BrowserTestBase {
 
     @AfterClass(alwaysRun = true)
     public void after() {
-        DriverUtils.deletePage(homePage.getPageIds());
-        DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
+        DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
+        homePage.moveToPage(Page.overviewPage());
+        DriverUtils.deletePage(homePage.getPageIds());
         Selaium.driver().close();
     }
 
@@ -166,6 +167,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
+
         softAssert.assertAll();
     }
 
@@ -253,6 +255,23 @@ public class PanelConfigurationTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         formPage.choosePanelFromChoosePanelsForm(panel);
         dialogPage.enterFolderLink("abc");
+        dialogPage.clickPanelConfigurationOKButton();
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
+        DriverUtils.acceptAlert();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "User is unable to edit Folder field with empty value")
+    public void DA_PANEL_TC056() {
+        Panel panel = new Panel();
+
+        dialogPage.createNewPage(new Page());
+        dialogPage.createNewPanel(panel);
+        homePage.moveToPage(Page.overviewPage());
+        homePage.clickChoosePanelButton();
+        formPage.choosePanelFromChoosePanelsForm(panel);
+        dialogPage.enterFolderLink("");
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
