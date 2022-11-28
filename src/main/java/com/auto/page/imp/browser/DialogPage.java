@@ -227,6 +227,7 @@ public class DialogPage implements IDialogPage {
         choosePanelStyle(panel);
         clickShowTitleButton(panel);
         chooseStatisticFieldCombobox(panel);
+        clickLegendOptionButton(panel);
     }
 
     @Step("Open Add New Panel dialog's combobox")
@@ -260,6 +261,14 @@ public class DialogPage implements IDialogPage {
     public void clickLabelOptionButton(DataLabel label) {
         checkboxButton.set(label.value());
         checkboxButton.click();
+    }
+
+    @Step("Choose Legends option")
+    public void clickLegendOptionButton(Panel panel) {
+        checkboxButton.set(panel.getChartLegends().value());
+        if (checkboxButton.exists() && checkboxButton.isDisplayed()) {
+            checkboxButton.click();
+        }
     }
 
     @Step("Click link text")

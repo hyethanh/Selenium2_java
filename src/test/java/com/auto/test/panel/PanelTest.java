@@ -507,6 +507,31 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "All settings within Add New Panel and Edit Panel form stay unchanged when user switches between Legends radio buttons in Edit Panel form")
     public void DA_PANEL_TC060() {
+        Panel panel = new Panel();
 
+        panel.setChartLegends(ChartLegends.NONE);
+        homePage.moveToPanelItemPage(LinkText.PANELS);
+        panelPage.clickLinkButton(LinkText.ADD_NEW);
+        dialogPage.clickLegendOptionButton(panel);
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Verify all setting are unchanged with None Legend option");
+
+        panel.setChartLegends(ChartLegends.TOP);
+        dialogPage.clickLegendOptionButton(panel);
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Verify all setting are unchanged with Top Legend option");
+
+        panel.setChartLegends(ChartLegends.RIGHT);
+        dialogPage.clickLegendOptionButton(panel);
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Verify all setting are unchanged with Right Legend option");
+
+        panel.setChartLegends(ChartLegends.BOTTOM);
+        dialogPage.clickLegendOptionButton(panel);
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Verify all setting are unchanged with Bottom Legend option");
+
+        panel.setChartLegends(ChartLegends.LEFT);
+        dialogPage.clickLegendOptionButton(panel);
+        softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Verify all setting are unchanged with Left Legend option");
+        dialogPage.clickCancelButton();
+
+        softAssert.assertAll();
     }
 }

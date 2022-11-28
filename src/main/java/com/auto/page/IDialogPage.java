@@ -76,4 +76,6 @@ public interface IDialogPage {
     void chooseTypePanel(Panel panel);
 
     void editExistedPanel(Panel panel);
+
+    void clickLegendOptionButton(Panel panel);
 }
