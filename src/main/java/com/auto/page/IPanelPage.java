@@ -15,7 +15,7 @@ public interface IPanelPage {
 
     boolean isPanelDisplayedInTable(Panel panel);
 
-    void clickEditPanelButton();
+    void clickEditPanelButton(Panel panel);
 
     boolean isPanelCreated(Panel panel);
 
@@ -26,4 +26,6 @@ public interface IPanelPage {
     boolean isFolderPathAsSelected(Panel panel, String link);
 
     void clickActionButton(Panel panel, LinkText action);
+
+    void removePanel(Panel panel);
 }

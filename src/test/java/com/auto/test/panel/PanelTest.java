@@ -534,4 +534,28 @@ public class PanelTest extends BrowserTestBase {
 
         softAssert.assertAll();
     }
+
+    @Test(description = "Correct values are populated for corresponding parameters under Categories and Series field ( e.g. Priority: High, Status : Completed)")
+    public void DA_PANEL_TC061() {
+        Panel panel = new Panel();
+
+        panel.setName(DataProfiles.IMPLEMENT_BY_PRIORITY.value());
+        homePage.clickChoosePanelButton();
+        dialogPage.clickLinkText(panel.getName());
+        dialogPage.clickPanelConfigurationOKButton();
+        panelPage.clickEditPanelButton(panel);
+        dialogPage.chooseComboBoxPanelPage(Combobox.SERIES.value(),  ChartSeries.STATUS.value());
+        dialogPage.clickCancelButton();
+        panelPage.removePanel(panel);
+
+        panel.setName(DataProfiles.MODULE_STATUS_PER_ASSIGNED_USERS.value());
+        homePage.clickChoosePanelButton();
+        dialogPage.clickLinkText(panel.getName());
+        dialogPage.clickPanelConfigurationOKButton();
+        panelPage.clickEditPanelButton(panel);
+        softAssert.assertTrue(dialogPage.isComboboxDisplayedValueCorrect(Combobox.CATEGORY, "Assigned user"),
+                                "Verify List of users are displayed on Category: Assigned Users ");
+
+        softAssert.assertAll();
+    }
 }

@@ -78,4 +78,6 @@ public interface IDialogPage {
     void editExistedPanel(Panel panel);
 
     void clickLegendOptionButton(Panel panel);
+
+    boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value);
 }

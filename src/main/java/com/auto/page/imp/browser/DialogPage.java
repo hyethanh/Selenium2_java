@@ -404,4 +404,10 @@ public class DialogPage implements IDialogPage {
             statisticFieldComboboxOptionWithText.set(panel.getStatisticField().value());
         }
     }
+
+    @Step("Verify combobox displayed value is correct")
+    public boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value) {
+        dialogCombobox.set(combobox.value());
+        return dialogCombobox.getAttribute("title").contains(value);
+    }
 }
