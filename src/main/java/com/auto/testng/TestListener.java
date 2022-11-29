@@ -47,7 +47,8 @@ public class TestListener implements ITestListener {
         try {
             File f = Selaium.takeScreenShot(OutputType.FILE);
             FileUtils.copyFile(f, new File(Constants.SCREENSHOT + System.nanoTime() + ".png"));
-
+            ByteArrayInputStream screenshot = new ByteArrayInputStream(Selaium.takeScreenShot(OutputType.BYTES));
+            Allure.addAttachment("Screenshot captured", screenshot);
         } catch (Exception ex) {
             log.error("Error occurred", ex);
         }
