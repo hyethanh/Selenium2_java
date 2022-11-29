@@ -38,7 +38,7 @@ public class DialogPage implements IDialogPage {
     private Element panelChartTitleTextBox = new Element(By.id("txtChartTitle"));
     private Element addNewPanelDialog = new Element(By.xpath("//div[@id='div_panelPopup']"));
     private Element panelSettingForm = new Element("//td[text()='Display Name *']//ancestor::table[@id='infoSettings']//label[text()=' %s']");
-    private Element captionTextBox = new Element(By.id("txtValueYAxis"));
+    private Element captionTextBox = new Element("//td[text()=\"%s\"]/following-sibling::td/input");
     private Element checkboxButton = new Element("//label[contains(text(),' %s')]/input");
     private Element showTitleCheckboxButton = new Element(By.id("chkShowTitle"));
     private Element displaySettingTab = new Element(By.xpath("//a[text()='Display Settings']"));
@@ -312,6 +312,7 @@ public class DialogPage implements IDialogPage {
     }
     @Step("Verify Caption text box in Chart Settings is enabled or not")
     public boolean isCaptionTextBoxEnabled() {
+        captionTextBox.set(Combobox.CATEGORY.value());
         return captionTextBox.isEnabled();
     }
 
@@ -408,6 +409,14 @@ public class DialogPage implements IDialogPage {
     @Step("Verify combobox displayed value is correct")
     public boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value) {
         dialogCombobox.set(combobox.value());
+        dialogCombobox.click();
         return dialogCombobox.getAttribute("title").contains(value);
+    }
+
+    @Step("Enter caption for combobox")
+    public void enterCaption(Combobox combobox, String value) {
+        captionTextBox.set(combobox.value());
+        captionTextBox.clear();
+        captionTextBox.enter(value);
     }
 }

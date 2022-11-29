@@ -16,6 +16,7 @@ public class Page {
     private boolean isPublic;
     private static final Page overviewPage = new Page("Overview", null, 2, "", false);
 
+    private static final Page executionDashboardPage = new Page("Execution Dashboard", null, 2, "", false);
     public Page() {
         this.name = FakerUtils.name();
         this.parent = null;
@@ -34,5 +35,8 @@ public class Page {
 
     public static Page overviewPage() {
         return Page.overviewPage;
+    }
+    public static Page executionDashboardPage() {
+        return Page.executionDashboardPage;
     }
 }

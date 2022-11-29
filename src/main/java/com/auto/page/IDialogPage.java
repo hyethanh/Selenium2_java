@@ -80,4 +80,6 @@ public interface IDialogPage {
     void clickLegendOptionButton(Panel panel);
 
     boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value);
+
+    void enterCaption(Combobox combobox, String value);
 }

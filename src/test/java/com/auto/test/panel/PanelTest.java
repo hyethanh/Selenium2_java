@@ -45,6 +45,8 @@ public class PanelTest extends BrowserTestBase {
     public void after() {
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
+        homePage.moveToPage(Page.executionDashboardPage());
+        DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
         homePage.moveToPage(Page.overviewPage());
         DriverUtils.deletePage(homePage.getPageIds());
         Selaium.driver().close();
@@ -543,6 +545,7 @@ public class PanelTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         dialogPage.clickLinkText(panel.getName());
         dialogPage.clickPanelConfigurationOKButton();
+        dialogPage.waitForPanelDialogClose();
         panelPage.clickEditPanelButton(panel);
         dialogPage.chooseComboBoxPanelPage(Combobox.SERIES.value(),  ChartSeries.STATUS.value());
         dialogPage.clickCancelButton();
@@ -552,9 +555,12 @@ public class PanelTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         dialogPage.clickLinkText(panel.getName());
         dialogPage.clickPanelConfigurationOKButton();
+        dialogPage.waitForPanelDialogClose();
+        homePage.moveToPage(Page.executionDashboardPage());
         panelPage.clickEditPanelButton(panel);
         softAssert.assertTrue(dialogPage.isComboboxDisplayedValueCorrect(Combobox.CATEGORY, "Assigned user"),
                                 "Verify List of users are displayed on Category: Assigned Users ");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }

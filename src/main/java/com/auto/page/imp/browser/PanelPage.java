@@ -28,8 +28,8 @@ public class PanelPage implements IPanelPage {
     private Element folderLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='right']");
     private Element panelActionButton = new Element("//td[a[text()=\"%s\"]]/following-sibling::td/a[text()=\"%s\"]");
     private Element moreOptionButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//li[@class='more']");
-//    private Element deleteButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//span[text()='Remove']");
-    private Element deleteButton = new Element(By.xpath("//span[text()='Remove']"));
+    private Element deleteButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//span[text()='Remove']");
+//    private Element deleteButton = new Element(By.xpath("//span[text()='Remove']"));
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(LinkText value) {
@@ -64,7 +64,7 @@ public class PanelPage implements IPanelPage {
 
     @Step("Click Edit Panel button")
     public void clickEditPanelButton(Panel panel) {
-        editButton.set(panel.getName());
+        editButton.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
         editButton.click();
     }
 
@@ -110,6 +110,7 @@ public class PanelPage implements IPanelPage {
     public void removePanel(Panel panel) {
         moreOptionButton.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
         moreOptionButton.hover();
+        deleteButton.set(StringUtils.replaceSpaceCharWithNBSP(panel.getName()));
         deleteButton.click();
         DriverUtils.acceptAlert();
     }
