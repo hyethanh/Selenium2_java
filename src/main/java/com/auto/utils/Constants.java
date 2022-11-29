@@ -3,6 +3,8 @@ package com.auto.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.auto.utils.PropertiesHelper.getProperty;
+
 public class Constants {
     public static final Map<String, String> ConfigFiles = new HashMap<>();
     public static final String ENV_ALLURE_FILE = "allure-results/environment.properties";
@@ -12,6 +14,8 @@ public class Constants {
     public static final String TEST_RAIL = "testrail";
     public static final String MESSAGES = "src/test/resources/data/messages.json";
     public static final String BASE_URL = "http://localhost:"+ System.getProperty("port") + "/TADashboard/login.jsp";
+
+    public static final String PROPERTIES_FILE = "src/test/resources/config.properties";
 
     public static final int LOADING_TIME = 5;
     public static final int LONG_TIME = 60;

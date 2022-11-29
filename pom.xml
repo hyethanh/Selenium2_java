@@ -23,9 +23,10 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <systemPropertyVariables>
-                        <port>80</port>
-                    </systemPropertyVariables>
+                    <systemPropertiesFile>src/test/resources/config.properties</systemPropertiesFile>
+<!--                    <systemPropertyVariables>-->
+<!--                        <port>80</port>-->
+<!--                    </systemPropertyVariables>-->
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.6/aspectjweaver-1.9.6.jar"
                     </argLine>
