@@ -11,9 +11,7 @@ import com.auto.utils.FakerUtils;
 import com.auto.utils.MessageLoader;
 import com.auto.utils.UserUtils;
 import com.logigear.statics.Selaium;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import java.util.Random;
@@ -29,7 +27,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
     private IPanelPage panelPage;
     private IFormPage formPage;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
@@ -41,7 +39,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         loginPage.login(user);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void after() {
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
@@ -49,7 +47,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
         homePage.moveToPage(Page.overviewPage());
         DriverUtils.deletePage(homePage.getPageIds());
-        Selaium.driver().close();
+        Selaium.closeWebDriver();
     }
 
     @Test(description = "All pages are listed correctly under the Select page * dropped down menu of Panel Configuration form/ control")
@@ -65,6 +63,8 @@ public class PanelConfigurationTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         dialogPage.clickLinkText(Charts.randomCharts().value());
         softAssert.assertTrue(dialogPage.comboboxOptionsAreFullyListed(Combobox.SELECT_PAGE, page1.getName(), page2.getName(), page3.getName()));
+        dialogPage.clickPanelConfigurationCancelButton();
+
         softAssert.assertAll();
     }
 
@@ -82,12 +82,12 @@ public class PanelConfigurationTest extends BrowserTestBase {
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.height"));
         DriverUtils.acceptAlert();
 
-        dialogPage.enterPanelHeight(String.valueOf(800 + r.nextInt()));
+        dialogPage.enterPanelHeight(String.valueOf(800 + r.nextInt(801)));
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.height"));
         DriverUtils.acceptAlert();
 
-        dialogPage.enterPanelHeight(String.valueOf(0 - r.nextInt()));
+        dialogPage.enterPanelHeight(String.valueOf(-100));
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.height"));
         DriverUtils.acceptAlert();
@@ -96,6 +96,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.type.height"));
         DriverUtils.acceptAlert();
+        dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
     }
@@ -111,6 +112,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.height"));
         DriverUtils.acceptAlert();
+        dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
     }
@@ -128,6 +130,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
+        dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
     }
@@ -147,6 +150,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         DriverUtils.acceptAlert();
         dialogPage.enterFolderLink(Folder.randomFolderLink());
         dialogPage.clickPanelConfigurationOKButton();
+        homePage.moveToPage(page);
         softAssert.assertTrue(panelPage.isPanelCreated(panel));
 
         softAssert.assertAll();
@@ -165,7 +169,6 @@ public class PanelConfigurationTest extends BrowserTestBase {
         formPage.chooseFolderInForm(Folder.randomFolder());
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertTrue(panelPage.isPanelCreated(panel));
-
 
         softAssert.assertAll();
     }
@@ -208,9 +211,10 @@ public class PanelConfigurationTest extends BrowserTestBase {
     @Test(description = "User is unable to edit Height * field to anything apart from integer number with in 300-800 range")
     public void DA_PANEL_TC052() {
         Panel panel = new Panel();
+        Page page = new Page();
         Random r = new Random();
 
-        dialogPage.createNewPage(new Page());
+        dialogPage.createNewPage(page);
         dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel);
         dialogPage.clickOKButton();
@@ -257,6 +261,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
+        dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
     }
@@ -274,6 +279,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
+        dialogPage.clickPanelConfigurationCancelButton();
 
         softAssert.assertAll();
     }

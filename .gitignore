@@ -2,8 +2,6 @@
 *.class
 .idea/
 target/
-allure-results/
-screenshots/
 .gitignore
 *.iml
 

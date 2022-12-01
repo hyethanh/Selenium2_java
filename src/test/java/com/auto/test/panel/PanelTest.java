@@ -10,8 +10,8 @@ import com.auto.page.*;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.*;
 import com.logigear.statics.Selaium;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -29,7 +29,7 @@ public class PanelTest extends BrowserTestBase {
     private IPanelPage panelPage;
     private IFormPage formPage;
 
-    @BeforeClass(alwaysRun = true)
+    @BeforeMethod(alwaysRun = true)
     public void before() {
         loginPage = PageFactory.getLoginPage();
         homePage = PageFactory.getHomePage();
@@ -41,7 +41,7 @@ public class PanelTest extends BrowserTestBase {
         loginPage.login(user);
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     public void after() {
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
@@ -49,7 +49,7 @@ public class PanelTest extends BrowserTestBase {
         DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
         homePage.moveToPage(Page.overviewPage());
         DriverUtils.deletePage(homePage.getPageIds());
-        Selaium.driver().close();
+        Selaium.closeWebDriver();
     }
 
     @Test(description = "Add New Panel form is on focused all other control/form is disabled or locked.")
@@ -59,6 +59,8 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertFalse(homePage.isAddPageDialogOpened(), "Add Page Dialog is opened");
         homePage.logout();
         softAssert.assertFalse(loginPage.isLoginButtonDisplayed(), "User is at Login Page");
+        dialogPage.clickCancelButton();
+
         softAssert.assertAll();
     }
 
@@ -79,6 +81,7 @@ public class PanelTest extends BrowserTestBase {
         Logger.getLogger("Verify cannot create new panel with blank name");
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("blank.name.panel"), "No alert for blank displayed name appears");
         DriverUtils.acceptAlert();
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -114,6 +117,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.INDICATOR.value()), "Indicator Type is not displayed above Display Name");
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.REPORT.value()), "Report Type is not displayed above Display Name");
         softAssert.assertTrue(dialogPage.isPanelSettingDisplayed(PanelType.HEAT_MAP.value()), "Heat Map Type is not displayed above Display Name");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -149,6 +153,7 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
         softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
                 "Data Profile is not listing in alphabetical order when editing an existed panel");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -173,6 +178,7 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.clickAddNewPanelDialogComBoBox(Combobox.DATA_PROFILE.value());
         softAssert.assertTrue(dialogPage.comboboxOptionsSortedAlphabetically(Combobox.DATA_PROFILE.value()),
                 "Data Profile is not listing in alphabetical order when editing an existed panel");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -207,6 +213,7 @@ public class PanelTest extends BrowserTestBase {
         homePage.clickChoosePanelButton();
         formPage.clickCreateNewPanelButton();
         softAssert.assertTrue(dialogPage.chartTypeComboboxOptionsAreFullyListed());
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -241,6 +248,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Category combobox is enabled with LINE type");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Caption text box is enabled with LINE type");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Series combobox is enabled with LINE type");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -264,6 +272,7 @@ public class PanelTest extends BrowserTestBase {
         panel.setStyle("2D");
         dialogPage.clickRadioButton(panel.getStyle());
         softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "New Panel Dialog settings are stabled when changing style");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -311,6 +320,7 @@ public class PanelTest extends BrowserTestBase {
 //        Known bug here: Value checkbox is still enabled.
 //        softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with LINE type");
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is disabled with LINE type");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -354,6 +364,7 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.chooseLabelOption(panel);
         softAssert.assertTrue(dialogPage.isPanelUnchanged(panel), "Edit Panel Dialog settings are stabled when checking label PERCENTAGE value");
         dialogPage.clickLabelOptionButton(panel.getDataLabel());
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -417,15 +428,21 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.createNewPanelWithoutConfiguration(panel2);
 
         panel3.setType(PanelType.INDICATOR);
+        panel3.setChartSeries(null);
+        panel3.setStyle(null);
         homePage.moveToPage(Page.overviewPage());
         dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.createNewPanelWithoutConfiguration(panel3);
         formPage.clickHideChoosePanelsButton();
 
         panel4.setType(PanelType.REPORT);
+        panel4.setChartSeries(null);
+        panel4.setStyle(null);
         homePage.moveToPage(Page.overviewPage());
         dialogPage.openCreatePanelDialogFromHomePage();
-        dialogPage.createNewPanelWithoutConfiguration(panel4);
+        dialogPage.enterPanelInformation(panel4);
+        dialogPage.clickOKButton();
+        dialogPage.clickPanelConfigurationCancelButton();
         homePage.moveToPage(Page.overviewPage());
         homePage.clickChoosePanelButton();
 
@@ -433,6 +450,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.CHART, panel2), "Verify second panel existed in Choose Panels form");
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.INDICATOR, panel3), "Verify third panel existed in Choose Panels form");
         softAssert.assertTrue(formPage.isPanelInChoosePanelsForm(PanelType.REPORT, panel4), "Verify fourth panel existed in Choose Panels form");
+        formPage.clickHideChoosePanelsButton();
 
         softAssert.assertAll();
     }
@@ -485,6 +503,7 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is LINE");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is LINE");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is LINE");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }
@@ -503,6 +522,7 @@ public class PanelTest extends BrowserTestBase {
         panelPage.clickActionButton(panel, LinkText.EDIT);
         panel.setStyle("3D");
         softAssert.assertTrue(dialogPage.isPanelUnchanged(panel));
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }

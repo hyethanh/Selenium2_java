@@ -22,7 +22,7 @@ public class PanelPage implements IPanelPage {
     private Element createdPanels = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[@class='chkCol']/input"));
     private Element createdPanelTable = new Element(By.xpath("//td[@class='center']/preceding-sibling::td[not (@class='chkCol')]/a"));
     private Element editButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//li[@class='edit' and @title='Edit Panel']");
-    private Element panelTitle = new Element("//div[@title='%s']");
+    private Element panelTitle = new Element("//div[text()='%s']");
     private Element createdPanelContents = new Element(By.xpath("//li[@class='widget']/div"));
     private Element projectLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='left']");
     private Element folderLabel = new Element("//div[text()=\"%s\"]/ancestor::div[@class='cbox']//td[@align='right']");
