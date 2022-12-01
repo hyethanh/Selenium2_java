@@ -159,16 +159,16 @@ public class DialogPage implements IDialogPage {
     }
 
     @Step("Choose Chart Type")
-    public void chooseChartTypeCombobox(Panel panel) {
-        if (panel.getChartType() != null) {
-            chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), panel.getChartType().value());
+    public void chooseChartTypeCombobox(ChartType chartType) {
+        if (chartType != null) {
+            chooseComboBoxPanelPage(Combobox.CHART_TYPE.value(), chartType.value());
         }
     }
 
     @Step("Choose Chart Series")
-    public void chooseChartSeriesCombobox(Panel panel) {
-        if (panel.getChartSeries() != null) {
-            chooseComboBoxPanelPage(Combobox.SERIES.value(), panel.getChartSeries().value());
+    public void chooseChartSeriesCombobox(ChartSeries chartSeries) {
+        if (chartSeries != null) {
+            chooseComboBoxPanelPage(Combobox.SERIES.value(), chartSeries.value());
         }
     }
 
@@ -220,8 +220,8 @@ public class DialogPage implements IDialogPage {
         enterPanelName(panel.getName());
         enterChartTitle(panel);
         chooseTypePanel(panel);
-        chooseChartTypeCombobox(panel);
-        chooseChartSeriesCombobox(panel);
+        chooseChartTypeCombobox(panel.getChartType());
+        chooseChartSeriesCombobox(panel.getChartSeries());
         chooseDataProfileCombobox(panel);
         chooseLabelOption(panel);
         choosePanelStyle(panel);
@@ -406,8 +406,8 @@ public class DialogPage implements IDialogPage {
         }
     }
 
-    @Step("Verify combobox displayed value is correct")
-    public boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value) {
+    @Step("Verify displayed combobox value is correct")
+    public boolean isDisplayedComboboxValueCorrect(Combobox combobox, String value) {
         dialogCombobox.set(combobox.value());
         dialogCombobox.click();
         return dialogCombobox.getAttribute("title").contains(value);
@@ -418,5 +418,12 @@ public class DialogPage implements IDialogPage {
         captionTextBox.set(combobox.value());
         captionTextBox.clear();
         captionTextBox.enter(value);
+    }
+
+    @Step("Verify displayed combobox caption is correct")
+    public boolean isDisplayedComboboxCaptionValueCorrect(Combobox combobox, String value) {
+        captionTextBox.set(combobox.value());
+        captionTextBox.hover();
+        return captionTextBox.getAttribute("value").equals(value);
     }
 }

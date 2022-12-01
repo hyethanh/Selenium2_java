@@ -284,28 +284,28 @@ public class PanelTest extends BrowserTestBase {
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with PIE type");
 
         panel.setChartType(ChartType.SINGLE_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with SINGLE BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with SINGLE BAR type");
 
         panel.setChartType(ChartType.STACKED_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with STACKED BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with STACKED BAR type");
 
         panel.setChartType(ChartType.GROUP_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.VALUE.value()), "Value checkbox button is enabled with GROUP BAR type");
         softAssert.assertTrue(dialogPage.isCheckboxEnabled(DataLabel.PERCENTAGE.value()), "Percentage checkbox button is enabled with GROUP BAR type");
 
         panel.setChartType(ChartType.LINE);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.CATEGORIES.value()), "Category combobox is disabled with LINE type");
         softAssert.assertFalse(dialogPage.isCheckboxEnabled(DataLabel.SERIES.value()), "Series checkbox button is disabled with LINE type");
 //        Known bug here: Value checkbox is still enabled.
@@ -457,31 +457,31 @@ public class PanelTest extends BrowserTestBase {
 
         panel.setChartType(ChartType.PIE);
         panelPage.clickActionButton(panel, LinkText.EDIT);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is disabled when type is PIE");
         softAssert.assertFalse(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is disabled when type is PIE");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is PIE");
 
         panel.setChartType(ChartType.SINGLE_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertFalse(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is disabled when type is SINGLE BAR");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is SINGLE BAR");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is SINGLE BAR");
 
         panel.setChartType(ChartType.STACKED_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is STACKED BAR");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is STACKED BAR");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is STACKED BAR");
 
         panel.setChartType(ChartType.GROUP_BAR);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is GROUP BAR");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is GROUP BAR");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is GROUP BAR");
 
         panel.setChartType(ChartType.LINE);
-        dialogPage.chooseChartTypeCombobox(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.CATEGORY.value()), "Verify  Category is enabled when type is LINE");
         softAssert.assertTrue(dialogPage.isCaptionTextBoxEnabled(), "Verify  Caption is enabled when type is LINE");
         softAssert.assertTrue(dialogPage.isComboboxEnabled(Combobox.SERIES.value()), "Verify  Series is enabled when type is LINE");
@@ -558,10 +558,58 @@ public class PanelTest extends BrowserTestBase {
         dialogPage.waitForPanelDialogClose();
         homePage.moveToPage(Page.executionDashboardPage());
         panelPage.clickEditPanelButton(panel);
-        softAssert.assertTrue(dialogPage.isComboboxDisplayedValueCorrect(Combobox.CATEGORY, "Assigned user"),
+        softAssert.assertTrue(dialogPage.isDisplayedComboboxValueCorrect(Combobox.CATEGORY, "Assigned user"),
                                 "Verify List of users are displayed on Category: Assigned Users ");
         dialogPage.clickCancelButton();
 
         softAssert.assertAll();
+    }
+
+    @Test(description = " Action Implementation By Status panel instance, when user changes from Pie chart to any other chart type then change back the Edit Panel form should be as original")
+    public void DA_PANEL_TC063() {
+        Panel panel = new Panel();
+        panel.setName(DataProfiles.ACTION_BY_STATUS.value());
+        panel.setChartType(ChartType.SINGLE_BAR);
+
+        homePage.clickChoosePanelButton();
+        dialogPage.clickLinkText(panel.getName());
+        dialogPage.clickPanelConfigurationOKButton();
+        dialogPage.waitForPanelDialogClose();
+
+        homePage.moveToPage(Page.executionDashboardPage());
+        panelPage.clickEditPanelButton(panel);
+        dialogPage.chooseChartTypeCombobox(panel.getChartType());
+        dialogPage.chooseChartTypeCombobox(ChartType.PIE);
+        softAssert.assertTrue(dialogPage. isDisplayedComboboxValueCorrect(Combobox.CHART_TYPE, ChartType.PIE.value()));
+        dialogPage.clickCancelButton();
+        dialogPage.waitForPanelDialogClose();
+
+        homePage.moveToPage(Page.executionDashboardPage());
+        panelPage.clickEditPanelButton(panel);
+        dialogPage.chooseChartTypeCombobox(ChartType.STACKED_BAR);
+        dialogPage.chooseChartTypeCombobox(ChartType.PIE);
+        softAssert.assertTrue(dialogPage. isDisplayedComboboxValueCorrect(Combobox.CHART_TYPE, ChartType.PIE.value()));
+        dialogPage.clickCancelButton();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "Check All/Uncheck All links are working correctly.")
+    public void DA_PANEL_TC064() {
+        Panel panel1 = new Panel();
+        Panel panel2 = new Panel();
+
+        dialogPage.createNewPage(new Page());
+        dialogPage.openCreatePanelDialogFromHomePage();
+        dialogPage.enterPanelInformation(panel1);
+        dialogPage.clickOKButton();
+        dialogPage.clickPanelConfigurationCancelButton();
+        dialogPage.waitForPanelDialogClose();
+        dialogPage.enterPanelInformation(panel2);
+        dialogPage.clickOKButton();
+        dialogPage.clickPanelConfigurationCancelButton();
+        dialogPage.waitForPanelDialogClose();
+        formPage.clickHideChoosePanelsButton();
+        homePage.moveToPanelItemPage(LinkText.PANELS);
     }
 }

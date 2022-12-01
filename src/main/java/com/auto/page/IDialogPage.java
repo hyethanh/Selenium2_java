@@ -1,5 +1,6 @@
 package com.auto.page;
 
+import com.auto.data.enums.ChartType;
 import com.auto.data.enums.Combobox;
 import com.auto.data.enums.DataLabel;
 import com.auto.data.enums.Folder;
@@ -51,7 +52,7 @@ public interface IDialogPage {
 
     void clickLabelOptionButton(DataLabel label);
 
-    void chooseChartTypeCombobox(Panel panel);
+    void chooseChartTypeCombobox(ChartType chartType);
 
     void chooseLabelOption(Panel panel);
 
@@ -79,7 +80,9 @@ public interface IDialogPage {
 
     void clickLegendOptionButton(Panel panel);
 
-    boolean isComboboxDisplayedValueCorrect(Combobox combobox, String value);
+    boolean isDisplayedComboboxValueCorrect(Combobox combobox, String value);
 
     void enterCaption(Combobox combobox, String value);
+
+    boolean isDisplayedComboboxCaptionValueCorrect(Combobox combobox, String value);
 }

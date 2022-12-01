@@ -1,15 +1,13 @@
 package com.auto.test.panel;
 
-import com.auto.data.enums.Charts;
-import com.auto.data.enums.Combobox;
-import com.auto.data.enums.Folder;
-import com.auto.data.enums.LinkText;
+import com.auto.data.enums.*;
 import com.auto.model.Page;
 import com.auto.model.Panel;
 import com.auto.model.User;
 import com.auto.page.*;
 import com.auto.test.BrowserTestBase;
 import com.auto.utils.DriverUtils;
+import com.auto.utils.FakerUtils;
 import com.auto.utils.MessageLoader;
 import com.auto.utils.UserUtils;
 import com.logigear.statics.Selaium;
@@ -47,6 +45,7 @@ public class PanelConfigurationTest extends BrowserTestBase {
     public void after() {
         homePage.moveToPanelItemPage(LinkText.PANELS);
         DriverUtils.deletePanel(panelPage.getPanelIds());
+        homePage.moveToPage(Page.executionDashboardPage());
         DriverUtils.deletePanelContent(panelPage.getPanelContentIds());
         homePage.moveToPage(Page.overviewPage());
         DriverUtils.deletePage(homePage.getPageIds());
@@ -275,6 +274,29 @@ public class PanelConfigurationTest extends BrowserTestBase {
         dialogPage.clickPanelConfigurationOKButton();
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("invalid.panel.folder"));
         DriverUtils.acceptAlert();
+
+        softAssert.assertAll();
+    }
+
+    @Test(description = "All changes made to or with the values populated for corresponding parameters under Categories and Series field in Edit Panel are recorded correctly")
+    public void DA_PANEL_TC062() {
+        Panel panel = new Panel();
+
+        panel.setName(DataProfiles.IMPLEMENT_BY_PRIORITY.value());
+        homePage.clickChoosePanelButton();
+        dialogPage.clickLinkText(panel.getName());
+        dialogPage.clickPanelConfigurationOKButton();
+        dialogPage.waitForPanelDialogClose();
+        homePage.moveToPage(Page.executionDashboardPage());
+        panelPage.clickEditPanelButton(panel);
+        dialogPage.enterCaption(Combobox.CATEGORY, "Medium");
+        dialogPage.enterCaption(Combobox.SERIES, "New");
+        dialogPage.clickOKButton();
+        homePage.moveToPage(Page.executionDashboardPage());
+        panelPage.clickEditPanelButton(panel);
+        softAssert.assertTrue(dialogPage.isDisplayedComboboxCaptionValueCorrect(Combobox.CATEGORY, "Medium"), "Verify caption of Category combobox");
+        softAssert.assertTrue(dialogPage.isDisplayedComboboxCaptionValueCorrect(Combobox.SERIES, "New"), "Verify caption of Series combobox");
+        dialogPage.clickCancelButton();
 
         softAssert.assertAll();
     }

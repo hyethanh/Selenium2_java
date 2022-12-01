@@ -92,27 +92,29 @@ public class DriverUtils {
     public static void deletePanelContent(List<String> ids) {
         if (ids != null) {
           for (String id : ids) {
-              js.executeScript(String.format("$.ajax( {\n" +
-                      "\t\t\ttype : \"POST\",\n" +
-                      "\t\t\turl : \"updatepanelposition.do\",\n" +
-                      "\t\t\tdata :  $.param({\n" +
-                      "\t\t\t\"action\" : \"updatedisplaystatus\",\n" +
-                      "\t\t\t\"panelcontentid\" : \"panel_content_%s\",\n" +
-                      "\t\t\t\"display\" : $(\"#\" + \"panel_content_%s\").css(\"display\")\n" +
-                      "\t\t}),\n" +
-                      "\t\t\terror : function(request, textStatus, errorThrown) {\n" +
-                      "\t\t\t\talert(MSG_CANNOT_CONNECT_TO_SERVER);\n" +
-                      "\t\t\t},\n" +
-                      "\t\t\tsuccess : function(receive) {\n" +
-                      "\t\t\t\tif (receive.substring(0, 2) != CONST_OK) {\n" +
-                      "\t\t\t\t\tDashboard.handleReturnError(receive);\n" +
-                      "\t\t\t\t} else if (true) {\n" +
-                      "\t\t\t\t\tDashboard.loading(\"%s\");\n" +
-                      "\t\t\t\t\tDashboard.getPanelContent(\"%s\");\n" +
-                      "\t\t\t\t}\n" +
-                      "\t\t\t\tDashboard.updateColumns();\n" +
-                      "\t\t\t}\n" +
-                      "\t\t});", id, id, id, id));
+              if (!id.equals("panel_coqef1f98eyn") && !id.equals("panel_coqefqv0rmi6")) {
+                  js.executeScript(String.format("$.ajax( {\n" +
+                          "\t\t\ttype : \"POST\",\n" +
+                          "\t\t\turl : \"updatepanelposition.do\",\n" +
+                          "\t\t\tdata :  $.param({\n" +
+                          "\t\t\t\"action\" : \"updatedisplaystatus\",\n" +
+                          "\t\t\t\"panelcontentid\" : \"panel_content_%s\",\n" +
+                          "\t\t\t\"display\" : $(\"#\" + \"panel_content_%s\").css(\"display\")\n" +
+                          "\t\t}),\n" +
+                          "\t\t\terror : function(request, textStatus, errorThrown) {\n" +
+                          "\t\t\t\talert(MSG_CANNOT_CONNECT_TO_SERVER);\n" +
+                          "\t\t\t},\n" +
+                          "\t\t\tsuccess : function(receive) {\n" +
+                          "\t\t\t\tif (receive.substring(0, 2) != CONST_OK) {\n" +
+                          "\t\t\t\t\tDashboard.handleReturnError(receive);\n" +
+                          "\t\t\t\t} else if (true) {\n" +
+                          "\t\t\t\t\tDashboard.loading(\"%s\");\n" +
+                          "\t\t\t\t\tDashboard.getPanelContent(\"%s\");\n" +
+                          "\t\t\t\t}\n" +
+                          "\t\t\t\tDashboard.updateColumns();\n" +
+                          "\t\t\t}\n" +
+                          "\t\t});", id, id, id, id));
+              }
           }
         }
     }
