@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
-public class FileUtils {
+public class FileUtils extends org.apache.commons.io.FileUtils {
 
     private static final Logger log = LoggerFactory.getLogger(FileUtils.class);
 

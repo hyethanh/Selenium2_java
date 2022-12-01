@@ -1,19 +1,20 @@
 package com.auto.data.enums;
 
-public enum MenuItem {
+public enum PanelType {
 
-    ADD("add"),
-    EDIT("edit"),
-    DELETE("delete"),
-    ADMINISTRATOR("administrator");
+    CHART("Chart"),
+    INDICATOR("Indicator"),
+    REPORT("Report"),
+    HEAT_MAP("Heat Map");
 
     private String value;
 
-    MenuItem(String value) {
+    PanelType(String value) {
         this.value = value;
     }
 
     public String value() {
         return value;
     }
+
 }

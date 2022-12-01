@@ -36,6 +36,7 @@ public class DeletePageTest extends BrowserTestBase {
 
     @AfterMethod(alwaysRun = true)
     public void after() {
+        DriverUtils.deletePage(homePage.getPageIds());
         Selaium.closeWebDriver();
     }
 
@@ -43,11 +44,12 @@ public class DeletePageTest extends BrowserTestBase {
     @Test(description = "Remove any main parent page except 'Overview' page successfully and " +
             "the order of pages stays persistent as long as there is not children page under it")
     public void DA_MP_TC_017() {
-        Page page = new Page(FakerUtils.name());
-        dialogPage.createNewPage(page);
+        Page page = new Page();
+        Page secondPage = new Page();
+        secondPage.setParent(page);
 
-        Page childPage = new Page (FakerUtils.name(), page);
-        dialogPage.createNewPage(childPage);
+        dialogPage.createNewPage(page);
+        dialogPage.createNewPage(secondPage);
 
         homePage.moveToPageAndClickDelete(page);
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete page");
@@ -55,31 +57,32 @@ public class DeletePageTest extends BrowserTestBase {
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page.getName()),"Verify warning message when deleting page has child page(s)");
         DriverUtils.acceptAlert();
 
-        homePage.moveToPageAndClickDelete(childPage);
+        homePage.moveToPageAndClickDelete(secondPage);
         softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete child page");
         DriverUtils.acceptAlert();
+        softAssert.assertFalse(homePage.pageExists(secondPage));
+        homePage.deletePage(page);
 
         softAssert.assertAll();
-        homePage.deletePage(page);
     }
-
 
     @Test(description = "Able to delete sibling page as long as that page has not children page under it")
     public void DA_MP_TC020() {
-        Page page1 = new Page(FakerUtils.name(), Page.overviewPage());
-        dialogPage.createNewPage(page1);
+        Page firstPage = new Page();
+        Page secondPage = new Page();
+        firstPage.setParent(Page.overviewPage());
+        secondPage.setParent(firstPage);
 
-        Page page2 = new Page(FakerUtils.name(), page1);
-        dialogPage.createNewPage(page2);
-
-        homePage.deletePage(page1);
-        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", page1.getName()),"Verify warning message when deleting page has child page(s)");
+        dialogPage.createNewPage(firstPage);
+        dialogPage.createNewPage(secondPage);
+        homePage.moveToPageAndClickDelete(firstPage);
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("confirm.delete"),"Verify confirm message to delete page");
         DriverUtils.acceptAlert();
-
-        homePage.deletePage(page2);
-        softAssert.assertFalse(homePage.pageExists(page2),"Verify the child page is deleted successfully");
+        softAssert.assertEquals(DriverUtils.getAlertMessage(), MessageLoader.getMessage("block.delete", firstPage.getName()),"Verify warning message when deleting page has child page(s)");
+        DriverUtils.acceptAlert();
+        homePage.deletePage(secondPage);
+        softAssert.assertFalse(homePage.pageExists(secondPage),"Verify the child page is deleted successfully");
 
         softAssert.assertAll();
-        homePage.deletePage(page1);
     }
 }

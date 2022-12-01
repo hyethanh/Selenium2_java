@@ -24,6 +24,10 @@ public class FakerUtils {
         return String.format("Page_%s",faker.name().title());
     }
 
+    public static String title() {
+        return String.format("Title_%s", System.nanoTime());
+    }
+
     public static double randomDouble(int min, int max) {
         Random r = new Random();
         double random = min + r.nextDouble() * (max - min);

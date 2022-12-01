@@ -2,5 +2,14 @@
   "invalid.username.password": "Username or password is invalid",
   "blank.username.password": "Please enter username!",
   "confirm.delete": "Are you sure you want to remove this page?",
-  "block.delete": "Cannot delete page '%s' since it has child page(s)."
+  "block.delete": "Cannot delete page '%s' since it has child page(s).",
+  "duplicated.name": "%s already exists. Please enter a different name.",
+  "blank.name.panel": "Display Name is a required field.",
+  "blank.series": "Series is a required field.",
+  "invalid.name": "Invalid display name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;",
+  "invalid.title": "Invalid title name. The name cannot contain high ASCII characters or any of the following characters: /:*?<>|\"#[]{}=%;",
+  "invalid.height": "Panel height must be greater than or equal to 300 and less than or equal to 800.",
+  "invalid.type.height": "Panel height must be an integer number",
+  "blank.height": "Panel height is a required field.",
+  "invalid.panel.folder": "Panel folder is incorrect"
 }

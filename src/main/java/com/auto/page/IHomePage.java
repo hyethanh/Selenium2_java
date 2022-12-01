@@ -1,6 +1,6 @@
 package com.auto.page;
 
-
+import com.auto.data.enums.LinkText;
 import com.auto.model.Page;
 
 import java.util.List;
@@ -23,7 +23,15 @@ public interface IHomePage {
 
     void moveToPageAndClickDelete(Page page);
 
+    void moveToPageAndClickEdit(Page page);
+
     void moveToPage(Page page);
+
+    void clickChoosePanelButton();
+
+    int getPageColumns();
+
+    void moveToPanelItemPage(LinkText value);
 
     List<String> getPageIds();
 }

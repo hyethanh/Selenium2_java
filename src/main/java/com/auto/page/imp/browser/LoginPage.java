@@ -38,13 +38,6 @@ public class LoginPage implements ILoginPage {
 
     @Step("Verify user has not logged in to Dashboard")
     public boolean isLoginButtonDisplayed() {
-        loginButton.waitForVisible();
         return loginButton.isDisplayed();
-    }
-
-
-    public void input(Element element, String value) {
-        element.clear();
-        element.enter(value);
     }
 }
