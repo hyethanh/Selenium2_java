@@ -10,7 +10,9 @@ public enum LinkText {
     PANELS("Panels"),
     DATA_PROFILES("Data Profiles"),
     ADD_NEW("Add New"),
-    ADMINISTRATOR("administrator");
+    ADMINISTRATOR("administrator"),
+    CHECK_ALL("Check All"),
+    UNCHECK_ALL("UnCheck All");
 
     private String value;
 

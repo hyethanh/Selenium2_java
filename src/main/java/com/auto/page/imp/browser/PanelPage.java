@@ -29,7 +29,6 @@ public class PanelPage implements IPanelPage {
     private Element panelActionButton = new Element("//td[a[text()=\"%s\"]]/following-sibling::td/a[text()=\"%s\"]");
     private Element moreOptionButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//li[@class='more']");
     private Element deleteButton = new Element("//div[div[text()=\"%s\"]]//following-sibling::div//span[text()='Remove']");
-//    private Element deleteButton = new Element(By.xpath("//span[text()='Remove']"));
 
     @Step("Click Add New link to create a new panel")
     public void clickLinkButton(LinkText value) {

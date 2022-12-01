@@ -39,6 +39,10 @@ public class PageFactory {
         pages.put(Page.Form, new HashMap<String, Class<?>>() {{
             put(Constants.BROWSER, FormPage.class);
         }});
+
+        pages.put(Page.DataProfiles, new HashMap<String, Class<?>>() {{
+            put(Constants.BROWSER, DataProfilePage.class);
+        }});
     }
 
     @SuppressWarnings("unchecked")
@@ -80,6 +84,10 @@ public class PageFactory {
         return get(Page.Form);
     }
 
+    public static IDataProfilePage getDataProfilePage() {
+        return get(Page.DataProfiles);
+    }
+
 
     private static class Page {
         private static final String Login = "LoginPage";
@@ -87,5 +95,6 @@ public class PageFactory {
         private static final String Dialog = "DialogPage";
         private static final String Panel = "PanelPage";
         private static final String Form = "FormPage";
+        private static final String DataProfiles = "DataProfilePage";
     }
 }

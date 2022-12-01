@@ -265,9 +265,11 @@ public class DialogPage implements IDialogPage {
 
     @Step("Choose Legends option")
     public void clickLegendOptionButton(Panel panel) {
-        checkboxButton.set(panel.getChartLegends().value());
-        if (checkboxButton.exists() && checkboxButton.isDisplayed()) {
-            checkboxButton.click();
+        if (panel.getChartLegends() != null) {
+            checkboxButton.set(panel.getChartLegends().value());
+            if (checkboxButton.exists() && checkboxButton.isDisplayed()) {
+                checkboxButton.click();
+            }
         }
     }
 

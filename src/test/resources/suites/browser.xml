@@ -24,6 +24,13 @@
         <parameter name="platform" value="chrome"/>
         <classes>
         <class name="com.auto.test.panel.PanelTest"/>
+        <class name="com.auto.test.panel.PanelConfigurationTest"/>
+        </classes>
+    </test>
+    <test name="Data Profiles Test">
+        <parameter name="platform" value="chrome"/>
+        <classes>
+            <class name="com.auto.test.dataprofiles.DataProfileTest"/>
         </classes>
     </test>
 

@@ -596,20 +596,27 @@ public class PanelTest extends BrowserTestBase {
 
     @Test(description = "Check All/Uncheck All links are working correctly.")
     public void DA_PANEL_TC064() {
+        Page page = new Page();
         Panel panel1 = new Panel();
         Panel panel2 = new Panel();
 
-        dialogPage.createNewPage(new Page());
+        dialogPage.createNewPage(page);
         dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel1);
         dialogPage.clickOKButton();
         dialogPage.clickPanelConfigurationCancelButton();
         dialogPage.waitForPanelDialogClose();
+        formPage.clickHideChoosePanelsButton();
+
+        homePage.moveToPage(page);
+        dialogPage.openCreatePanelDialogFromHomePage();
         dialogPage.enterPanelInformation(panel2);
         dialogPage.clickOKButton();
         dialogPage.clickPanelConfigurationCancelButton();
         dialogPage.waitForPanelDialogClose();
         formPage.clickHideChoosePanelsButton();
+
         homePage.moveToPanelItemPage(LinkText.PANELS);
+        panelPage.clickLinkButton(LinkText.CHECK_ALL);
     }
 }
