@@ -12,4 +12,8 @@ public interface IDialogPage {
     void chooseComboboxOption(String value, String args);
 
     void createNewPage(Page page);
+
+    void editExistedPage(Page page);
+
+    void enterPageInformationPage(Page page);
 }

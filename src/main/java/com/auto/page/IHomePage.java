@@ -23,7 +23,11 @@ public interface IHomePage {
 
     void moveToPageAndClickDelete(Page page);
 
+    void moveToPageAndClickEdit(Page page);
+
     void moveToPage(Page page);
+
+    int getPageColumns();
 
     List<String> getPageIds();
 }

@@ -6,21 +6,26 @@ import com.auto.model.Page;
 import com.auto.page.IHomePage;
 import com.auto.utils.DriverUtils;
 import com.auto.utils.StringUtils;
+import com.logigear.statics.Selaium;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage implements IHomePage {
 
     private Element logoutButton = new Element(By.xpath("//a[text()='Logout']"));
     private Element globalSettingTab = new Element(By.cssSelector("li[class='mn-setting']"));
     private Element menuItemButton = new Element("//a[@class='%s']");
-    private Element createdTabs = new Element(By.xpath("//div[@id='main-menu']/div/ul/li [not (@class='mn-setting' or (@class='mn-panels'))]/a[not (text()='Overview' or text()='Execution\u00A0Dashboard')]"));
+    private Element createdTabs = new Element(By.xpath("//li[@class='mn-panels']/preceding-sibling::li//a[not(text()=\"Overview\" or text()=\"Execution\u00A0Dashboard\")]"));
     private Element pageTabRelativePosition = new Element("//li[a[text()=\"%s\"]]/following-sibling::li/a[text()=\"%s\"]");
     private Element pageTab = new Element("//li[a[text()=\"%s\"]]");
+    private Element pageColumns = new Element(By.xpath("//div[@id='columns']/ul[@class='column ui-sortable']"));
+
 
     protected void hoverOnTab(Page page) {
         if (page.getParent() == null) {
@@ -82,6 +87,12 @@ public class HomePage implements IHomePage {
         clickMenuItemButton(MenuItem.DELETE.value());
     }
 
+    @Step("Move To Page And Click Edit")
+    public void moveToPageAndClickEdit(Page page) {
+        moveToPage(page);
+        clickMenuItemButton(MenuItem.EDIT.value());
+    }
+
     @Step("Delete page")
     public void deletePage(Page page) {
         moveToPageAndClickDelete(page);
@@ -95,24 +106,25 @@ public class HomePage implements IHomePage {
         pageTab.click();
     }
 
+    @Step("Get page columns")
+    public int getPageColumns() {
+        return pageColumns.elements().size();
+    }
+
     public boolean pageExists(Page page) {
         if (page.getParent() != null) {
             hoverOnTab(page.getParent());
         }
         pageTab.set(StringUtils.replaceSpaceCharWithNBSP(page.getName()));
-        return pageTab.isDisplayed();
+        return pageTab.isDisplayed() && pageTab.exists();
     }
 
     public List<String> getPageIds() {
-        if (createdTabs.elements().size() != 0) {
-            List<WebElement> tabList = createdTabs.elements();
-            List<String> tabIds = new ArrayList<>();
-            for (WebElement tab : tabList) {
-                String[] temp = tab.getAttribute("href").split("/");
-                String id = temp[temp.length - 1].split("\\.")[0];
-                tabIds.add(id);
-            }
-            return tabIds;
+        if (createdTabs.exists()) {
+            List<String> list = createdTabs.elements().stream().map(p -> p.getAttribute("href").split("/"))
+                    .map(t -> t[t.length - 1].split("\\.")[0]).collect(Collectors.toList());
+            Collections.reverse(list);
+            return list;
         }
         return null;
     }

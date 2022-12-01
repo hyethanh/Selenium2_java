@@ -2,7 +2,9 @@ package com.auto.data.enums;
 
 public enum PageCombobox {
     DISPLAY_AFTER("Display After"),
-    PARENT_PAGE("Parent Page");
+    PARENT_PAGE("Parent Page"),
+    COLUMNS("Number of Columns");
+
 
     private String value;
 

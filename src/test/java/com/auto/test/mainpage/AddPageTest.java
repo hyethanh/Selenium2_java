@@ -23,8 +23,8 @@ public class AddPageTest extends BrowserTestBase {
     private IHomePage homePage;
     private IDialogPage dialogPage;
 
-    Page page = new Page(FakerUtils.name());
-    Page secondPage = new Page(FakerUtils.name(), page.getName());
+    Page page = new Page();
+    Page secondPage = new Page();
 
 
     @BeforeMethod(alwaysRun = true)
@@ -43,6 +43,13 @@ public class AddPageTest extends BrowserTestBase {
         Selaium.closeWebDriver();
     }
 
+    @Test(description = "Unable to open more than 1 'New Page' dialog")
+    public void DA_MP_TC011() {
+        homePage.openAddPageDialog();
+        softAssert.assertFalse(homePage.isAddPageDialogOpened(), "One more than 1 new page dialog is open");
+        softAssert.assertAll();
+    }
+
     @Test(description = "Able to add additional pages besides 'Overview' page successfully")
     public void DA_MP_TC012() {
         dialogPage.createNewPage(page);
@@ -54,35 +61,34 @@ public class AddPageTest extends BrowserTestBase {
                         "'Displayed After' field of 'New Page' form on the main page bar 'Parent Page' dropped down menu")
     public void DA_MP_TC013() {
         dialogPage.createNewPage(page);
+        secondPage.setDisplayAfter(page.getName());
         dialogPage.createNewPage(secondPage);
         softAssert.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
     }
 
     @Test(description = "Able to add additional sibling pages to the parent page successfully")
     public void DA_MP_TC018() {
-        Page page = new Page(FakerUtils.name());
+        Page childPage = new Page();
+        Page secondChildPage = new Page();
+        childPage.setParent(page);
+        secondChildPage.setParent(page);
+
         dialogPage.createNewPage(page);
-
-        Page childPage = new Page(FakerUtils.name(), page);
         dialogPage.createNewPage(childPage);
-
-        Page childPage2 = new Page(FakerUtils.name(), page);
-        dialogPage.createNewPage(childPage2);
-        softAssert.assertTrue(homePage.pageExists(childPage2),"Verify the second child page is added successfully");
+        dialogPage.createNewPage(secondChildPage);
+        softAssert.assertTrue(homePage.pageExists(secondChildPage),"Verify the second child page is added successfully");
 
         softAssert.assertAll();
-        homePage.deletePage(childPage2);
-        homePage.deletePage(childPage);
-        homePage.deletePage(page);
     }
+
+
 
     @Test(description = "Able to add additional sibling page levels to the parent page successfully.")
     public void DA_MP_TC019() {
-        Page page = new Page(FakerUtils.name(), Page.overviewPage());
+        page.setParent(Page.overviewPage());
         dialogPage.createNewPage(page);
         softAssert.assertTrue(homePage.pageExists(page), "Verify Overview is parent page of current added page");
 
         softAssert.assertAll();
-        homePage.deletePage(page);
     }
 }
