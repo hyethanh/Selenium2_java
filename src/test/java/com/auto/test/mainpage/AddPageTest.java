@@ -47,6 +47,8 @@ public class AddPageTest extends BrowserTestBase {
     public void DA_MP_TC011() {
         homePage.openAddPageDialog();
         softAssert.assertFalse(homePage.isAddPageDialogOpened(), "One more than 1 new page dialog is open");
+        dialogPage.clickCancelButton();
+
         softAssert.assertAll();
     }
 
@@ -55,6 +57,8 @@ public class AddPageTest extends BrowserTestBase {
         dialogPage.createNewPage(page);
         softAssert.assertTrue(homePage.isBesidePage(Page.overviewPage(), page),
                             "A new page does not beside Overview page");
+
+        softAssert.assertAll();
     }
 
     @Test(description = "The newly added main parent page is positioned at the location specified as set with " +
@@ -64,10 +68,13 @@ public class AddPageTest extends BrowserTestBase {
         secondPage.setDisplayAfter(page.getName());
         dialogPage.createNewPage(secondPage);
         softAssert.assertTrue(homePage.isBesidePage(page, secondPage), "Verify the second page is added after the first page");
+
+        softAssert.assertAll();
     }
 
     @Test(description = "Able to add additional sibling pages to the parent page successfully")
     public void DA_MP_TC018() {
+        Page page = new Page();
         Page childPage = new Page();
         Page secondChildPage = new Page();
         childPage.setParent(page);

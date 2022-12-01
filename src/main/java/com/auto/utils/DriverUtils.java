@@ -11,7 +11,6 @@ import java.util.List;
 
 public class DriverUtils {
     private static String alertMessage;
-    static JavascriptExecutor js = Selaium.remoteWebDriver();
 
     public static String getAlertMessage() {
         try {
@@ -44,6 +43,7 @@ public class DriverUtils {
     }
 
     public static void deletePage(List<String> ids) {
+        JavascriptExecutor js = Selaium.remoteWebDriver();
         if (ids != null) {
             for (String id : ids) {
                 js.executeScript(String.format("$.ajax( {\n" +
@@ -66,6 +66,7 @@ public class DriverUtils {
     }
 
     public static void deletePanel(List<String> ids) {
+        JavascriptExecutor js = Selaium.remoteWebDriver();
         if (ids != null) {
             for (String id : ids) {
                 js.executeScript(String.format("$.ajax( {\n" +
@@ -90,6 +91,7 @@ public class DriverUtils {
     }
 
     public static void deletePanelContent(List<String> ids) {
+        JavascriptExecutor js = Selaium.remoteWebDriver();
         if (ids != null) {
           for (String id : ids) {
               if (!id.equals("panel_coqef1f98eyn") && !id.equals("panel_coqefqv0rmi6")) {

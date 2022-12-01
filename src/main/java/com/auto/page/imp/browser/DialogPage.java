@@ -66,6 +66,7 @@ public class DialogPage implements IDialogPage {
 
     @Step("Click OK button")
     public void clickOKButton() {
+        okButton.waitForVisible();
         okButton.click();
     }
 

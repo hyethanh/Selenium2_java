@@ -33,5 +33,4 @@
             <class name="com.auto.test.dataprofiles.DataProfileTest"/>
         </classes>
     </test>
-
 </suite>

@@ -48,6 +48,7 @@ public class EditPageTest extends BrowserTestBase {
         secondPage.setParent(fistPage);
 
         dialogPage.createNewPage(fistPage);
+        homePage.moveToPage(Page.overviewPage());
         dialogPage.createNewPage(secondPage);
         homePage.moveToPageAndClickEdit(fistPage);
         fistPage.setName(FakerUtils.name());

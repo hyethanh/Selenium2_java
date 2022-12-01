@@ -1,5 +1,6 @@
 package com.auto.test;
 
+import com.auto.testng.TestListener;
 import com.auto.utils.Constants;
 import com.logigear.statics.Selaium;
 import com.logigear.utils.Configuration;
@@ -8,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.*;
 
-
+@Listeners(TestListener.class)
 public class BrowserTestBase {
     private static final Logger log = LoggerFactory.getLogger(BrowserTestBase.class);
     Configuration config;
